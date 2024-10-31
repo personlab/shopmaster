@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ title }}</title>
+</head>
+<body>
+	<p>
+		{{ content }}
+		<br>
+		{% if is_authenticated %}
+			{{ list.0}}<br>
+			{{ dict.first}}
+		<br>
+		{{ bool }}
+		{% endif %}
+	</p>
+	
+</body>
+</html>
