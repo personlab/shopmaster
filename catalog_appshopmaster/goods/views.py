@@ -82,7 +82,7 @@ class CatalogView(View):
                 },
             ],
         }
-        return render(request, "goods/catalog.html", context)
+        return render(request, "goods/catalog.html", context=context)
 
 
 class ProductView(View):
