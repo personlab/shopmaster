@@ -26,7 +26,7 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-brand" href="index.html">Home</a>
+                <a class="navbar-brand" href="{% url "main:index" %}">Home</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -40,9 +40,9 @@
                                 Информация
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item  text-white" href="/drop-shipping">Доставка и оплата</a></li>
-                                <li><a class="dropdown-item  text-white" href="/contact">Контактная информация</a></li>
-                                <li><a class="dropdown-item  text-white" href="/about">Про нас</a></li>
+                                <li><a class="dropdown-item  text-white" href="{% url "main:drop-shipping" %}">Доставка и оплата</a></li>
+                                <li><a class="dropdown-item  text-white" href="{% url "main:contact" %}">Контактная информация</a></li>
+                                <li><a class="dropdown-item  text-white" href="{% url "main:about" %}">Про нас</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
