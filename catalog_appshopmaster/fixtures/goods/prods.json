@@ -157,8 +157,8 @@
   "model": "goods.products",
   "pk": 12,
   "fields": {
-    "name": "Cтолик",
-    "slug": "stolik",
+    "name": "Cтоликs",
+    "slug": "stoliks",
     "description": "Столик, довольно странный на вид, но подходит для размещения рядом с кроватью.",
     "image": "",
     "price": "25.00",

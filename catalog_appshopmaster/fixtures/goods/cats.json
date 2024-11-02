@@ -51,8 +51,8 @@
   "model": "goods.categories",
   "pk": 11,
   "fields": {
-    "name": "Декор",
-    "slug": "dekor"
+    "name": "Декорs",
+    "slug": "dekors"
   }
 }
 ]
