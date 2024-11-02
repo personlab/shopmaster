@@ -1,15 +1,21 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from goods.models import Categories
+
 
 #  С применением классов
 from django.views import View
 
 class IndexView(View) :
+
+	categories = Categories.objects.all()
+
 	def get(self, request):
 		context = {
 			'title': 'Home - главная',
-			'content': 'Магазин мебели HOME'
+			'content': 'Магазин мебели HOME',
+			'categories': self.categories
 		}
 		return render(request, 'main/index.html', context=context)
 	
