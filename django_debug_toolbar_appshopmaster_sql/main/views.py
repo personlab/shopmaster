@@ -7,15 +7,12 @@ from goods.models import Categories
 #  С применением классов
 from django.views import View
 
-class IndexView(View) :
-
-	categories = Categories.objects.all()
+class IndexView(View):
 
 	def get(self, request):
 		context = {
 			'title': 'Home - главная',
-			'content': 'Магазин мебели HOME',
-			'categories': self.categories
+			'content': 'Магазин мебели HOME'
 		}
 		return render(request, 'main/index.html', context=context)
 	
