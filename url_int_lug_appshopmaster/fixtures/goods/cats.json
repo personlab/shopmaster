@@ -54,5 +54,13 @@
     "name": "Декоратор",
     "slug": "dekorator"
   }
+},
+{
+  "model": "goods.categories",
+  "pk": 8,
+  "fields": {
+    "name": "Кроссовки",
+    "slug": "krossovki"
+  }
 }
 ]
