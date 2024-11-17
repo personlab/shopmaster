@@ -1,20 +1,116 @@
+from turtle import title
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.template import context
 
+from goods import views
 from goods.models import Categories
-
+from main.models import Slide
 
 #  С применением классов
 from django.views import View
 
-class IndexView(View):
 
-	def get(self, request):
-		context = {
-			'title': 'Home - главная',
-			'content': 'Магазин мебели HOME'
-		}
-		return render(request, 'main/index.html', context=context)
+class IndexView(View):
+		def get(self, request):
+			slides = Slide.objects.all() # извлекаем все слайды из базы данных
+			context = {
+				'title': 'TonGameApp - Главная',
+				'slides': slides
+			}
+			return render(request, 'main/index.html', context=context)
+		
+
+# class IndexView(View):
+
+# 	def get(self, request):
+# 		context = {
+# 			'title': 'Home - Главная',
+# 			'slides': [
+# 					{
+# 							'bg_image': 'deps/images/bg-1-1.png',
+# 							'animal_name': 'Goblin Mine',
+# 							'animal_image': 'deps/images/animal-1-1.png',
+# 							'caption': 'Собирай целые горы золота',
+# 							'paragraph': 'Goblin Mine Game – это захватывающая экономическая игра, в которой вы можете стать настоящим магнатом в мире гоблинов! Погрузитесь в уникальную атмосферу фантастической шахты, добывайте редкие ресурсы, управляйте гоблинскими рабочими и развивайте свои активы.',
+# 							'video': 'deps/videos/animal-video-1.mp4',
+# 							'video_description': 'Игра предлагает увлекательный симбиоз стратегии и экономики: выбирайте оптимальные стратегии для достижения успеха, улучшайте технологии и расширяйте свои владения.'
+# 					},
+# 					{
+# 							'bg_image': 'deps/images/bg-2-2.jpg',
+# 							'animal_name': 'CITY HOLDER',
+# 							'animal_image': 'deps/images/animal-2-2.png',
+# 							'caption': 'Выбери свой стиль игры: стелс или штурм',
+# 							'paragraph': 'В мире, охваченном кризисами и катастрофами, City Holder предлагает вам шанс построить свое собственное будущее. Создавайте и управляйте своим городом, зарабатывайте токены за внутриигровую активность и просто наслаждайтесь опытом!',
+# 							'video': 'deps/videos/animal-video-2.mp4',
+# 							'video_description': 'Наш токен $CITY скоро будет доступен на основных криптовалютных биржах, что предоставит еще больше возможностей.'
+# 					},
+# 					{
+# 							'bg_image': 'deps/images/bg-3.jpg',
+# 							'animal_name': 'Red FOX',
+# 							'animal_image': 'deps/images/animal-3.png',
+# 							'caption': 'Wildlife Nature',
+# 							'paragraph': 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает',
+# 							'video': 'deps/videos/animal-video-3.mp4',
+# 							'video_description': 'Давно выяснено, что при оценке дизайна'
+# 					},
+# 					{
+# 							'bg_image': 'deps/images/bg-4.jpg',
+# 							'animal_name': 'Parrots',
+# 							'animal_image': 'deps/images/animal-4.png',
+# 							'caption': 'Wildlife Nature',
+# 							'paragraph': '"Lorem ipsum dolor sit amet, consectetur',
+# 							'video': 'deps/videos/animal-video-4.mp4',
+# 							'video_description': '"Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+# 					},
+# 					{
+# 							'bg_image': 'deps/images/bg-5.jpg',
+# 							'animal_name': 'Red FOX',
+# 							'animal_image': 'deps/images/animal-5.png',
+# 							'caption': 'Wildlife Nature',
+# 							'paragraph': 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает',
+# 							'video': 'deps/videos/animal-video-5.mp4',
+# 							'video_description': 'Давно выяснено, что при оценке дизайна'
+# 					},
+# 					{
+# 							'bg_image': 'deps/images/bg-6.jpg',
+# 							'animal_name': 'Parrots',
+# 							'animal_image': 'deps/images/animal-6.png',
+# 							'caption': 'Wildlife Nature',
+# 							'paragraph': '"Lorem ipsum dolor sit amet, consectetur',
+# 							'video': 'deps/videos/animal-video-6.mp4',
+# 							'video_description': '"Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+# 					},
+# 					{
+# 							'bg_image': 'deps/images/bg-7.jpg',
+# 							'animal_name': 'Red FOX',
+# 							'animal_image': 'deps/images/animal-7.png',
+# 							'caption': 'Wildlife Nature',
+# 							'paragraph': 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает',
+# 							'video': 'deps/videos/animal-video-7.mp4',
+# 							'video_description': 'Давно выяснено, что при оценке дизайна'
+# 					},
+# 					{
+# 							'bg_image': 'deps/images/bg-8.jpg',
+# 							'animal_name': 'Parrots',
+# 							'animal_image': 'deps/images/animal-8.png',
+# 							'caption': 'Wildlife Nature',
+# 							'paragraph': '"Lorem ipsum dolor sit amet, consectetur',
+# 							'video': 'deps/videos/animal-video-8.mp4',
+# 							'video_description': '"Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+# 					},
+# 					{
+# 							'bg_image': 'deps/images/bg-9.jpg',
+# 							'animal_name': 'Parrots',
+# 							'animal_image': 'deps/images/animal-9.png',
+# 							'caption': 'Wildlife Nature',
+# 							'paragraph': '"Lorem ipsum dolor sit amet, consectetur',
+# 							'video': 'deps/videos/animal-video-9.mp4',
+# 							'video_description': '"Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+# 					},
+# 			]
+# 		}
+# 		return render(request, 'main/index.html', context=context)
 	
 
 
@@ -51,7 +147,8 @@ class DroppView(View):
 		}
 		return render(request, 'main/drop-shipping.html', context=context)
 
-# Без классов 
+
+# # Без классов 
 
 # def index(request):
 # 	return HttpResponse('Home page')

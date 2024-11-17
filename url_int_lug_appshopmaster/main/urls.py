@@ -18,6 +18,7 @@ Including another URLconf
 from django.urls import path
 
 from main.views import IndexView, AboutView, ContactView, DroppView
+
 app_name = 'main'
 
 
@@ -25,5 +26,5 @@ urlpatterns = [
 		path('', IndexView.as_view(), name='index'),
 		path('about/', AboutView.as_view(), name='about'),
 		path('contact/', ContactView.as_view(), name='contact'),
-		path('drop-shipping/', DroppView.as_view(), name='drop-shipping')
+		path('drop-shipping/', DroppView.as_view(), name='drop-shipping'),
 ]

@@ -11,11 +11,6 @@ class CategoriesAdmin(admin.ModelAdmin):
 		prepopulated_fields = {'slug': ('name',)}
 
 
-# @admin.register(Products)
-# class ProductsAdmin(admin.ModelAdmin):
-# 		prepopulated_fields = {'slug': ('name',)}
-
-
 class ProductsImageInline(admin.TabularInline):
 		model = ProductsImage
 		extra = 1  # Количество дополнительных пустых полей для новых изображений

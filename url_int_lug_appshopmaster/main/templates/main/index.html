@@ -1,24 +1,160 @@
-{% extends "main/base.html" %}
-
+{% comment %} {% extends "main/base.html" %} {% endcomment %}
 {% load static %}
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "deps/css/bootstrap/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "deps/css/my_css.css" %}">
+    <!-- Стиль footer-a для главной страницы -->
+    {% block css %}
+		
+		{% endblock css %}
+    <!-- Favicons for different platforms -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
+    <link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css">
+    <title>{{ title }}</title>
+</head>
+
+<header>
+	<a href="" class="logo">TonGameApp</a>
+	<div class="menu-btn"></div>
+	<div class="navigation">
+		<div class="navigation-items">
+			<a href="{% url "catalog:index" %}">Магазин</a>
+			<a href="#">О нас</a>
+			<a href="#">Галерея</a>
+			<a href="#">Контакты</a>
+			<a href="{% url "blog:post_list" %}">Блог</a>
+		</div>
+	</div>
+</header>
 
 
-{% block css %}
+<body>
+		<section class="main-section">
+										<div class="slider">
+											<!-- ===============slider start=====================-->
+													{% for slide in slides %}
+													<div class="slide {% if forloop.first %} first-slide {% endif %}">
+														<div class="slide-images">
+															<img src="{{ slide.bg_image.url }}" alt="" class="slide-bg-img">
+															<h1 class="animal-name">{{ slide.animal_name }}</h1>
+															<img src="{{ slide.animal_image.url }}" alt="" class="slide-animal-img">
+														</div>
+														<div class="slide-text-content">
+															<h3 class="slide-caption">{{ slide.caption }}</h3>
+															<p class="slide-paragraph">
+																{{ slide.paragraph }} 
+																<span class="paragraph-anchor-tag"><a href="{{ slide.paragraph_link }}" target="_blank" class="read-more">Узнать больше</a></span>
+															</p>
+															<button class="watch-video-btn">Смотреть видео</button>
+														</div>
+														<div class="slide-video-modal">
+															<i class="ri-close-line video-close-btn"></i>
+															<div class="video-modal-content">
+																<div class="video-card">
+																	<video src="{{ slide.video.url }}" class="animal-video" controls autoplay loop></video>
+																	<p class="video-paragraph">{{ slide.video_description }}
+																		<span class="video-anchor-tag"><a href="{{ slide.video_description_link }}" target="_blank" class="read-more">Узнать больше</a></span>
+																	</p>
+																</div>
+															</div>
+														</div>
+													</div>
+													{% endfor %}
+
+										</div>
+											 <!-- ===============Social media link=====================-->
+												<div class="slider-media-icons">
+													<a href="#" class="media-links"><i class="ri-vk-fill"></i> </a>
+													<a href="#" class="media-links"><i class="ri-telegram-fill"></i> </a>
+												</div>
+
+											 <!-- ===============Social media link end=====================-->
+												
+											 <!-- ===============Slider left/right arrow navigation=====================-->
+
+											 <div class="slider-navigation">
+												<div class="prev-btn"><i class="ri-arrow-left-s-line"></i>Prev</div>
+												<div class="next-btn">Next<i class="ri-arrow-right-s-line"></i></div>
+											 </div>
+
+											 <!-- ===============Slider left/right arrow navigation end=====================-->
+
+											 <!-- ===============Slide pagination buttons for each slide=====================-->
+												<div class="slide-pagination">
+													<div class="slide-btn first-slide-btn"></div>
+													<div class="slide-btn"></div>
+													<div class="slide-btn"></div>
+													<div class="slide-btn"></div>
+													{% comment %} <div class="slide-btn"></div>
+													<div class="slide-btn"></div>
+													<div class="slide-btn"></div>
+													<div class="slide-btn"></div>
+													<div class="slide-btn"></div> {% endcomment %}
+												</div>
+
+											 <!-- ===============Slide pagination buttons for each slide end=====================-->
+
+											 <!-- ===============Slide visibiality indicator bars for each slide=====================-->
+												<div class="slide-indicator-bars">
+													<div class="indicator-bar first-indicator-bar"></div>
+													<div class="indicator-bar"></div>
+													<div class="indicator-bar"></div>
+													<div class="indicator-bar"></div>
+													{% comment %} <div class="indicator-bar"></div>
+													<div class="indicator-bar"></div>
+													<div class="indicator-bar"></div>
+													<div class="indicator-bar"></div>
+													<div class="indicator-bar"></div> {% endcomment %}
+												</div>
+												<!-- ===============Slide visibiality indicator bars for each slide end=====================-->
+
+
+
+							
+													{% comment %} <div class="col-lg-10">
+															<!-- Контент на странице -->
+															{% block content %}
+															
+															{% endblock content %}
+													</div> {% endcomment %}
+		</section>
+
+		{% comment %} {% block footer %}
+		
+		{% endblock footer %} {% endcomment %}
+
+		<script src="{% static "deps/js/jquery/jquery-3.7.0.min.js" %}"></script>
+		<script src="{% static "deps/js/jquery-events.js" %}"></script>
+		<script src="{% static "deps/js/jquery-ajax.js" %}"></script>
+		<script src="{% static "deps/js/bootstrap/bootstrap.bundle.min.js" %}"></script>
+		<script src="{% static "deps/js/script/script-slider.js" %}"></script>
+</body>
+
+</html>
+
+{% comment %} {% block css %}
 		<link rel="stylesheet" href="{% static "deps/css/my_footer_css.css" %}">
 {% endblock css %}
 
 {% block content %}
 		<h1 class="mt-5 pt-5"><strong>{{ content }}</strong></h1>
-{% endblock content %}
+{% endblock content %} {% endcomment %}
 
-{% block footer %}
+
+{% comment %} {% block footer %}
 		<footer class="py-4 bg-dark">
 			<div class="container">
 					<p class="m-0 text-center text-white">Copyright &copy; shopmaster.info 2024</p>
 			</div>
 		</footer>
-{% endblock footer %}
+{% endblock footer %} {% endcomment %}

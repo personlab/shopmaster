@@ -20,9 +20,36 @@
 {% endblock content %}
 
 {% block footer %}
-		<footer class="py-4 bg-dark">
-			<div class="container">
-					<p class="m-0 text-center text-white">Copyright &copy; shopmaster.info 2024</p>
-			</div>
-		</footer>
+<footer class="py-4 bg-dark">
+  <div class="container">
+      <p class="m-0 text-center text-white">
+          Copyright &copy; TonGameApp <span id="time"></span>
+      </p>
+  </div>
+</footer>
+
+<script>
+	// time footer
+	function updateTime() {
+		const now = new Date();
+		const options = {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+				hour: '2-digit',
+				minute: '2-digit',
+				second: '2-digit',
+				hour12: false // Используйте true для 12-часового формата
+		};
+
+		const formattedTime = now.toLocaleString('en-CA', options);
+		document.getElementById('time').innerText = formattedTime;
+	}
+
+	// Обновляем время каждую секунду
+	updateTime();
+
+	// Обновляем время каждую секунду
+	setInterval(updateTime, 1000);
+	</script>
 {% endblock footer %}

@@ -27,7 +27,7 @@ class Products(models.Model):
 		quantity = models.PositiveIntegerField(default=0, verbose_name='Количество') # Количество
 		category = models.ForeignKey(to=Categories, on_delete=models.CASCADE, verbose_name='Категория') # Категория
 
-		# class Meta, вложенный класс меняет название на синих полях и парвметрах в них
+		# class Meta, вложенный класс меняет название на синих полях и параметрах в них
 		class Meta:
 				db_table = 'product'
 				verbose_name = 'Продукт'						# перевод на русский язык в единственном числе это отображается в title страницы.

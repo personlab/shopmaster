@@ -1,0 +1,21 @@
+<html lang="en">
+		<head>
+				<meta charset="UTF-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>{{ title }}</title>
+		</head>
+		<body>
+			<h1>Записи</h1>
+			<ul>
+					{% for post in posts %}
+							<li>
+									<h2>
+											<a href="{% url 'blog:post_detail' post.slug %}" target="_blank">{{ post.title }}</a>
+									</h2>
+							</li>
+					{% empty %}
+							<li>Нет записей блога.</li>
+					{% endfor %}
+			</ul>
+	</body>
+</html>
