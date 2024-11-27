@@ -32,7 +32,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 SITE_ID = 1
-
+# 'django.contrib.sites',
 
 # Application definition
 

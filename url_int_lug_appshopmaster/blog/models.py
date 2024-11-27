@@ -1,3 +1,4 @@
+from pyexpat import model
 from tabnanny import verbose
 from django.db import models
 from django.utils.text import slugify
@@ -14,16 +15,18 @@ class Post(models.Model):
 				verbose_name = 'пост'
 				verbose_name_plural = 'Посты'
 
-		def save(self, *args, **kwargs):
-				if not self.slug and self.title:
-						original_slug = slugify(self.title)
-						slug = original_slug
-						number = 1
-						while Post.objects.filter(slug=slug).exists():
-								slug = f"{original_slug}-{number}"
-								number += 1
-						self.slug = slug
-				super().save(*args, **kwargs)
-
 		def __str__(self):
 				return self.title
+
+
+
+class Hero(models.Model):
+	image = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Картинка героя')
+
+	class Meta:
+		db_table = 'hero'
+		verbose_name = 'Картинку героя'
+		verbose_name_plural = 'Картинки героев'
+
+	def __str__(self):
+		return self.image.url if self.image else 'Нет картинки'

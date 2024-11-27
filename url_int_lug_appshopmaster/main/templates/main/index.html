@@ -14,11 +14,11 @@
     {% block css %}
 		
 		{% endblock css %}
-    <!-- Favicons for different platforms -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
-    <link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
+		<!-- Favicons for different platforms -->
+		<link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
+		<link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
+		<link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
+		<link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css">
     <title>{{ title }}</title>
 </head>
@@ -31,7 +31,7 @@
 			<a href="{% url "catalog:index" %}">Магазин</a>
 			<a href="#">О нас</a>
 			<a href="#">Галерея</a>
-			<a href="#">Контакты</a>
+			<a href="{% url "main:contact" %}">Контакты</a>
 			<a href="{% url "blog:post_list" %}">Блог</a>
 		</div>
 	</div>
@@ -73,6 +73,7 @@
 
 										</div>
 											 <!-- ===============Social media link=====================-->
+
 												<div class="slider-media-icons">
 													<a href="#" class="media-links"><i class="ri-vk-fill"></i> </a>
 													<a href="#" class="media-links"><i class="ri-telegram-fill"></i> </a>
@@ -118,20 +119,7 @@
 												</div>
 												<!-- ===============Slide visibiality indicator bars for each slide end=====================-->
 
-
-
-							
-													{% comment %} <div class="col-lg-10">
-															<!-- Контент на странице -->
-															{% block content %}
-															
-															{% endblock content %}
-													</div> {% endcomment %}
 		</section>
-
-		{% comment %} {% block footer %}
-		
-		{% endblock footer %} {% endcomment %}
 
 		<script src="{% static "deps/js/jquery/jquery-3.7.0.min.js" %}"></script>
 		<script src="{% static "deps/js/jquery-events.js" %}"></script>
@@ -141,20 +129,3 @@
 </body>
 
 </html>
-
-{% comment %} {% block css %}
-		<link rel="stylesheet" href="{% static "deps/css/my_footer_css.css" %}">
-{% endblock css %}
-
-{% block content %}
-		<h1 class="mt-5 pt-5"><strong>{{ content }}</strong></h1>
-{% endblock content %} {% endcomment %}
-
-
-{% comment %} {% block footer %}
-		<footer class="py-4 bg-dark">
-			<div class="container">
-					<p class="m-0 text-center text-white">Copyright &copy; shopmaster.info 2024</p>
-			</div>
-		</footer>
-{% endblock footer %} {% endcomment %}
