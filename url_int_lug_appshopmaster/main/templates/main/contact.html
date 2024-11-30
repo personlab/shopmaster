@@ -1,4 +1,4 @@
-{% extends "main/base.html" %}
+{% extends "blog/base_one.html" %}
 
 {% load static %}
 
@@ -12,44 +12,176 @@
 {% endblock css %}
 
 {% block content %}
-	<div class="mt-5 pt-5 bg-white custom-shadow rounded">
-		<h2 class="m-2"><strong>{{ content }}</strong></h2>
-		<p class="m-2">{{ e_mail }}</p>
-		<p class="m-2">{{ phone }}</p>
-	</div>
+
+<p class="hero-subtitle">Hello Everyone!</p>
+
+
+<h1 class="headline headline-1 section-title">
+		<span class="span">{{ content }}</span>
+</h1>
+
+<p class="hero-text">
+	{{ content }}
+</p>
+
+<p class="hero-text"><a href="mailto:{{ e_mail }}">{{ e_mail }}</a> </br> <a href="tel:{{ phone }}">{{ phone }}</a></p>
+
+
 {% endblock content %}
 
 {% block footer %}
-<footer class="py-4 bg-dark">
-  <div class="container">
-      <p class="m-0 text-center text-white">
-          Copyright &copy; TonGameApp <span id="time"></span>
-      </p>
-  </div>
+
+<footer>
+	<div class="container">
+
+			<div class="card footer">
+
+					<div class="section footer-top">
+
+							<div class="footer-brand">
+
+									<a href="#" class="logo">
+											<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
+									</a>
+
+									<p class="footer-text">
+											When an unknown prnoto sans took a galley and scrambled it to make specimen book not only five When an unknown prnoto sans took a galley and scrambled it to five centurie.
+									</p>
+
+									<p class="footer-list-title">Address</p>
+
+									<address class="footer-text address">
+										123 Main Street <br>
+										New York, NY 10001
+									</address>
+
+							</div>
+
+							<div class="footer-list">
+
+									<p class="footer-list-title">Categories</p>
+
+									<ul>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Action</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Bisiness</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Adventure</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Canada</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">America</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Curiosity</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Animal</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Dental</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Biology</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Design</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Breakfast</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Dessert</a>
+											</li>
+
+									</ul>
+
+							</div>
+
+							<div class="footer-list">
+
+									<p class="footer-list-title">Newsletter</p>
+
+									<p class="footer-text">
+											Sign up to be first to receive the latest stories inspiring us, case studies, and industry news.
+									</p>
+
+									<div class="input-wrapper">
+											<input type="text" name="name" placeholder="You name" required id="" class="input-field" autocomplete="off">
+
+											<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+									</div>
+
+									<div class="input-wrapper">
+											<input type="email" name="email_address" placeholder="Email address" required id="" class="input-field" autocomplete="off">
+
+											<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+									</div>
+
+									<a href="#" class="btn btn-primary">
+											<span class="span">Subscribe</span>
+
+											<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+									</a>
+
+							</div>
+
+					</div>
+
+					<div class="footer-bottom">
+							<p class="copyright">
+									Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a> <span id="time"></span>
+							</p>
+
+							<ul class="social-list">
+
+									<li>
+											<a href="#" class="social-link">
+												<ion-icon name="logo-twitter"></ion-icon>
+
+												<span class="span">Twitter</span>
+											</a>
+									</li>
+
+									<li>
+											<a href="#" class="social-link">
+												<ion-icon name="logo-linkedin"></ion-icon>
+
+												<span class="span">Linkedin</span>
+											</a>
+									</li>
+
+									<li>
+											<a href="#" class="social-link">
+												<ion-icon name="logo-instagram"></ion-icon>
+
+												<span class="span">Instagram</span>
+											</a>
+									</li>
+
+							</ul>
+					</div>
+
+			</div>
+
+	</div>
 </footer>
 
-<script>
-	// time footer
-	function updateTime() {
-		const now = new Date();
-		const options = {
-				year: 'numeric',
-				month: '2-digit',
-				day: '2-digit',
-				hour: '2-digit',
-				minute: '2-digit',
-				second: '2-digit',
-				hour12: false // Используйте true для 12-часового формата
-		};
-
-		const formattedTime = now.toLocaleString('en-CA', options);
-		document.getElementById('time').innerText = formattedTime;
-	}
-
-	// Обновляем время каждую секунду
-	updateTime();
-
-	// Обновляем время каждую секунду
-	setInterval(updateTime, 1000);
-	</script>
 {% endblock footer %}

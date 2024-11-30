@@ -11,8 +11,8 @@
 		- primary meta tags
 	-->
 	<title>{{ title }}</title>
-	<meta name="title" content="TonGameApp - Блог>">
-	<meta name="description" content="Telegram Tap-to-Earn Crypto Games">
+	{% comment %} <meta name="title" content="TonGameApp - Блог>">
+	<meta name="description" content="Telegram Tap-to-Earn Crypto Games"> {% endcomment %}
 	<!-- Favicons for different platforms -->
 	<link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
 	<link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
@@ -64,11 +64,11 @@
 				</div>
 					<ul class="navbar-list">
 						<li>
-							<a href="#home" class="navbar-link hover-1" data-nav-toggler>Home</a>
+							<a href="{% url "main:index" %}" class="navbar-link hover-1" data-nav-toggler>Главная</a>
 						</li>
 
 						<li>
-							<a href="#topics" class="navbar-link hover-1" data-nav-toggler>Topics</a>
+							<a href="{% url "catalog:index" %}" class="navbar-link hover-1" data-nav-toggler>Магазин</a>
 						</li>
 
 						<li>
@@ -76,12 +76,13 @@
 						</li>
 
 						<li>
-							<a href="#recent" class="navbar-link hover-1" data-nav-toggler>Recent Post</a>
+							<a href="{% url "main:contact" %}" class="navbar-link hover-1" data-nav-toggler>Контакты</a>
 						</li>
 
 						<li>
-							<a href="#contact" class="navbar-link hover-1" data-nav-toggler>Contact</a>
+							<a href="{% url "blog:post_list" %}" class="navbar-link hover-1" data-nav-toggler>Блог</a>
 						</li>
+
 					</ul>
 
 				<div class="navbar-bottom">
@@ -104,7 +105,7 @@
 						</li>
 
 						<li>
-							<a href="{% url "catalog:index" %}" class="navbar-bottom-link hover-1">Магазин</a>
+							<a href="#" class="navbar-bottom-link hover-1">Articles Saved</a>
 						</li>
 
 						<li>
@@ -116,7 +117,7 @@
 						</li>
 
 						<li>
-							<a href="{% url "main:contact" %}" class="navbar-bottom-link hover-1">Контакты</a>
+							<a href="#" class="navbar-bottom-link hover-1">Account Setting</a>
 						</li>
 
 						<li>
@@ -148,7 +149,11 @@
 							<div class="container">
 
 									<div class="hero-content">
-											<p class="hero-subtitle">Hello Everyone!</p>
+										{% block content %}
+									
+										{% endblock content %}
+											{% comment %} <p class="hero-subtitle">Hello Everyone!</p>
+
 
 											<h1 class="headline headline-1 section-title">
 													I'm <span class="span">Wren Clark</span>
@@ -168,7 +173,7 @@
 															<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
 													</button>
 
-											</div>
+											</div> {% endcomment %}
 											
 									</div>
 
@@ -194,7 +199,7 @@
 					<!--
 						- #TOPICS
 					-->
-					<section class="topics" id="topics" aria-labelledby="topic-label">
+					{% comment %} <section class="topics" id="topics" aria-labelledby="topic-label">
 							<div class="container">
 									<div class="card topic-card">
 											<div class="card-content">
@@ -243,18 +248,19 @@
 														<li>Нет записей</li>
 													{% endfor %}
 
+
 												</ul>
 										</div>
 
 									</div>
 
 							</div>
-					</section>
+					</section> {% endcomment %}
 
 					<!--
 					 - #FEATURED POST
 					-->
-					<section class="section feature" area-label="feature" id="featured">
+					{% comment %} <section class="section feature" area-label="feature" id="featured">
 							<div class="container">
 
 									<h2 class="headline headline-2 section-title">
@@ -267,13 +273,11 @@
 
 									<ul class="feature-list">
 
-										{% for item in featured_items %}
-										
 											<li>
 													<div class="card feature-card">
 		
 														<figure class="card-banner img-holder" style="--width: 1602; --height: 903;">
-																<img src="{{ item.image.url }}" width="1602" height="903" loading="lazy" alt="{{ item.title }}" class="img-cover">
+																<img src="{% static "deps/images/featured-1.png" %}" width="1602" height="903" loading="lazy" alt="Self-observation is the first step of inner unfolding" class="img-cover">
 														</figure>
 		
 														<div class="card-content">
@@ -294,24 +298,24 @@
 		
 																<h3 class="headline headline-3">
 																		<a href="#" class="card-title hover-2">
-																			{{ item.title }}
+																			Self-observation is the first step of inner unfolding
 																		</a>
 																</h3>
 		
 																<div class="card-wrapper">
 		
 																		<div class="profile-card">
-																				<img src="{{ item.author_image.url }}" width="48" height="48" loading="lazy" alt="{{ item.author_name }}" class="profile-banner">
+																				<img src="{% static "deps/images/author-1.png" %}" width="48" height="48" loading="lazy" alt="Joseph" class="profile-banner">
 		
 																				<div>
-																						<p class="card-title">{{ item.author_name }}</p>
+																						<p class="card-title">Joseph</p>
 		
-																						<p class="card-subtitle">{{ item.created_at }}</p>
+																						<p class="card-subtitle">25 Nov 2022</p>
 																				</div>
 		
 																		</div>
 		
-																		<a href="{{ item.link }}" target="_blank" class="card-btn">Больше</a>
+																		<a href="#" class="card-btn">Read more</a>
 		
 																</div>
 		
@@ -320,11 +324,8 @@
 		
 													</div>
 											</li>
-
-										{% endfor %}
-
 		
-											{% comment %} <li>
+											<li>
 												<div class="card feature-card">
 		
 													<figure class="card-banner img-holder" style="--width: 1602; --height: 903;">
@@ -530,7 +531,7 @@
 													</div>
 		
 												</div>
-											</li> {% endcomment %}
+											</li>
 
 									</ul>
 
@@ -545,12 +546,12 @@
 							<img src="{% static "deps/images/shadow-3.svg" %}" width="500" height="1500" loading="lazy" alt="" class="feature-bg">
 
 
-					</section>
+					</section> {% endcomment %}
 
 					<!--
 						- #POPULAR TAGS
 					-->
-					<section class="tag" aria-labelledby="tag-label">
+					{% comment %} <section class="tag" aria-labelledby="tag-label">
 							<div class="container">
 
 									<h2 class="headline headline-2 section-title" id="tag-label">
@@ -673,12 +674,12 @@
 
 
 							</div>
-					</section>
+					</section> {% endcomment %}
 
 					<!--
 						- #RECENT POST
 					-->
-					<section class="section recent-post" id="recent" aria-labelledby="recent-label" >
+					{% comment %} <section class="section recent-post" id="recent" aria-labelledby="recent-label" >
 						<div class="container">
 
 								<div class="post-main">
@@ -1189,7 +1190,7 @@
 								</div>
 
 						</div>
-					</section>
+					</section> {% endcomment %}
 
 
 			</article>
@@ -1200,7 +1201,11 @@
 		- #FOOTER
 	-->
 
-	<footer>
+	{% block footer %}
+		
+	{% endblock footer %}
+
+	{% comment %} <footer>
 			<div class="container">
 
 					<div class="card footer">
@@ -1351,7 +1356,7 @@
 					</div>
 
 			</div>
-	</footer>
+	</footer> {% endcomment %}
 
 
 	<!-- 
@@ -1378,41 +1383,3 @@
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% comment %} <html lang="en">
-		<head>
-				<meta charset="UTF-8">
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>{{ title }}</title>
-		</head>
-		<body>
-			<h1>Записи</h1>
-			<ul>
-					{% for post in posts %}
-							<li>
-									<h2>
-											<a href="{% url 'blog:post_detail' post.slug %}" target="_blank">{{ post.title }}</a>
-									</h2>
-							</li>
-					{% empty %}
-							<li>Нет записей блога.</li>
-					{% endfor %}
-			</ul>
-	</body>
-</html> {% endcomment %}
