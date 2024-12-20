@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from django.contrib import admin
-from .models import Post, Hero, Featured
+from .models import Post, Hero, Featured, Tag
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -17,6 +17,7 @@ admin.site.register(Post, PostAdmin)
 class HeroAdmin(admin.ModelAdmin):
 	list_display = ('id', 'image')
 
+
 admin.site.register(Hero, HeroAdmin)
 
 
@@ -26,3 +27,7 @@ class FeaturedAdmin(admin.ModelAdmin):
 	list_filter = ('created_at',)
 
 admin.site.register(Featured, FeaturedAdmin)
+
+
+
+admin.site.register(Tag)

@@ -7,9 +7,9 @@
 <html lang="en">
 
 
-{% block css %}
+{% comment %} {% block css %}
 		<link rel="stylesheet" href="{% static "deps/css/my_footer_css.css" %}">
-{% endblock css %}
+{% endblock css %} {% endcomment %}
 
 {% block content %}
 
@@ -30,6 +30,9 @@
 {% endblock content %}
 
 {% block footer %}
+	<!--
+	- #FOOTER
+-->
 
 <footer>
 	<div class="container">
@@ -117,29 +120,50 @@
 
 							<div class="footer-list">
 
-									<p class="footer-list-title">Newsletter</p>
+								<form action="" id="contact-form">
+									{% csrf_token %}
+										<p class="footer-list-title">Contact me</p>
 
-									<p class="footer-text">
-											Sign up to be first to receive the latest stories inspiring us, case studies, and industry news.
-									</p>
+										<p class="footer-text">
+												У вас есть вопросы? Напишите мне.
+										</p>
 
-									<div class="input-wrapper">
-											<input type="text" name="name" placeholder="You name" required id="" class="input-field" autocomplete="off">
+										<div class="input-wrapper">
+												<input type="text" name="user_name" placeholder="You name" required id="" class="input-field" autocomplete="off">
 
-											<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-									</div>
+												<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+										</div>
 
-									<div class="input-wrapper">
-											<input type="email" name="email_address" placeholder="Email address" required id="" class="input-field" autocomplete="off">
+										<div class="input-wrapper">
+												<input type="email" name="user_email" placeholder="Email address" required id="" class="input-field" autocomplete="off">
 
-											<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
-									</div>
+												<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+										</div>
 
-									<a href="#" class="btn btn-primary">
-											<span class="span">Subscribe</span>
+										<div class="input-wrapper">
+												<input type="tel" name="email_phone" placeholder="You nomber" required id="" class="input-field" autocomplete="off">
 
-											<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
-									</a>
+												<ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
+										</div>
+
+										<div class="input-wrapper">
+											<textarea name="user_message" class="input-field" cols="30" rows="6" placeholder="Сообщение" required ></textarea>
+											<div class="ion_mess">
+													<ion-icon name="send-outline"></ion-icon>
+											</div>
+										</div>
+
+
+										<button type="submit" class="btn btn-primary">
+												<span class="span">Отправить</span>
+
+												<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+										</button>
+
+									</br>
+
+										<p class="contact__message" id="contact-message">Статус отправки</p>
+								</form>
 
 							</div>
 
@@ -147,7 +171,7 @@
 
 					<div class="footer-bottom">
 							<p class="copyright">
-									Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a> <span id="time"></span>
+									Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a> <span class="time"></span>
 							</p>
 
 							<ul class="social-list">

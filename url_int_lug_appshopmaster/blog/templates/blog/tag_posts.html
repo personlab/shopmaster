@@ -1,0 +1,213 @@
+{% extends "blog/base_one.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{{ title }}</title>
+		<h1>{{ post.title }}</h1>
+
+		<h2>Посты с тегом: #{{ tag.name }}</h2>
+			<ul>
+					{% if posts %}
+							{% for post in posts %}
+									<li>
+										<h3><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h3>
+											<p>Время чтения: {{ post.reading_time }} мин</p>
+											<p>Имя автора: {{ post.author_name }}</p>
+									</li>
+							{% endfor %}
+					{% else %}
+							<li>Нет постов с данным тегом.</li>
+					{% endif %}
+			</ul>
+
+
+		<a href="{% url 'blog:post_list' %}">Назад к списку постов</a>
+
+{% endblock content %}
+
+{% block footer %}
+	<!--
+	- #FOOTER
+-->
+
+<footer>
+	<div class="container">
+
+			<div class="card footer">
+
+					<div class="section footer-top">
+
+							<div class="footer-brand">
+
+									<a href="#" class="logo">
+											<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
+									</a>
+
+									<p class="footer-text">
+											When an unknown prnoto sans took a galley and scrambled it to make specimen book not only five When an unknown prnoto sans took a galley and scrambled it to five centurie.
+									</p>
+
+									<p class="footer-list-title">Address</p>
+
+									<address class="footer-text address">
+										123 Main Street <br>
+										New York, NY 10001
+									</address>
+
+							</div>
+
+							<div class="footer-list">
+
+									<p class="footer-list-title">Categories</p>
+
+									<ul>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Action</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Bisiness</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Adventure</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Canada</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">America</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Curiosity</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Animal</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Dental</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Biology</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Design</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Breakfast</a>
+											</li>
+
+											<li>
+												<a href="#" class="footer-link hover-2">Dessert</a>
+											</li>
+
+									</ul>
+
+							</div>
+
+							<div class="footer-list">
+
+								<form action="" id="contact-form">
+									{% csrf_token %}
+										<p class="footer-list-title">Contact me</p>
+
+										<p class="footer-text">
+												У вас есть вопросы? Напишите мне.
+										</p>
+
+										<div class="input-wrapper">
+												<input type="text" name="user_name" placeholder="You name" required id="" class="input-field" autocomplete="off">
+
+												<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+										</div>
+
+										<div class="input-wrapper">
+												<input type="email" name="user_email" placeholder="Email address" required id="" class="input-field" autocomplete="off">
+
+												<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+										</div>
+
+										<div class="input-wrapper">
+												<input type="tel" name="email_phone" placeholder="You nomber" required id="" class="input-field" autocomplete="off">
+
+												<ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
+										</div>
+
+										<div class="input-wrapper">
+											<textarea name="user_message" class="input-field" cols="30" rows="6" placeholder="Сообщение" required ></textarea>
+											<div class="ion_mess">
+													<ion-icon name="send-outline"></ion-icon>
+											</div>
+										</div>
+
+
+										<button type="submit" class="btn btn-primary">
+												<span class="span">Отправить</span>
+
+												<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+										</button>
+
+									</br>
+
+										<p class="contact__message" id="contact-message">Статус отправки</p>
+								</form>
+
+							</div>
+
+					</div>
+
+					<div class="footer-bottom">
+							<p class="copyright">
+									Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a> <span class="time"></span>
+							</p>
+
+							<ul class="social-list">
+
+									<li>
+											<a href="#" class="social-link">
+												<ion-icon name="logo-twitter"></ion-icon>
+
+												<span class="span">Twitter</span>
+											</a>
+									</li>
+
+									<li>
+											<a href="#" class="social-link">
+												<ion-icon name="logo-linkedin"></ion-icon>
+
+												<span class="span">Linkedin</span>
+											</a>
+									</li>
+
+									<li>
+											<a href="#" class="social-link">
+												<ion-icon name="logo-instagram"></ion-icon>
+
+												<span class="span">Instagram</span>
+											</a>
+									</li>
+
+							</ul>
+					</div>
+
+			</div>
+
+	</div>
+</footer>
+
+{% endblock footer %}
+

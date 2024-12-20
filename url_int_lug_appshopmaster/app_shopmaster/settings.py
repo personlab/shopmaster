@@ -153,3 +153,7 @@ INTERNAL_IPS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+TELEGRAM_BOT_TOKEN = '5909764830:AAEwez_YhyjVE3gUyL_B30aKd9FA4PdK2Kk'
+TELEGRAM_CHAT_ID = '1380244093'

@@ -1,16 +1,222 @@
-<html lang="en">
-		<head>
-				<meta charset="UTF-8">
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>{{ title }}</title>
-		</head>
-		<body>
-				<h1>{{ post.title }}</h1>
-				<p>{{ post.content }}</p>
-				{% if post.image %}
-						<img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 300px;">
-				{% endif %}
-				<p><em>Создано: {{ post.created_at }}</em></p>
-				<a href="{% url 'blog:post_list' %}">Назад к списку постов</a>
-		</body>
-</html>
+{% extends "blog/base_one.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+	<h3 class="h4_collect_blog positionss">{{ post.title }}</h3>
+		<p class="hero-text positionss">{{ post.content }}</p>
+		{% if post.image %}
+			<p class="hero-text positionss">{{ post.content_1 }}</p>
+				<img src="{{ post.image_1.url }}" alt="{{ post.title }}" class="zoomable-img img-100" style="max-width: 300px;">
+			<p class="hero-text positionss">{{ post.content_2 }}</p>
+				<img src="{{ post.image_2.url }}" alt="{{ post.title }}" class="zoomable-img img-100" style="max-width: 300px;">
+			<p class="hero-text positionss">{{ post.content_3 }}</p>
+				<img src="{{ post.image_3.url }}" alt="{{ post.title }}" class="zoomable-img img-100" style="max-width: 300px;">
+		{% endif %}
+		<p class="positionss__1"><em>Создано: {{ post.created_at }}</em></p>
+
+		<!-- Отображение тегов -->
+		<p>Теги: 
+			{% if tags %}
+					{% for tag in tags %}
+							<a href="{% url 'blog:tag_posts' tag.id %}">#{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+					{% endfor %}
+			{% else %}
+					Нет тегов
+			{% endif %}
+		</p>
+
+
+<a href="{% url 'blog:post_list' %}" class="">Назад к списку постов</a>
+
+<!-- Модальное окно для увеличенных изображений -->
+<div id="imageModal" class="modal" style="display:none">
+	<span class="close">&times;</span>
+	<img class="modal-content" id="modalImg">
+</div>
+
+{% endblock content %}
+
+
+{% block footer %}
+	<!--
+	- #FOOTER
+-->
+
+<footer>
+		<div class="container">
+
+				<div class="card footer">
+
+						<div class="section footer-top">
+
+								<div class="footer-brand">
+
+										<a href="#" class="logo">
+												<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
+										</a>
+
+										<p class="footer-text">
+												When an unknown prnoto sans took a galley and scrambled it to make specimen book not only five When an unknown prnoto sans took a galley and scrambled it to five centurie.
+										</p>
+
+										<p class="footer-list-title">Address</p>
+
+										<address class="footer-text address">
+											123 Main Street <br>
+											New York, NY 10001
+										</address>
+
+								</div>
+
+								<div class="footer-list">
+
+										<p class="footer-list-title">Categories</p>
+
+										<ul>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Action</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Bisiness</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Adventure</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Canada</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">America</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Curiosity</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Animal</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Dental</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Biology</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Design</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Breakfast</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Dessert</a>
+												</li>
+
+										</ul>
+
+								</div>
+
+								<div class="footer-list">
+
+									<form action="" id="contact-form">
+										{% csrf_token %}
+											<p class="footer-list-title">Contact me</p>
+
+											<p class="footer-text">
+													У вас есть вопросы? Напишите мне.
+											</p>
+
+											<div class="input-wrapper">
+													<input type="text" name="user_name" placeholder="You name" required id="" class="input-field" autocomplete="off">
+
+													<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+											</div>
+
+											<div class="input-wrapper">
+													<input type="email" name="user_email" placeholder="Email address" required id="" class="input-field" autocomplete="off">
+
+													<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+											</div>
+
+											<div class="input-wrapper">
+													<input type="tel" name="email_phone" placeholder="You nomber" required id="" class="input-field" autocomplete="off">
+
+													<ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
+											</div>
+
+											<div class="input-wrapper">
+												<textarea name="user_message" class="input-field" cols="30" rows="6" placeholder="Сообщение" required ></textarea>
+												<div class="ion_mess">
+														<ion-icon name="send-outline"></ion-icon>
+												</div>
+											</div>
+
+
+											<button type="submit" class="btn btn-primary">
+													<span class="span">Отправить</span>
+
+													<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+											</button>
+
+										</br>
+
+											<p class="contact__message" id="contact-message">Статус отправки</p>
+									</form>
+
+								</div>
+
+						</div>
+
+						<div class="footer-bottom">
+								<p class="copyright">
+										Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a> <span class="time"></span>
+								</p>
+
+								<ul class="social-list">
+
+										<li>
+												<a href="#" class="social-link">
+													<ion-icon name="logo-twitter"></ion-icon>
+
+													<span class="span">Twitter</span>
+												</a>
+										</li>
+
+										<li>
+												<a href="#" class="social-link">
+													<ion-icon name="logo-linkedin"></ion-icon>
+
+													<span class="span">Linkedin</span>
+												</a>
+										</li>
+
+										<li>
+												<a href="#" class="social-link">
+													<ion-icon name="logo-instagram"></ion-icon>
+
+													<span class="span">Instagram</span>
+												</a>
+										</li>
+
+								</ul>
+						</div>
+
+				</div>
+
+		</div>
+</footer>
+
+{% endblock footer %}

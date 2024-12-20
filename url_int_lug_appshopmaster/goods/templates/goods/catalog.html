@@ -1,139 +1,512 @@
-{% extends "main/base.html" %}
+{% extends "blog/base_one.html" %}
+
 {% load static %}
-{% load tz %}
+
+{% block css %}
+		
+{% endblock css %}
+
 
 {% block content %}
 
-	<div class="row">
-		<!-- Форма фильтров -->
-		<div class="dropdown mb-2">
-				<button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
-						aria-expanded="false">
-						Фильтры
-				</button>
-
-				<form action="" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
-						<div class="form-check text-white mx-3">
-								<input class="form-check-input" type="checkbox" name="on_sale" id="flexCheckDefault" value="on">
-								<input type="hidden" name="q" value="request.GET.q">
-								<label class="form-check-label" for="flexCheckDefault">
-										Товары по акции
-								</label>
-						</div>
-						<p class="text-white mx-3 mt-3">Сортировать:</p>
-						<div class="form-check text-white mx-3">
-								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault1" value="default" checked>
-								<label class="form-check-label" for="flexRadioDefault1">
-										По умолчанию
-								</label>
-						</div>
-						<div class="form-check text-white mx-3">
-								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault2" value="price">
-								<label class="form-check-label" for="flexRadioDefault2">
-										От дешевых к дорогим
-								</label>
-						</div>
-						<div class="form-check text-white mx-3">
-								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault3" value="-price">
-								<label class="form-check-label" for="flexRadioDefault3">
-										От дорогих к дешевым
-								</label>
-						</div>
-						<button type="submit" class="btn btn-primary mx-3 mt-3">Применить</button>
-				</form>
-		</div>
-
-		{% for product in goods %}
+		<!--
+		- #COLLECTION
+		-->
 		
-		<!-- Карта товара -->
-		<div class="col-lg-4 col-md-6 p-4">
-				<div class="card border-primary rounded custom-shadow">
-					{% if product.image %} <!-- проверка на установленную картинку, показывать если есть-->
-							<img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-					{% else %}
-							<img src="{% static "deps\images\Not found image.png" %}" class="card-img-top" alt="...">  <!-- если нет картинки -->
-					{% endif %}
-						<div class="card-body">
-								<a href="{% url "catalog:product" product.slug %}">
-										<p class="card-title">{{ product.name }}</p>
-								</a>
-								<p class="card-text text-truncate">{{ product.description }}</p>
-								<p class="product_id">id: {{ product.display_id }}</p>
-								<div class="d-flex justify-content-between">
+		<section class="section section__collection"> 
+
+				<ul class="collection-list hascol-scrollbar">
+	
+					<li>
+							<div class="collection_card_comm" style="background-image: url('{% static "deps/Footcap/assets/images/collection-1.jpg" %}');">
+							<h3 class="h4_collect card_collect_title">Men collection</h3>
+	
+							<a href="#" class="btn_collect btn_secondary_collect">
+								<span>More</span>
+	
+								<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+							</a>
+						</div>
+					</li>
+	
+					<li>
+						<div class="collection_card_comm" style="background-image: url('{% static "deps/Footcap/assets/images/collection-2.jpg" %}');">
+							<h3 class="h4_collect card_collect_title">Women Collections</h3>
+	
+							<a href="#" class="btn_collect btn_secondary_collect">
+								<span>More</span>
+	
+								<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+							</a>
+						</div>
+					</li>
+	
+					<li>
+						<div class="collection_card_comm" style="background-image: url('{% static "deps/Footcap/assets/images/collection-3.jpg" %}');">
+							<h3 class="h4_collect card_collect_title">Sports Collections</h3>
+	
+							<a href="#" class="btn_collect btn_secondary_collect">
+								<span>More</span>
+	
+								<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+							</a>
+						</div>
+					</li>
+	
+				</ul>
+
+			</section>
+			
+
+		<!--
+		# PRODUCT
+		-->
+
+		<section class="section product__section">
+
+			<h2 class="h2 section-title">Bestsellers Products</h2>
+
+
+				{% for product in goods %}
+
+						<ul class="product__list">
+
+							<li class="product__item">
+
+								<div class="product__card" tabindex="0">
+
+									<figure class="card__banner">
+										{% if product.image %} <!-- проверка на установленную картинку, показывать если есть-->
+												<img src="{{ product.image.url }}" class="image__contain" loading="lazy" alt="{{ product.name }}">
+										{% else %}
+												<img src="{% static "deps\images\Not found image.png" %}" class="card-img-top" alt="...">  <!-- если нет картинки -->
+										{% endif %}
+
+
+										<div class="card__badge">Скидка {{ product.discount }} %</div>
+
+										<ul class="card__action__list">
+
+											<li class="card__action__item">
+												<button class="card__action__btn" area-labelledby="card__label__1" >
+													<ion-icon name="cart-outline"></ion-icon>
+												</button>
+
+												<div class="card__action__tooltip" id="card__label__1">Add to Card</div>
+											</li>
+
+											<li class="card__action__item">
+												<button class="card__action__btn" area-labelledby="card__label__2" >
+													<ion-icon name="heart-outline"></ion-icon>
+												</button>
+
+												<div class="card__action__tooltip" id="card__label__2">Add to Whishlist</div>
+											</li>
+
+											<li class="card__action__item">
+												<button class="card__action__btn" area-labelledby="card__label__3" >
+													</ion-icon><a href="{% url "catalog:product" product.slug %}"><ion-icon name="eye-outline"></a>
+												</button>
+
+												<div class="card__action__tooltip" id="card__label__3">Quick View</div>
+											</li>
+
+											<li class="card__action__item">
+												<button class="card__action__btn" area-labelledby="card__label__4" >
+													<ion-icon name="repeat-outline"></ion-icon>
+												</button>
+
+												<div class="card__action__tooltip" id="card__label__4">Compare</div>
+											</li>
+
+										</ul>
+
+									</figure>
+
+									<div class="card__content__one">
+
+										<div class="card__cat">
+											<a href="#" class="card__cat__link">Men</a> /
+											<a href="#" class="card__cat__link">Women</a>
+										</br>
+										<p class="product_id">id: {{ product.display_id }}</p>
+										</div>
+
+										<h3 class="h3 card__title">
+											{% comment %} <a href="{% url "catalog:product" product.slug %}"> {% endcomment %}
+												{% comment %} <p class="card__title">{{ product.name }}</p> {% endcomment %}
+										{% comment %} </a> {% endcomment %}
+										</h3>
 
 										{% if product.discount %}
-												<p><s>{{ product.price }}</s> $</p>
-												<p><strong>{{ product.sell_price }} $</strong></p>
-												<span class="badge bg-warning text-dark">Скидка {{ product.discount }} %</span> 
+												<data value="{{ product.sell_price }}" class="card__price">${{ product.sell_price }} <del>{{ product.price }} $</del></data>
+												
 										{% else %}
 												<p><strong>{{ product.price }}</strong></p>
 										{% endif %}
 
-										<a href="#" class="btn add-to-cart">
-												<img class="mx-1" src="{% static "deps/icons/cart-plus.svg" %}" alt="Catalog Icon"
-														width="32" height="32">
-										</a>
+
+									</div>
+
 								</div>
+
+							</li>
+
+						</ul>
+
+				{% endfor %}
+
+
+		</section>
+
+		<!-- 
+		# CTA
+		-->
+
+		<section class="section cta_section">
+
+				<ul class="cta__list">
+
+					<li>
+						<div class="cta__card" style="background-image: url('{% static "deps/Footcap/assets/images/cta-1.jpg" %}');">
+							<p class="card__subtitle">Adidas Shoes</p>
+
+							<h3 class="h2 card__title">The Summer Sale Off 50%</h3>
+
+							<a href="#" class="btn_collect_link btn__link">
+								<span>Show Now</span>
+
+								<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+							</a>
 						</div>
+					</li>
+
+					<li>
+						<div class="cta__card" style="background-image: url('{% static "deps/Footcap/assets/images/cta-2.jpg" %}');">
+							<p class="card__subtitle">Nike Shoes</p>
+
+							<h3 class="h2 card__title">Makes Yourself Keep Sporty</h3>
+
+							<a href="#" class="btn_collect_link btn__link">
+								<span>Show Now</span>
+
+								<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+							</a>
+						</div>
+					</li>
+
+
+				</ul>
+
+		</section>
+
+		<!--
+		- #SPECIAZL
+		-->
+
+		<section class="section section__special">
+
+			{% comment %} <div class="container"> {% endcomment %}
+
+				<div class="special__banner" style="background-image: url('{% static "deps/Footcap/assets/images/special-banner.jpg" %}');">
+					<h2 class="h3 banner__title">New Trend Edition</h2>
+	
+					<a href="#" class="btn_collect_link btn__link">
+						<span>Explore All</span>
+	
+						<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+					</a>
 				</div>
-		</div>
-
-		{% endfor %}
-
-
-	</div>
-	<!-- Пагинация -->
-	<nav aria-label="Page navigation example">
-		<ul class="pagination justify-content-center my-4">
-				<div class="custom-shadow d-flex">
-						<li class="page-item disabled">
-							<a class="page-link">Previous</a>
-						</li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item">
-							<a class="page-link" href="#">Next</a>
-						</li>
+	
+				<div class="special__product">
+	
+						<h2 class="section__title">
+							<span class="span__text">Nike Special</span>
+	
+							<span class="span__line"></span>
+						</h2>
+	
+						
+						<ul class="hascol-scrollbar">
+								{% for product in goods %}
+	
+								<li class="product__item">
+	
+									<div class="product__card" tabindex="0">
+	
+										<figure class="card__banner">
+											{% if product.image %} <!-- проверка на установленную картинку, показывать если есть-->
+													<img src="{{ product.image.url }}" class="image__contain" width="350" height="350" loading="lazy" alt="{{ product.name }}">
+											{% else %}
+													<img src="{% static "deps\images\Not found image.png" %}" class="card-img-top" alt="...">  <!-- если нет картинки -->
+											{% endif %}
+	
+	
+											<div class="card__badge">Скидка {{ product.discount }} %</div>
+	
+											<ul class="card__action__list">
+	
+												<li class="card__action__item">
+													<button class="card__action__btn" area-labelledby="card__label__1" >
+														<ion-icon name="cart-outline"></ion-icon>
+													</button>
+	
+													<div class="card__action__tooltip" id="card__label__1">Add to Card</div>
+												</li>
+	
+												<li class="card__action__item">
+													<button class="card__action__btn" area-labelledby="card__label__2" >
+														<ion-icon name="heart-outline"></ion-icon>
+													</button>
+	
+													<div class="card__action__tooltip" id="card__label__2">Add to Whishlist</div>
+												</li>
+	
+												<li class="card__action__item">
+													<button class="card__action__btn" area-labelledby="card__label__3" >
+														<a href="{% url "catalog:product" product.slug %}">
+															<ion-icon name="eye-outline"></ion-icon>
+													</a>
+													</button>
+	
+													<div class="card__action__tooltip" id="card__label__3">Quick View</div>
+												</li>
+	
+												<li class="card__action__item">
+													<button class="card__action__btn" area-labelledby="card__label__4" >
+														<ion-icon name="repeat-outline"></ion-icon>
+													</button>
+	
+													<div class="card__action__tooltip" id="card__label__4">Compare</div>
+												</li>
+	
+											</ul>
+										</figure>
+	
+										<div class="card__content__one">
+	
+											<div class="card__cat">
+												<a href="#" class="card__cat__link">Men</a> /
+												<a href="#" class="card__cat__link">Women</a>
+											</br>
+											<p class="product_id">id: {{ product.display_id }}</p>
+											</div>
+	
+											<h3 class="h3 card__title">
+												{% comment %} <a href="{% url "catalog:product" product.slug %}">
+													<p class="card__title">{{ product.name }}</p>
+											</a> {% endcomment %}
+											</h3>
+	
+											{% if product.discount %}
+													<data value="{{ product.sell_price }}" class="card__price">${{ product.sell_price }} <del>{{ product.price }} $</del></data>
+													
+											{% else %}
+													<p><strong>{{ product.price }}</strong></p>
+											{% endif %}
+	
+	
+										</div>
+	
+									</div>
+	
+								</li>
+	
+								{% endfor %}
+							</ul>
+	
+	
 				</div>
-		</ul>
-	</nav>
+
+			{% comment %} </div> {% endcomment %}
+
+
+		</section>
+
+
+
 
 
 {% endblock content %}
 
 
 {% block footer %}
-<footer class="py-4 bg-dark">
-  <div class="container">
-      <p class="m-0 text-center text-white">
-          Copyright &copy; TonGameApp <span id="time"></span>
-      </p>
-  </div>
+	<!--
+	- #FOOTER
+	-->
+
+<footer>
+		<div class="container">
+
+				<div class="card footer">
+
+						<div class="section footer-top">
+
+								<div class="footer-brand">
+
+										<a href="#" class="logo">
+												<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
+										</a>
+
+										<p class="footer-text">
+												When an unknown prnoto sans took a galley and scrambled it to make specimen book not only five When an unknown prnoto sans took a galley and scrambled it to five centurie.
+										</p>
+
+										<p class="footer-list-title">Address</p>
+
+										<address class="footer-text address">
+											123 Main Street <br>
+											New York, NY 10001
+										</address>
+
+								</div>
+
+								<div class="footer-list">
+
+										<p class="footer-list-title">Categories</p>
+
+										<ul>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Action</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Bisiness</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Adventure</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Canada</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">America</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Curiosity</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Animal</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Dental</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Biology</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Design</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Breakfast</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Dessert</a>
+												</li>
+
+										</ul>
+
+								</div>
+
+								<div class="footer-list">
+
+									<form action="" id="contact-form">
+										{% csrf_token %}
+											<p class="footer-list-title">Contact me</p>
+
+											<p class="footer-text">
+													У вас есть вопросы? Напишите мне.
+											</p>
+
+											<div class="input-wrapper">
+													<input type="text" name="user_name" placeholder="You name" required id="" class="input-field" autocomplete="off">
+
+													<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+											</div>
+
+											<div class="input-wrapper">
+													<input type="email" name="user_email" placeholder="Email address" required id="" class="input-field" autocomplete="off">
+
+													<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+											</div>
+
+											<div class="input-wrapper">
+													<input type="tel" name="email_phone" placeholder="You nomber" required id="" class="input-field" autocomplete="off">
+
+													<ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
+											</div>
+
+											<div class="input-wrapper">
+												<textarea name="user_message" class="input-field" cols="30" rows="6" placeholder="Сообщение" required ></textarea>
+												<div class="ion_mess">
+														<ion-icon name="send-outline"></ion-icon>
+												</div>
+											</div>
+
+
+											<button type="submit" class="btn btn-primary">
+													<span class="span">Отправить</span>
+
+													<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+											</button>
+
+										</br>
+
+											<p class="contact__message" id="contact-message">Статус отправки</p>
+									</form>
+
+								</div>
+
+						</div>
+
+						<div class="footer-bottom">
+								<p class="copyright">
+										Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a> <span class="time"></span>
+								</p>
+
+								<ul class="social-list">
+
+										<li>
+												<a href="#" class="social-link">
+													<ion-icon name="logo-twitter"></ion-icon>
+
+													<span class="span">Twitter</span>
+												</a>
+										</li>
+
+										<li>
+												<a href="#" class="social-link">
+													<ion-icon name="logo-linkedin"></ion-icon>
+
+													<span class="span">Linkedin</span>
+												</a>
+										</li>
+
+										<li>
+												<a href="#" class="social-link">
+													<ion-icon name="logo-instagram"></ion-icon>
+
+													<span class="span">Instagram</span>
+												</a>
+										</li>
+
+								</ul>
+						</div>
+
+				</div>
+
+		</div>
 </footer>
 
-<script>
-	// time footer
-	function updateTime() {
-		const now = new Date();
-		const options = {
-				year: 'numeric',
-				month: '2-digit',
-				day: '2-digit',
-				hour: '2-digit',
-				minute: '2-digit',
-				second: '2-digit',
-				hour12: false // Используйте true для 12-часового формата
-		};
-
-		const formattedTime = now.toLocaleString('en-CA', options);
-		document.getElementById('time').innerText = formattedTime;
-	}
-
-	// Обновляем время сразу, чтобы не ждать 1 секунду
-	updateTime();
-
-	// Обновляем время каждую секунду
-	setInterval(updateTime, 1000);
-	</script>
 {% endblock footer %}

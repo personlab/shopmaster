@@ -5,62 +5,62 @@
 
 
 <div class="container mt-5">
-  <div class="card mb-4 custom-shadow">
-    <div class="row">
-      <!-- Миниатюры -->
-      <div class="d-flex flex-wrap">
-        {% if product.get_main_image %}
-          <img src="{{ product.get_main_image.image.url }}" class="img-thumbnail" style="width: 300px;" data-bs-toggle="modal" data-bs-target="#imageModal" data-index="0">
-        {% else %}
-          <img src="{% static "deps/images/Not found image.png" %}" class="img-thumbnail" alt="...">
-        {% endif %}
+	<div class="card mb-4 custom-shadow">
+		<div class="row">
+			<!-- Миниатюры -->
+			<div class="d-flex flex-wrap">
+				{% if product.get_main_image %}
+					<img src="{{ product.get_main_image.image.url }}" class="img-thumbnail" style="width: 300px;" data-bs-toggle="modal" data-bs-target="#imageModal" data-index="0">
+				{% else %}
+					<img src="{% static "deps/images/Not found image.png" %}" class="img-thumbnail" alt="...">
+				{% endif %}
 
-        <!-- Отображение миниатюр других изображений -->
-        <div class="mt-2">
-          {% for image in product.images.all %}
-            <img src="{{ image.image.url }}" class="img-thumbnail" style="width: 50px; height: 50px;" data-bs-toggle="modal" data-bs-target="#imageModal" data-index="{{ forloop.counter }}">
-          {% endfor %}
-        </div>
-      </div>
+				<!-- Отображение миниатюр других изображений -->
+				<div class="mt-2">
+					{% for image in product.images.all %}
+						<img src="{{ image.image.url }}" class="img-thumbnail" style="width: 50px; height: 50px;" data-bs-toggle="modal" data-bs-target="#imageModal" data-index="{{ forloop.counter }}">
+					{% endfor %}
+				</div>
+			</div>
 
-      <div class="col-md-4">
-        <p class="product_id mt-3">id: {{ product.display_id }}</p>
-      </div>
-    </div>
+			<div class="col-md-4">
+				<p class="product_id mt-3">id: {{ product.display_id }}</p>
+			</div>
+		</div>
 
-    <!-- Увеличить изображение в модальном окне -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="imageModalLabel">{{ product.name }}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-          </div>
-          <div class="modal-body position-relative">
-            <img id="modalImage" src="" class="img-fluid" alt="{{ product.name }}">
+		<!-- Увеличить изображение в модальном окне -->
+		<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="imageModalLabel">{{ product.name }}</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+					</div>
+					<div class="modal-body position-relative">
+						<img id="modalImage" src="" class="img-fluid" alt="{{ product.name }}">
 
-            <!-- Кнопка "Назад" -->
-            <button type="button" id="prevImage" class="btn btn-light position-absolute start-0 top-50 translate-middle-y">
-              <span class="bi bi-chevron-left">Назад</span>
-            </button>
+						<!-- Кнопка "Назад" -->
+						<button type="button" id="prevImage" class="btn btn-light position-absolute start-0 top-50 translate-middle-y">
+							<span class="bi bi-chevron-left">Назад</span>
+						</button>
 
-            <!-- Кнопка "Вперед" -->
-            <button type="button" id="nextImage" class="btn btn-light position-absolute end-0 top-50 translate-middle-y">
-              <span class="bi bi-chevron-right">Вперед</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+						<!-- Кнопка "Вперед" -->
+						<button type="button" id="nextImage" class="btn btn-light position-absolute end-0 top-50 translate-middle-y">
+							<span class="bi bi-chevron-right">Вперед</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <!-- Описание товара -->
-    <div class="card-body">
-      <p class="card-text">Цена: <strong>{{ product.sell_price }} $</strong></p>
-      <h5 class="card-title">{{ product.name }}</h5>
-      <p class="card-text">{{ product.description }}</p>
-      <a href="#" class="btn btn-dark add-to-cart">Добавить в корзину</a>
-    </div>
-  </div>
+		<!-- Описание товара -->
+		<div class="card-body">
+			<p class="card-text">Цена: <strong>{{ product.sell_price }} $</strong></p>
+			<h5 class="card-title">{{ product.name }}</h5>
+			<p class="card-text">{{ product.description }}</p>
+			<a href="#" class="btn btn-dark add-to-cart">Добавить в корзину</a>
+		</div>
+	</div>
 </div>
 
 

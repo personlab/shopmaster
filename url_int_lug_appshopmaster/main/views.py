@@ -2,13 +2,31 @@ from turtle import title
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import context
+import requests
 
 from goods import views
 from goods.models import Categories
 from main.models import Slide
+from django.conf import settings
+from django.http import JsonResponse
+from blog.models import Hero
 
 #  С применением классов
 from django.views import View
+
+
+class SendMessageTelegramView:
+		def send_message(self, message):
+				bot_token = settings.TELEGRAM_BOT_TOKEN
+				chat_id = settings.TELEGRAM_CHAT_ID
+				url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
+
+				payload = {
+						'chat_id': chat_id,
+						'text': message,
+				}
+
+				requests.post(url, data=payload)
 
 
 class IndexView(View):
@@ -20,99 +38,6 @@ class IndexView(View):
 			}
 			return render(request, 'main/index.html', context=context)
 		
-
-# class IndexView(View):
-
-# 	def get(self, request):
-# 		context = {
-# 			'title': 'Home - Главная',
-# 			'slides': [
-# 					{
-# 							'bg_image': 'deps/images/bg-1-1.png',
-# 							'animal_name': 'Goblin Mine',
-# 							'animal_image': 'deps/images/animal-1-1.png',
-# 							'caption': 'Собирай целые горы золота',
-# 							'paragraph': 'Goblin Mine Game – это захватывающая экономическая игра, в которой вы можете стать настоящим магнатом в мире гоблинов! Погрузитесь в уникальную атмосферу фантастической шахты, добывайте редкие ресурсы, управляйте гоблинскими рабочими и развивайте свои активы.',
-# 							'video': 'deps/videos/animal-video-1.mp4',
-# 							'video_description': 'Игра предлагает увлекательный симбиоз стратегии и экономики: выбирайте оптимальные стратегии для достижения успеха, улучшайте технологии и расширяйте свои владения.'
-# 					},
-# 					{
-# 							'bg_image': 'deps/images/bg-2-2.jpg',
-# 							'animal_name': 'CITY HOLDER',
-# 							'animal_image': 'deps/images/animal-2-2.png',
-# 							'caption': 'Выбери свой стиль игры: стелс или штурм',
-# 							'paragraph': 'В мире, охваченном кризисами и катастрофами, City Holder предлагает вам шанс построить свое собственное будущее. Создавайте и управляйте своим городом, зарабатывайте токены за внутриигровую активность и просто наслаждайтесь опытом!',
-# 							'video': 'deps/videos/animal-video-2.mp4',
-# 							'video_description': 'Наш токен $CITY скоро будет доступен на основных криптовалютных биржах, что предоставит еще больше возможностей.'
-# 					},
-# 					{
-# 							'bg_image': 'deps/images/bg-3.jpg',
-# 							'animal_name': 'Red FOX',
-# 							'animal_image': 'deps/images/animal-3.png',
-# 							'caption': 'Wildlife Nature',
-# 							'paragraph': 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает',
-# 							'video': 'deps/videos/animal-video-3.mp4',
-# 							'video_description': 'Давно выяснено, что при оценке дизайна'
-# 					},
-# 					{
-# 							'bg_image': 'deps/images/bg-4.jpg',
-# 							'animal_name': 'Parrots',
-# 							'animal_image': 'deps/images/animal-4.png',
-# 							'caption': 'Wildlife Nature',
-# 							'paragraph': '"Lorem ipsum dolor sit amet, consectetur',
-# 							'video': 'deps/videos/animal-video-4.mp4',
-# 							'video_description': '"Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-# 					},
-# 					{
-# 							'bg_image': 'deps/images/bg-5.jpg',
-# 							'animal_name': 'Red FOX',
-# 							'animal_image': 'deps/images/animal-5.png',
-# 							'caption': 'Wildlife Nature',
-# 							'paragraph': 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает',
-# 							'video': 'deps/videos/animal-video-5.mp4',
-# 							'video_description': 'Давно выяснено, что при оценке дизайна'
-# 					},
-# 					{
-# 							'bg_image': 'deps/images/bg-6.jpg',
-# 							'animal_name': 'Parrots',
-# 							'animal_image': 'deps/images/animal-6.png',
-# 							'caption': 'Wildlife Nature',
-# 							'paragraph': '"Lorem ipsum dolor sit amet, consectetur',
-# 							'video': 'deps/videos/animal-video-6.mp4',
-# 							'video_description': '"Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-# 					},
-# 					{
-# 							'bg_image': 'deps/images/bg-7.jpg',
-# 							'animal_name': 'Red FOX',
-# 							'animal_image': 'deps/images/animal-7.png',
-# 							'caption': 'Wildlife Nature',
-# 							'paragraph': 'Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает',
-# 							'video': 'deps/videos/animal-video-7.mp4',
-# 							'video_description': 'Давно выяснено, что при оценке дизайна'
-# 					},
-# 					{
-# 							'bg_image': 'deps/images/bg-8.jpg',
-# 							'animal_name': 'Parrots',
-# 							'animal_image': 'deps/images/animal-8.png',
-# 							'caption': 'Wildlife Nature',
-# 							'paragraph': '"Lorem ipsum dolor sit amet, consectetur',
-# 							'video': 'deps/videos/animal-video-8.mp4',
-# 							'video_description': '"Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-# 					},
-# 					{
-# 							'bg_image': 'deps/images/bg-9.jpg',
-# 							'animal_name': 'Parrots',
-# 							'animal_image': 'deps/images/animal-9.png',
-# 							'caption': 'Wildlife Nature',
-# 							'paragraph': '"Lorem ipsum dolor sit amet, consectetur',
-# 							'video': 'deps/videos/animal-video-9.mp4',
-# 							'video_description': '"Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-# 					},
-# 			]
-# 		}
-# 		return render(request, 'main/index.html', context=context)
-	
-
 
 class AboutView(View):
 	def get(self, request):
@@ -126,12 +51,28 @@ class AboutView(View):
 	
 
 class ContactView(View):
+	def post(self, request):
+		user_name = request.POST.get('user_name')
+		user_email = request.POST.get('user_email')
+		user_phone = request.POST.get('email_phone')
+		user_message = request.POST.get('user_message')
+
+		message = f"Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
+
+		# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
+		telegram_sender = SendMessageTelegramView()
+		telegram_sender.send_message(message)
+
+		return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
+			
 	def get(self, request):
+		hero = Hero.objects.first()
 		context = {
 			'title': 'Home - Контакты',
 			'content': "Контакты",
 			'e_mail': "example@gmail.com",
 			'phone': '+79155040000',
+			'hero': hero,
 		}
 		return render(request, 'main/contact.html', context=context)
 	
@@ -146,13 +87,3 @@ class DroppView(View):
 			'pay': "Оплата",
 		}
 		return render(request, 'main/drop-shipping.html', context=context)
-
-
-# # Без классов 
-
-# def index(request):
-# 	return HttpResponse('Home page')
-
-
-# def about(request):
-# 	return HttpResponse('About page')

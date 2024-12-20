@@ -11,8 +11,8 @@
 		- primary meta tags
 	-->
 	<title>{{ title }}</title>
-	{% comment %} <meta name="title" content="TonGameApp - Блог>">
-	<meta name="description" content="Telegram Tap-to-Earn Crypto Games"> {% endcomment %}
+	<meta name="title" content="{{ title }}">
+	<meta name="description" content="{{ title }}">
 	<!-- Favicons for different platforms -->
 	<link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
 	<link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
@@ -30,14 +30,15 @@
 	<!--
 		- custom css link
 	-->
-<link rel="stylesheet" href="{% static "deps/css/style.css" %}">
+	<link rel="stylesheet" href="{% static "deps/css/style.css" %}">
+	<link rel="stylesheet" href="{% static "deps/css/commerce_style.css" %}">
 
-<!--
-		- preload images
--->
-<link rel="preload" as="image" href="{% static "deps/images/hero-banner.png" %}">
-<link rel="preload" as="image" href="{% static "deps/images/pattern-2.svg" %}">
-<link rel="preload" as="image" href="{% static "deps/images/pattern-3.svg" %}">
+	<!--
+			- preload images
+	-->
+	<link rel="preload" as="image" href="{% static "deps/images/hero-banner.png" %}">
+	<link rel="preload" as="image" href="{% static "deps/images/pattern-2.svg" %}">
+	<link rel="preload" as="image" href="{% static "deps/images/pattern-3.svg" %}">
 
 
 </head>
@@ -48,13 +49,13 @@
 	<header class="header" data-header>
 		<div class="container">
 
-			<a href="#" class="logo">
+			<a href="{% url "main:index" %}" class="logo">
 				<img src="{% static "deps\images\logo.svg" %}" width="119" height="37" alt="TonGameApp">
 			</a>
 
 			<nav class="navbar" data-navbar>
 				<div class="navbar-top">
-					<a href="#" class="logo">
+					<a href="{% url "main:index" %}" class="logo">
 						<img src="{% static "deps\images\logo.svg" %}" width="119" height="37" alt="TonGameApp">
 					</a>
 
@@ -68,7 +69,7 @@
 						</li>
 
 						<li>
-							<a href="{% url "catalog:index" %}" class="navbar-link hover-1" data-nav-toggler>Магазин</a>
+							<a href="{% url "catalog:index" category_slug='all' %}" class="navbar-link hover-1" data-nav-toggler>Магазин</a>
 						</li>
 
 						<li>
@@ -127,7 +128,7 @@
 
 				</div>
 
-				<p class="copyright-text">Copyright &copy; TonGameApp <span id="time"></span></p>
+				<p class="copyright-text">Copyright &copy; TonGameApp <span class="time"></span></p>
 			</nav>
 
 			<a href="#" class="btn btn-primary">Subscribe</a>
@@ -145,14 +146,14 @@
 				<!--
 					- #HERO
 				-->
-					<section class="hero" id="nome" aria-label="home">
-							<div class="container">
+					{% comment %} <section class="hero_2" id="nome" aria-label="home">
+							<div class="container"> {% endcomment %}
 
-									<div class="hero-content">
+									{% comment %} <div class="hero-content">
 										{% block content %}
 									
 										{% endblock content %}
-											{% comment %} <p class="hero-subtitle">Hello Everyone!</p>
+											<p class="hero-subtitle">Hello Everyone!</p>
 
 
 											<h1 class="headline headline-1 section-title">
@@ -173,7 +174,7 @@
 															<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
 													</button>
 
-											</div> {% endcomment %}
+											</div>
 											
 									</div>
 
@@ -186,22 +187,27 @@
 											<img src="{% static "deps/images/pattern-2.svg" %}" width="27" height="26" alt="shape" class="shape shape-1">
 
 											<img src="{% static "deps/images/pattern-3.svg" %}" width="27" height="26" alt="shape" class="shape shape-2">
-									</div>
+									</div> {% endcomment %}
 
-									<img src="{% static "deps/images/shadow-1.svg" %}" width="500" height="800" alt="" class="hero-bg hero-bg-1">
+									{% comment %} <img src="{% static "deps/images/shadow-1.svg" %}" width="500" height="800" alt="" class="hero-bg hero-bg-1">
 
-									<img src="{% static "deps/images/shadow-2.svg" %}" width="500" height="500" alt="" class="hero-bg hero-bg-2">
+									<img src="{% static "deps/images/shadow-2.svg" %}" width="500" height="500" alt="" class="hero-bg hero-bg-2"> {% endcomment %}
 
 
-							</div>
-					</section>
+							{% comment %} </div>
+					</section> {% endcomment %}
 
 					<!--
 						- #TOPICS
 					-->
 					{% comment %} <section class="topics" id="topics" aria-labelledby="topic-label">
 							<div class="container">
-									<div class="card topic-card">
+								
+								{% comment %} {% block content %}
+								{% endblock content %} {% endcomment %}
+								
+
+									{% comment %} <div class="card topic-card">
 											<div class="card-content">
 													<h2 class="headline headline-2 section-title card-title" id="topic-label">
 														Hot topics
@@ -252,7 +258,7 @@
 												</ul>
 										</div>
 
-									</div>
+									</div> 
 
 							</div>
 					</section> {% endcomment %}
@@ -679,12 +685,12 @@
 					<!--
 						- #RECENT POST
 					-->
-					{% comment %} <section class="section recent-post" id="recent" aria-labelledby="recent-label" >
+					<section class="section recent-post" id="recent" aria-labelledby="recent-label" >
 						<div class="container">
 
 								<div class="post-main">
 
-										<h2 class="headline headline-2 section-title">
+										{% comment %} <h2 class="headline headline-2 section-title">
 												<span class="span">Recent Post</span>
 										</h2>
 
@@ -901,7 +907,11 @@
 													<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
 												</a>
 
-										</nav>
+										</nav> {% endcomment %}
+
+										{% block content %}
+									
+										{% endblock content %}
 
 								</div>
 
@@ -1124,10 +1134,10 @@
 												</a>
 
 												<p class="card-text">
-														Follow us on instagram
+														Follow us on instagramss
 												</p>
 
-												<ul class="insta-list">
+												{% comment %} <ul class="insta-list">
 
 														<li>
 																<a href="#" class="insta-post img-holder" style="--width: 276; --height: 277;">
@@ -1183,14 +1193,24 @@
 															</a>
 														</li>
 
-												</ul>
+												</ul> {% endcomment %}
+												<div class="hero-banner">
+													{% if hero and hero.image %}
+														<img src="{{ hero.image.url }}" width="327" height="490" alt="" class="w-100">
+													{% else %}
+														<img src="{% static "deps/images/hero-banner.png" %}" width="327" height="490" alt="" class="w-100">
+													{% endif %}
+														{% comment %} <img src="{% static "deps/images/pattern-2.svg" %}" width="27" height="26" alt="shape" class="shape shape-1">
+			
+														<img src="{% static "deps/images/pattern-3.svg" %}" width="27" height="26" alt="shape" class="shape shape-2"> {% endcomment %}
+												</div>
 
 										</div>
 
 								</div>
 
 						</div>
-					</section> {% endcomment %}
+					</section>
 
 
 			</article>
@@ -1201,162 +1221,11 @@
 		- #FOOTER
 	-->
 
-	{% block footer %}
-		
-	{% endblock footer %}
+{% block footer %}
 
-	{% comment %} <footer>
-			<div class="container">
 
-					<div class="card footer">
+{% endblock footer %}
 
-							<div class="section footer-top">
-
-									<div class="footer-brand">
-
-											<a href="#" class="logo">
-													<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
-											</a>
-
-											<p class="footer-text">
-													When an unknown prnoto sans took a galley and scrambled it to make specimen book not only five When an unknown prnoto sans took a galley and scrambled it to five centurie.
-											</p>
-
-											<p class="footer-list-title">Address</p>
-
-											<address class="footer-text address">
-												123 Main Street <br>
-												New York, NY 10001
-											</address>
-
-									</div>
-
-									<div class="footer-list">
-
-											<p class="footer-list-title">Categories</p>
-
-											<ul>
-
-													<li>
-														<a href="#" class="footer-link hover-2">Action</a>
-													</li>
-
-													<li>
-														<a href="#" class="footer-link hover-2">Bisiness</a>
-													</li>
-
-													<li>
-														<a href="#" class="footer-link hover-2">Adventure</a>
-													</li>
-
-													<li>
-														<a href="#" class="footer-link hover-2">Canada</a>
-													</li>
-
-													<li>
-														<a href="#" class="footer-link hover-2">America</a>
-													</li>
-
-													<li>
-														<a href="#" class="footer-link hover-2">Curiosity</a>
-													</li>
-
-													<li>
-														<a href="#" class="footer-link hover-2">Animal</a>
-													</li>
-
-													<li>
-														<a href="#" class="footer-link hover-2">Dental</a>
-													</li>
-
-													<li>
-														<a href="#" class="footer-link hover-2">Biology</a>
-													</li>
-
-													<li>
-														<a href="#" class="footer-link hover-2">Design</a>
-													</li>
-
-													<li>
-														<a href="#" class="footer-link hover-2">Breakfast</a>
-													</li>
-
-													<li>
-														<a href="#" class="footer-link hover-2">Dessert</a>
-													</li>
-
-											</ul>
-
-									</div>
-
-									<div class="footer-list">
-
-											<p class="footer-list-title">Newsletter</p>
-
-											<p class="footer-text">
-													Sign up to be first to receive the latest stories inspiring us, case studies, and industry news.
-											</p>
-
-											<div class="input-wrapper">
-													<input type="text" name="name" placeholder="You name" required id="" class="input-field" autocomplete="off">
-
-													<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-											</div>
-
-											<div class="input-wrapper">
-													<input type="email" name="email_address" placeholder="Email address" required id="" class="input-field" autocomplete="off">
-
-													<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
-											</div>
-
-											<a href="#" class="btn btn-primary">
-													<span class="span">Subscribe</span>
-
-													<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
-											</a>
-
-									</div>
-
-							</div>
-
-							<div class="footer-bottom">
-									<p class="copyright">
-											Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a> <span id="time"></span>
-									</p>
-
-									<ul class="social-list">
-
-											<li>
-													<a href="#" class="social-link">
-														<ion-icon name="logo-twitter"></ion-icon>
-
-														<span class="span">Twitter</span>
-													</a>
-											</li>
-
-											<li>
-													<a href="#" class="social-link">
-														<ion-icon name="logo-linkedin"></ion-icon>
-
-														<span class="span">Linkedin</span>
-													</a>
-											</li>
-
-											<li>
-													<a href="#" class="social-link">
-														<ion-icon name="logo-instagram"></ion-icon>
-
-														<span class="span">Instagram</span>
-													</a>
-											</li>
-
-									</ul>
-							</div>
-
-					</div>
-
-			</div>
-	</footer> {% endcomment %}
 
 
 	<!-- 
@@ -1374,6 +1243,7 @@
 	<script src="{% static "deps/js/script/script-time.js" %}"></script>
 	<script src="{% static "deps/js/script/script-blog.js" %}"></script>
 	<script src="{% static "deps/js/script/script-mains.js" %}"></script>
+	<script src="{% static "deps/js/script/script-commerce.js" %}"></script>
 
 	
 	<!--
@@ -1381,5 +1251,13 @@
 	-->
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+	<!-- 
+	- email js
+	-->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="{% static "deps/js/script/script-email.js" %}"></script>
+
+		
 </body>
 </html>

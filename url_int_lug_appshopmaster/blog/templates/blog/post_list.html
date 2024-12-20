@@ -48,13 +48,13 @@
 	<header class="header" data-header>
 		<div class="container">
 
-			<a href="#" class="logo">
+			<a href="{% url "main:index" %}" class="logo">
 				<img src="{% static "deps\images\logo.svg" %}" width="119" height="37" alt="TonGameApp">
 			</a>
 
 			<nav class="navbar" data-navbar>
 				<div class="navbar-top">
-					<a href="#" class="logo">
+					<a href="{% url "main:index" %}" class="logo">
 						<img src="{% static "deps\images\logo.svg" %}" width="119" height="37" alt="TonGameApp">
 					</a>
 
@@ -104,7 +104,7 @@
 						</li>
 
 						<li>
-							<a href="{% url "catalog:index" %}" class="navbar-bottom-link hover-1">Магазин</a>
+							<a href="{% url "catalog:index" category_slug='all' %}" class="navbar-bottom-link hover-1">Магазин</a>
 						</li>
 
 						<li>
@@ -122,11 +122,15 @@
 						<li>
 							<a href="#" class="navbar-bottom-link hover-1">Sign Out</a>
 						</li>
+
+						<li>
+							<a href="{% url "blog:post_list" %}" class="navbar-bottom-link hover-1">Блог</a>
+						</li>
 					</ul>
 
 				</div>
 
-				<p class="copyright-text">Copyright &copy; TonGameApp <span id="time"></span></p>
+				<p class="copyright-text">Copyright &copy; TonGameApp<span class="time"></span></p>
 			</nav>
 
 			<a href="#" class="btn btn-primary">Subscribe</a>
@@ -137,25 +141,29 @@
 		</div>
 	</header>
 
-
 	<main>
 			<article>
 
 				<!--
 					- #HERO
 				-->
-					<section class="hero" id="nome" aria-label="home">
+					<section class="hero" id="home" aria-label="home">
 							<div class="container">
 
 									<div class="hero-content">
-											<p class="hero-subtitle">Hello Everyone!</p>
-
-											<h1 class="headline headline-1 section-title">
-													I'm <span class="span">Wren Clark</span>
+											<p class="hero-subtitle">{{ hero.subtitle }}</p>
+											{% if hero %}
+												<h1 class="headline headline-1 section-title">
+														<a href="https://t.me/GameAppTon_bot" target="_blank">TonGameApp</a> <span class="span">{{ hero.title }}</span>
+												</h1>
+											{% else %}
+												<h1 class="headline headline-1 section-title">
+													<span class="span">Напиши что нибудь</span>
 											</h1>
+											{% endif %}
 
 											<p class="hero-text">
-												I use animation as a third dimension by which to simplify experiences and kuiding thro each and every interaction. I’m not adding motion just to spruce things up, but doing it in ways that.
+												{{ hero.content }}
 											</p>
 
 											<div class="input-wrapper">
@@ -266,7 +274,7 @@
 									</p>
 
 									<ul class="feature-list">
-
+								{% comment %} 
 										{% for item in featured_items %}
 										
 											<li>
@@ -280,9 +288,15 @@
 		
 																<div class="card-wrapper">
 																		<div class="card-tag">
-																				<a href="#" class="span hover-2">#Travel</a>
-		
-																				<a href="#" class="span hover-2">#Lifestyle</a>
+
+																			{% for post, tags in posts_with_tags %}
+
+																									{% for tag in tags %}
+																											<a href="{% url 'blog:tag_posts' tag.id %}" class="span hover-2">#{{ tag.name }}</a>
+																									{% endfor %}
+
+																			{% endfor %}
+
 																		</div>
 		
 																		<div class="wrapper">
@@ -321,6 +335,51 @@
 													</div>
 											</li>
 
+										{% endfor %}
+								{% endcomment %}
+
+										{% for item, tags in featured_items_with_tags %}
+												<li>
+														<div class="card feature-card">
+																<figure class="card-banner img-holder" style="--width: 1602; --height: 903;">
+																		<img src="{{ item.image.url }}" width="1602" height="903" loading="lazy" alt="{{ item.title }}" class="img-cover">
+																</figure>
+																<div class="card-content">
+																		<div class="card-wrapper">
+																				<div class="card-tag">
+																					
+
+																							{% for tag in tags %}
+																									<a href="{% url 'blog:tag_posts' tag.id %}" class="span hover-2">#{{ tag.name }}</a>
+																							{% endfor %}
+
+																					
+																				</div>
+																				<div class="wrapper">
+																						<ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+																						<span class="span">{{ item.reading_time }}</span>
+																				</div>
+																		</div>
+																		<h3 class="headline headline-3">
+																				<a href="{{ item.link }}" class="card-title hover-2">{{ item.title }}</a>
+																		</h3>
+																		<div class="card-wrapper">
+																				<div class="profile-card">
+																					{% if item and item.author_image %}
+																							<img src="{{ item.author_image.url }}" width="48" height="48" loading="lazy" alt="{{ item.author_name }}" class="profile-banner">
+																						{% else %}
+																							<img src="{% static "deps\images\Not found image.png" %}" width="48" height="48" alt="" class="profile-banner">
+																					{% endif %}
+																						<div>
+																							<p class="card-title">{{ item.author_name }}</p>
+																							<p class="card-subtitle">{{ item.created_at }}</p>
+																					</div>
+																			</div>
+																			<a href="{{ item.link }}" target="_blank" class="card-btn">Больше</a>
+																	</div>
+															</div>
+													</div>
+											</li>
 										{% endfor %}
 
 		
@@ -1195,12 +1254,13 @@
 			</article>
 	</main>
 
+	{% block footer %}
 
 	<!--
 		- #FOOTER
 	-->
 
-	<footer>
+	<footer id="contact">
 			<div class="container">
 
 					<div class="card footer">
@@ -1209,7 +1269,7 @@
 
 									<div class="footer-brand">
 
-											<a href="#" class="logo">
+											<a href="{% url "main:index" %}" class="logo">
 													<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
 											</a>
 
@@ -1286,29 +1346,50 @@
 
 									<div class="footer-list">
 
-											<p class="footer-list-title">Newsletter</p>
+										<form action="" id="contact-form">
+											{% csrf_token %}
+												<p class="footer-list-title">Contact me</p>
 
-											<p class="footer-text">
-													Sign up to be first to receive the latest stories inspiring us, case studies, and industry news.
-											</p>
+												<p class="footer-text">
+														У вас есть вопросы? Напишите мне.
+												</p>
 
-											<div class="input-wrapper">
-													<input type="text" name="name" placeholder="You name" required id="" class="input-field" autocomplete="off">
+												<div class="input-wrapper">
+														<input type="text" name="user_name" placeholder="You name" required id="" class="input-field" autocomplete="off">
 
-													<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-											</div>
+														<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+												</div>
 
-											<div class="input-wrapper">
-													<input type="email" name="email_address" placeholder="Email address" required id="" class="input-field" autocomplete="off">
+												<div class="input-wrapper">
+														<input type="email" name="user_email" placeholder="Email address" required id="" class="input-field" autocomplete="off">
 
-													<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
-											</div>
+														<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+												</div>
 
-											<a href="#" class="btn btn-primary">
-													<span class="span">Subscribe</span>
+												<div class="input-wrapper">
+														<input type="tel" name="email_phone" placeholder="You nomber" required id="" class="input-field" autocomplete="off">
 
-													<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
-											</a>
+														<ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
+												</div>
+
+												<div class="input-wrapper">
+													<textarea name="user_message" class="input-field" cols="30" rows="6" placeholder="Сообщение" required ></textarea>
+													<div class="ion_mess">
+															<ion-icon name="send-outline"></ion-icon>
+													</div>
+												</div>
+
+
+												<button type="submit" class="btn btn-primary">
+														<span class="span">Отправить</span>
+
+														<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+												</button>
+
+											</br>
+
+												<p class="contact__message" id="contact-message">Статус отправки</p>
+										</form>
 
 									</div>
 
@@ -1316,7 +1397,7 @@
 
 							<div class="footer-bottom">
 									<p class="copyright">
-											Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a> <span id="time"></span>
+											Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a><span class="time"></span>
 									</p>
 
 									<ul class="social-list">
@@ -1352,6 +1433,14 @@
 
 			</div>
 	</footer>
+	<script src="{% static "deps/js/script/script-email.js" %}"></script>
+
+	{% endblock footer %}
+
+
+
+
+
 
 
 	<!-- 
@@ -1369,6 +1458,8 @@
 	<script src="{% static "deps/js/script/script-time.js" %}"></script>
 	<script src="{% static "deps/js/script/script-blog.js" %}"></script>
 	<script src="{% static "deps/js/script/script-mains.js" %}"></script>
+	<!-- email js -->
+
 
 	
 	<!--
@@ -1376,6 +1467,14 @@
 	-->
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+	<!-- 
+		- email js
+		-->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="{% static "deps/js/script/script-email.js" %}"></script>
+
+
 </body>
 </html>
 
