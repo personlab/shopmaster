@@ -1,7 +1,8 @@
 from itertools import product
 from django.conf import settings
+from django.core.paginator import Paginator
 from django.http import JsonResponse, request
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_list_or_404, render, get_object_or_404
 from django.views import View
 import requests
 
@@ -38,18 +39,24 @@ class CatalogView(View):
 
 				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
 
-		def get(self, request, category_slug):
+		def get(self, request, category_slug, page=1):
 			hero = Hero.objects.first()
 
 			if category_slug == 'all':
 					goods = Products.objects.all()
 			else:
-					goods = Products.objects.filter(category__slug=category_slug)
+					goods = get_list_or_404(
+						Products.objects.filter(category__slug=category_slug)
+						) # get_list_or_404 если ожидаем список
+					
+			paginator = Paginator(goods, 3)
+			current_page = paginator.page(page)
 
 			context = {
 							"title": "Home - Каталог",
-							"goods": goods,
 							"hero": hero,
+							"goods": current_page,
+							"slug_url": category_slug,
 					}
 			return render(request, "goods/catalog.html", context=context)
 
@@ -71,7 +78,7 @@ class ProductView(View):
 		def get(self, request, product_slug=False, product_id=False):
 				
 				if product_id:
-						product = get_object_or_404(Products, id=product_id)
+						product = get_object_or_404(Products, id=product_id) # get_object_or_404 ошибка если нет объекта
 				else:
 						product = get_object_or_404(Products, slug=product_slug)
 				context = {

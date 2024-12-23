@@ -126,17 +126,18 @@
 									<div class="card__content__one">
 
 										<div class="card__cat">
-											<a href="#" class="card__cat__link">Men</a> /
-											<a href="#" class="card__cat__link">Women</a>
-										</br>
-										<p class="product_id">id: {{ product.display_id }}</p>
+											<a href="{% url "catalog:index" product.category.slug %}" class="card__cat__link">{{ product.category.name }}</a> /
+											<a href="{% url "catalog:product" product.slug %}" class="card__cat__link">{{ product.description|truncatechars:15 }}</a>
+										{% comment %} </br>
+										<p class="product_id">id: {{ product.display_id }}</p> {% endcomment %}
 										</div>
 
 										<h3 class="h3 card__title">
-											{% comment %} <a href="{% url "catalog:product" product.slug %}"> {% endcomment %}
-												{% comment %} <p class="card__title">{{ product.name }}</p> {% endcomment %}
-										{% comment %} </a> {% endcomment %}
+											<a href="{% url "catalog:product" product.slug %}">
+												<p class="card__title">{{ product.name }}</p>
+										</a>
 										</h3>
+											<p class="product_id">id: {{ product.display_id }}</p>
 
 										{% if product.discount %}
 												<data value="{{ product.sell_price }}" class="card__price">${{ product.sell_price }} <del>{{ product.price }} $</del></data>
@@ -156,6 +157,75 @@
 
 				{% endfor %}
 
+				<!-- ========================================================== -->
+
+				{% comment %} <nav aria-label="pagination" class="pagination">
+
+					<a href="{% if goods.has_previous %}
+					{% url "catalog:index" slug_url goods.previous_page_number %}
+					{% else %}
+							#
+					{% endif %}" class="pagination-btn {% if not goods.has_previous %} disabled {% endif %}" aria-label="previous page">
+							<ion-icon name="arrow-back" aria-hidden="true"></ion-icon>
+					</a>
+
+					{% for page in goods.paginator.page_range %}
+							<a href="{% url "catalog:index" slug_url page %}" class="pagination-btn{% if goods.number == page %} active__button {% endif %}">{{ page }}</a>
+					{% endfor %}
+					<a href="#" class="pagination-btn" aria-laber="more page">...</a>
+
+
+					<a href="{% if goods.has_next %}
+					{% url "catalog:index" slug_url goods.next_page_number %}
+					{% else %}
+							#
+					{% endif %}" class="pagination-btn {% if not goods.has_next %} disabled {% endif %}" aria-label="next page">
+							<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+					</a>
+
+				</nav> {% endcomment %}
+
+					<!-- ========================================================== -->
+
+					<nav aria-label="pagination" class="pagination pagination-sm">
+
+						<!-- Кнопка "Назад" -->
+						<a href="{% if goods.has_previous %}
+								{% url 'catalog:index' slug_url goods.previous_page_number %}
+						{% else %}
+								#
+						{% endif %}" 
+						class="pagination-btn {% if not goods.has_previous %} disabled {% endif %}" aria-label="previous page">
+								<ion-icon name="arrow-back" aria-hidden="true"></ion-icon>
+						</a>
+				
+						<!-- Логика для 5 кнопок с центральной позицией -->
+						{% with left=goods.number|add:'-1' center=goods.number right=goods.number|add:'+1' %}
+								{% for page in goods.paginator.page_range %}
+										{% if page == 1 or page == goods.paginator.num_pages %}
+												<!-- Первая и последняя страницы всегда отображаются -->
+												<a href="{% url 'catalog:index' slug_url page %}" class="pagination-btn{% if goods.number == page %} active__button {% endif %}">{{ page }}</a>
+										{% elif page >= left and page <= right %}
+												<!-- Показывать диапазон страниц вокруг центральной -->
+												<a href="{% url 'catalog:index' slug_url page %}" class="pagination-btn{% if goods.number == page %} active__button {% endif %}">{{ page }}</a>
+										{% elif page == left|add:'-1' or page == right|add:'+1' %}
+												<!-- Добавить "..." для пропущенных частей -->
+												<span class="pagination-btn">...</span>
+										{% endif %}
+								{% endfor %}
+						{% endwith %}
+				
+						<!-- Кнопка "Вперед" -->
+						<a href="{% if goods.has_next %}
+								{% url 'catalog:index' slug_url goods.next_page_number %}
+						{% else %}
+								#
+						{% endif %}" 
+						class="pagination-btn {% if not goods.has_next %} disabled {% endif %}" aria-label="next page">
+								<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+						</a>
+				
+				</nav>
 
 		</section>
 

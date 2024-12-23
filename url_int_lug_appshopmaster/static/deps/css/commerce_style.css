@@ -399,6 +399,23 @@ ion-icon {
 	gap: 50px 25px;
 }
 
+.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.active__button {
+	pointer-events: none; 
+	font-weight: bold;
+	color: var(--gradient-2);
+	cursor: default;
+	font-size: var(--fs-2);
+}
+
+
+
+
 
 /*-----------------------------------*\
  * #CTA
@@ -560,6 +577,11 @@ ion-icon {
 		width: 100%;
 		margin-inline: auto;
 	}
+
+	/* .product__list {
+		grid-template-columns: 2fr 2fr;
+		display: inline-block;
+	} */
 }
 
 

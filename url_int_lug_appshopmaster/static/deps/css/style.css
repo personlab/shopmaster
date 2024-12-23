@@ -1116,6 +1116,13 @@ body.nav-active {
   #MEDIA QUERIES
 \*-----------------------------------*/
 
+
+@media (min-width: 360px) {
+	.pagination {
+		justify-content: center;
+	}
+}
+
 /**
 * responsive for large than 575px screen
 */
