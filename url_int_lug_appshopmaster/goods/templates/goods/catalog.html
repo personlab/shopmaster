@@ -190,8 +190,7 @@
 					<nav aria-label="pagination" class="pagination pagination-sm">
 
 						<!-- Кнопка "Назад" -->
-						<a href="{% if goods.has_previous %}
-								{% url 'catalog:index' slug_url goods.previous_page_number %}
+						<a href="{% if goods.has_previous %}?page={{ goods.previous_page_number }}
 						{% else %}
 								#
 						{% endif %}" 
@@ -204,10 +203,10 @@
 								{% for page in goods.paginator.page_range %}
 										{% if page == 1 or page == goods.paginator.num_pages %}
 												<!-- Первая и последняя страницы всегда отображаются -->
-												<a href="{% url 'catalog:index' slug_url page %}" class="pagination-btn{% if goods.number == page %} active__button {% endif %}">{{ page }}</a>
+												<a href="?page={{ page }}" class="pagination-btn{% if goods.number == page %} active__button {% endif %}">{{ page }}</a>
 										{% elif page >= left and page <= right %}
 												<!-- Показывать диапазон страниц вокруг центральной -->
-												<a href="{% url 'catalog:index' slug_url page %}" class="pagination-btn{% if goods.number == page %} active__button {% endif %}">{{ page }}</a>
+												<a href="?page={{ page }}" class="pagination-btn{% if goods.number == page %} active__button {% endif %}">{{ page }}</a>
 										{% elif page == left|add:'-1' or page == right|add:'+1' %}
 												<!-- Добавить "..." для пропущенных частей -->
 												<span class="pagination-btn">...</span>
@@ -216,8 +215,7 @@
 						{% endwith %}
 				
 						<!-- Кнопка "Вперед" -->
-						<a href="{% if goods.has_next %}
-								{% url 'catalog:index' slug_url goods.next_page_number %}
+						<a href="{% if goods.has_next %}?page={{ goods.next_page_number }}
 						{% else %}
 								#
 						{% endif %}" 

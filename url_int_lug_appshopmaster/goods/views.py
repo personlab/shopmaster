@@ -39,8 +39,10 @@ class CatalogView(View):
 
 				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
 
-		def get(self, request, category_slug, page=1):
+		def get(self, request, category_slug):
 			hero = Hero.objects.first()
+
+			page = request.GET.get('page', 1)
 
 			if category_slug == 'all':
 					goods = Products.objects.all()
@@ -50,7 +52,7 @@ class CatalogView(View):
 						) # get_list_or_404 если ожидаем список
 					
 			paginator = Paginator(goods, 3)
-			current_page = paginator.page(page)
+			current_page = paginator.page(int(page))
 
 			context = {
 							"title": "Home - Каталог",
