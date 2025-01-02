@@ -1071,6 +1071,11 @@ body.nav-active {
 	transform: translateY(-2px);
 }
 
+.tags__detail {
+	display: flex;
+	flex-direction: initial;
+}
+
 
 
 

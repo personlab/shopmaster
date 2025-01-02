@@ -4,8 +4,7 @@ from django.db import models
 from django.utils.text import slugify
 
 
-	# Модель для тегов
-
+# Модель для тегов
 class Tag(models.Model):
 		name= models.CharField(max_length=100, unique=True, verbose_name='Название тега')
 
@@ -18,8 +17,7 @@ class Tag(models.Model):
 				return self.name
 
 
-	# Модель добавление постов
-
+# Модель добавление постов
 class Post(models.Model):
 		title = models.CharField(max_length=200, verbose_name='Заголовок')
 		slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
@@ -46,8 +44,7 @@ class Post(models.Model):
 
 
 
-	# Модель главного героя и приветствия на странице блог
-
+# Модель главного героя и приветствия на странице блог
 class Hero(models.Model):
 	subtitle = models.CharField(max_length=200, blank=True, null=True, verbose_name='Подзаголовок')
 	title = models.CharField(max_length=200, verbose_name='Приветствие')
@@ -60,17 +57,39 @@ class Hero(models.Model):
 		verbose_name_plural = 'Картинки героев и приветствие'
 
 	def __str__(self):
-		return self.image.url if self.image else 'Нет картинки'
+			return self.image.url if self.image else 'Нет картинки'
 	
 
-	# Модель раздела избранный (featured)
+		
+# Модель для добавления Recent Post
+class RecentPost(models.Model):
+		subtitle = models.CharField(max_length=200, blank=True, null=True, verbose_name='Значок')
+		title = models.CharField(max_length=200, verbose_name='Заголовок')
+		slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
+		content = models.TextField(verbose_name='Текст')
+		image = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Картинка')
+		tags = models.ManyToManyField(Tag, related_name='recentpost', verbose_name='Теги')  # Добавлено это поле
+		created_at = models.DateTimeField(auto_now_add=True)
+		reading_time = models.IntegerField(default=0, verbose_name='Время чтения')
+		author_name = models.CharField(max_length=100, verbose_name='Имя автора')
 
+		class Meta:
+				db_table = 'posts Recent Post'
+				verbose_name = 'в recent post'
+				verbose_name_plural = 'Recent Post'
+
+		def __str__(self):
+				return self.title
+		
+
+
+# Модель раздела избранный (featured)
 class Featured(models.Model):
 	title = models.CharField(max_length=200, verbose_name='Заголовок')
 	image = models.ImageField(upload_to='images/', blank=True, null=True, verbose_name='Картинка')
 	link = models.URLField(max_length=200, blank=True, null=True, verbose_name='Ссылка')
 	reading_time = models.CharField(max_length=20, default='3 mins read', verbose_name='Время чтения')
-	author_name = models.CharField(max_length=100, verbose_name='Имя автора')
+	author_name = models.CharField(max_length=100, default='admin', verbose_name='Имя автора')
 	author_image = models.ImageField(upload_to='author_images/', blank=True, null=True, verbose_name='Изображение автора')
 	created_at = models.DateTimeField(auto_now_add=True)
 	# Добавляем связь с моделью Post
@@ -83,3 +102,17 @@ class Featured(models.Model):
 
 	def __str__(self):
 			return self.title
+	
+	def save(self, *args, **kwargs):
+		"""
+		Переопределенный метод save. При обновлении записи в модели Featured
+		подтягиваем время чтения из связанного поста (если пост выбран).
+		"""
+		if self.post:
+				# Если пост выбран, обновляем reading_time и author_name
+				self.reading_time = f"{self.post.reading_time} mins read"
+				self.author_name = self.post.author_name
+		elif not self.author_name:
+				# Если имя автора не указано, используем "admin" по умолчанию
+				self.author_name = "admin"
+		super().save(*args, **kwargs)

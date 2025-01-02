@@ -273,122 +273,119 @@
 		-->
 
 		<section class="section section__special">
-
-			{% comment %} <div class="container"> {% endcomment %}
-
-				<div class="special__banner" style="background-image: url('{% static "deps/Footcap/assets/images/special-banner.jpg" %}');">
-					<h2 class="h3 banner__title">New Trend Edition</h2>
+			<div class="container">
 	
-					<a href="#" class="btn_collect_link btn__link">
-						<span>Explore All</span>
-	
-						<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
-					</a>
-				</div>
-	
-				<div class="special__product">
-	
-						<h2 class="section__title">
-							<span class="span__text">Nike Special</span>
-	
-							<span class="span__line"></span>
-						</h2>
-	
-						
-						<ul class="hascol-scrollbar">
-								{% for product in goods %}
-	
-								<li class="product__item">
-	
-									<div class="product__card" tabindex="0">
-	
-										<figure class="card__banner">
-											{% if product.image %} <!-- проверка на установленную картинку, показывать если есть-->
-													<img src="{{ product.image.url }}" class="image__contain" width="350" height="350" loading="lazy" alt="{{ product.name }}">
-											{% else %}
-													<img src="{% static "deps\images\Not found image.png" %}" class="card-img-top" alt="...">  <!-- если нет картинки -->
-											{% endif %}
-	
-	
-											<div class="card__badge">Скидка {{ product.discount }} %</div>
-	
-											<ul class="card__action__list">
-	
-												<li class="card__action__item">
-													<button class="card__action__btn" area-labelledby="card__label__1" >
-														<ion-icon name="cart-outline"></ion-icon>
-													</button>
-	
-													<div class="card__action__tooltip" id="card__label__1">Add to Card</div>
-												</li>
-	
-												<li class="card__action__item">
-													<button class="card__action__btn" area-labelledby="card__label__2" >
-														<ion-icon name="heart-outline"></ion-icon>
-													</button>
-	
-													<div class="card__action__tooltip" id="card__label__2">Add to Whishlist</div>
-												</li>
-	
-												<li class="card__action__item">
-													<button class="card__action__btn" area-labelledby="card__label__3" >
-														<a href="{% url "catalog:product" product.slug %}">
-															<ion-icon name="eye-outline"></ion-icon>
-													</a>
-													</button>
-	
-													<div class="card__action__tooltip" id="card__label__3">Quick View</div>
-												</li>
-	
-												<li class="card__action__item">
-													<button class="card__action__btn" area-labelledby="card__label__4" >
-														<ion-icon name="repeat-outline"></ion-icon>
-													</button>
-	
-													<div class="card__action__tooltip" id="card__label__4">Compare</div>
-												</li>
-	
-											</ul>
-										</figure>
-	
-										<div class="card__content__one">
-	
-											<div class="card__cat">
-												<a href="#" class="card__cat__link">Men</a> /
-												<a href="#" class="card__cat__link">Women</a>
-											</br>
-											<p class="product_id">id: {{ product.display_id }}</p>
+					<div class="special__banner" style="background-image: url('{% static "deps/Footcap/assets/images/special-banner.jpg" %}');">
+						<h2 class="h3 banner__title">New Trend Edition</h2>
+		
+						<a href="#" class="btn_collect_link btn__link">
+							<span>Explore All</span>
+		
+							<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+						</a>
+					</div>
+		
+					<div class="special__product">
+		
+							<h2 class="section__title">
+								<span class="span__text">Nike Special</span>
+		
+								<span class="span__line"></span>
+							</h2>
+		
+							
+							<ul class="hascols-scrollbar">
+									{% for product in goods %}
+		
+									<li class="product__item">
+		
+										<div class="product__card" tabindex="0">
+		
+											<figure class="card__banner">
+												{% if product.image %} <!-- проверка на установленную картинку, показывать если есть-->
+														<img src="{{ product.image.url }}" class="image__contain" width="350" height="350" loading="lazy" alt="{{ product.name }}">
+												{% else %}
+														<img src="{% static "deps\images\Not found image.png" %}" class="card-img-top" alt="...">  <!-- если нет картинки -->
+												{% endif %}
+		
+		
+												<div class="card__badge">Скидка {{ product.discount }} %</div>
+		
+												<ul class="card__action__list">
+		
+													<li class="card__action__item">
+														<button class="card__action__btn" area-labelledby="card__label__1" >
+															<ion-icon name="cart-outline"></ion-icon>
+														</button>
+		
+														<div class="card__action__tooltip" id="card__label__1">Add to Card</div>
+													</li>
+		
+													<li class="card__action__item">
+														<button class="card__action__btn" area-labelledby="card__label__2" >
+															<ion-icon name="heart-outline"></ion-icon>
+														</button>
+		
+														<div class="card__action__tooltip" id="card__label__2">Add to Whishlist</div>
+													</li>
+		
+													<li class="card__action__item">
+														<button class="card__action__btn" area-labelledby="card__label__3" >
+															<a href="{% url "catalog:product" product.slug %}">
+																<ion-icon name="eye-outline"></ion-icon>
+														</a>
+														</button>
+		
+														<div class="card__action__tooltip" id="card__label__3">Quick View</div>
+													</li>
+		
+													<li class="card__action__item">
+														<button class="card__action__btn" area-labelledby="card__label__4" >
+															<ion-icon name="repeat-outline"></ion-icon>
+														</button>
+		
+														<div class="card__action__tooltip" id="card__label__4">Compare</div>
+													</li>
+		
+												</ul>
+											</figure>
+		
+											<div class="card__content__one">
+		
+												<div class="card__cat">
+													<a href="#" class="card__cat__link">Men</a> /
+													<a href="#" class="card__cat__link">Women</a>
+												</br>
+												<p class="product_id">id: {{ product.display_id }}</p>
+												</div>
+		
+												<h3 class="h3 card__title">
+													{% comment %} <a href="{% url "catalog:product" product.slug %}">
+														<p class="card__title">{{ product.name }}</p>
+												</a> {% endcomment %}
+												</h3>
+		
+												{% if product.discount %}
+														<data value="{{ product.sell_price }}" class="card__price">${{ product.sell_price }} <del>{{ product.price }} $</del></data>
+														
+												{% else %}
+														<p><strong>{{ product.price }}</strong></p>
+												{% endif %}
+		
+		
 											</div>
-	
-											<h3 class="h3 card__title">
-												{% comment %} <a href="{% url "catalog:product" product.slug %}">
-													<p class="card__title">{{ product.name }}</p>
-											</a> {% endcomment %}
-											</h3>
-	
-											{% if product.discount %}
-													<data value="{{ product.sell_price }}" class="card__price">${{ product.sell_price }} <del>{{ product.price }} $</del></data>
-													
-											{% else %}
-													<p><strong>{{ product.price }}</strong></p>
-											{% endif %}
-	
-	
+		
 										</div>
-	
-									</div>
-	
-								</li>
-	
-								{% endfor %}
-							</ul>
-	
-	
-				</div>
+		
+									</li>
+		
+									{% endfor %}
+								</ul>
+		
+		
+					</div>
 
-			{% comment %} </div> {% endcomment %}
-
-
+			</div>
 		</section>
 
 

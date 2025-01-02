@@ -8,10 +8,10 @@ from django.shortcuts import render, get_object_or_404
 from django.test import tag
 from django.views import View
 
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 import requests
 
-from .models import Post, Hero, Featured, Tag
+from .models import Post, Hero, Featured, RecentPost, Tag
 
 class SendMessageTelegramView:
 		def send_message(self, message):
@@ -44,25 +44,41 @@ class PostsView(View):
 				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
 
 		def get(self, request):
-				# hero = Hero.objects.first()
 				hero = Hero.objects.first()
-				posts = Post.objects.all()
-				featured_items = Featured.objects.order_by('-created_at')[:5]
+
+				# Проверяем наличие записей в модели Post
+				posts = Post.objects.all() if Post.objects.exists() else []
+
+				# Проверяем наличие записей в модели RecentPost
+				recent_posts_with_tags = []
+				if RecentPost.objects.exists():
+						recent_posts = RecentPost.objects.all()
+						for recent_post in recent_posts:
+								tags = recent_post.tags.all()  # Получаем теги для каждого поста
+								recent_posts_with_tags.append((recent_post, tags))
+				else:
+						recent_posts = []
+
+				# Проверяем наличие записей в Featured
 				featured_items_with_tags = []
-				for item in featured_items:
-						post = item.post  # Предположим, что у вас есть поле post в модель Featured
-						tags = post.tags.all() if post else []
-						featured_items_with_tags.append((item, tags))
+				if Featured.objects.exists():
+						featured_items = Featured.objects.order_by('-created_at')[:5]
+						for item in featured_items:
+								post = item.post  # Проверяем есть ли связанный пост
+								tags = post.tags.all() if post else []
+								featured_items_with_tags.append((item, tags))
 
 				context = {
 						'title': 'TonGameApp - Блог',
 						'posts': posts,
+						'recent_posts_with_tags': recent_posts_with_tags,
 						'hero': hero,
 						'featured_items_with_tags': featured_items_with_tags,
 				}
 
-
 				return render(request, 'blog/post_list.html', context=context)
+
+
 		
 
 class TagPostsView(View):
@@ -110,12 +126,31 @@ class PostDetailView(View):
 
 		def get(self, request, slug):
 				hero = Hero.objects.first()
-				post = get_object_or_404(Post, slug=slug)
-				tags = post.tags.all()
+				post = None
+				tags = []
+				recent_posts_with_tags = []
+
+				# Проверим сначала RecentPost
+				if RecentPost.objects.filter(slug=slug).exists():
+						post = get_object_or_404(RecentPost, slug=slug)
+						recent_posts = RecentPost.objects.all()
+						for recent_post in recent_posts:
+								recent_tags = recent_post.tags.all()  # Получаем теги для каждого recent_post
+								recent_posts_with_tags.append((recent_post, recent_tags))
+				# Проверим в модели Post
+				elif Post.objects.filter(slug=slug).exists():
+						post = get_object_or_404(Post, slug=slug)
+						tags = post.tags.all()
+				# Если нигде не найдено
+				else:
+						raise Http404("No post matches the given query.")
+
 				context = {
 						'title': post.title,
 						'post': post,
 						'tags': tags,
 						'hero': hero,
+						'recent_posts_with_tags': recent_posts_with_tags, # Добавляем recent_posts_with_tags
 				}
+
 				return render(request, 'blog/post_detail.html', context=context)

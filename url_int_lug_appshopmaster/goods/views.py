@@ -42,7 +42,7 @@ class CatalogView(View):
 		def get(self, request, category_slug):
 			hero = Hero.objects.first()
 
-			page = request.GET.get('page', 1)
+			page = request.GET.get('page', 1) # получаем стрницу в кнопке {% if goods.has_previous %}?page={{ goods.previous_page_number }}
 
 			if category_slug == 'all':
 					goods = Products.objects.all()

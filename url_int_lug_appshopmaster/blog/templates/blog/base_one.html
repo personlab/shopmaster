@@ -43,6 +43,45 @@
 
 </head>
 <body id="top">
+
+			{% comment %} <!-- Форма фильтров -->
+			<div class="dropdown mb-2">
+				<button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						Фильтры
+				</button>
+
+				<form action="" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="checkbox" name="on_sale" id="flexCheckDefault" value="on">
+								<input type="hidden" name="q" value="request.GET.q">
+								<label class="form-check-label" for="flexCheckDefault">
+										Товары по акции
+								</label>
+						</div>
+						<p class="text-white mx-3 mt-3">Сортировать:</p>
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault1" value="default" checked>
+								<label class="form-check-label" for="flexRadioDefault1">
+										По умолчанию
+								</label>
+						</div>
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault2" value="price">
+								<label class="form-check-label" for="flexRadioDefault2">
+										От дешевых к дорогим
+								</label>
+						</div>
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault3" value="-price">
+								<label class="form-check-label" for="flexRadioDefault3">
+										От дорогих к дешевым
+								</label>
+						</div>
+						<button type="submit" class="btn btn-primary mx-3 mt-3">Применить</button>
+				</form>
+		</div> {% endcomment %}
+
 	<!--
 		- #HEADER
 	-->
@@ -67,9 +106,9 @@
 						<li>
 							<a href="{% url "main:index" %}" class="navbar-link hover-1" data-nav-toggler>Главная</a>
 						</li>
-
+						
 						<li>
-							<a href="{% url "catalog:index" category_slug='all' %}" class="navbar-link hover-1" data-nav-toggler>Магазин</a>
+							<a href="{% url "blog:post_list" %}" class="navbar-link hover-1" data-nav-toggler>Блог</a>
 						</li>
 
 						<li>
@@ -80,9 +119,10 @@
 							<a href="{% url "main:contact" %}" class="navbar-link hover-1" data-nav-toggler>Контакты</a>
 						</li>
 
-						<li>
-							<a href="{% url "blog:post_list" %}" class="navbar-link hover-1" data-nav-toggler>Блог</a>
-						</li>
+
+						{% comment %} <li>
+							<a href="{% url "catalog:index" category_slug='all' %}" class="navbar-link hover-1" data-nav-toggler>Магазин</a>
+						</li> {% endcomment %}
 
 					</ul>
 
@@ -916,6 +956,67 @@
 								</div>
 
 								<div class="post-aside grid-list">
+
+										{% comment %} <div class="card aside-card insta-card">
+
+											<a href="#" class="logo">
+													<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
+											</a>
+
+											<p class="card-text">
+													Follow us on instagramss
+											</p> {% endcomment %}
+
+														<!-- Форма фильтров -->
+														{% comment %} <div class="dropdown mb-2">
+															<button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
+																	aria-expanded="false">
+																	Фильтры
+															</button>
+
+															<form action="" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
+																	<div class="form-check text-white mx-3">
+																			<input class="form-check-input" type="checkbox" name="on_sale" id="flexCheckDefault" value="on">
+																			<input type="hidden" name="q" value="request.GET.q">
+																			<label class="form-check-label" for="flexCheckDefault">
+																					Товары по акции
+																			</label>
+																	</div>
+																	<p class="text-white mx-3 mt-3">Сортировать:</p>
+																	<div class="form-check text-white mx-3">
+																			<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault1" value="default" checked>
+																			<label class="form-check-label" for="flexRadioDefault1">
+																					По умолчанию
+																			</label>
+																	</div>
+																	<div class="form-check text-white mx-3">
+																			<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault2" value="price">
+																			<label class="form-check-label" for="flexRadioDefault2">
+																					От дешевых к дорогим
+																			</label>
+																	</div>
+																	<div class="form-check text-white mx-3">
+																			<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault3" value="-price">
+																			<label class="form-check-label" for="flexRadioDefault3">
+																					От дорогих к дешевым
+																			</label>
+																	</div>
+																	<button type="submit" class="btn btn-primary mx-3 mt-3">Применить</button>
+															</form>
+														</div> {% endcomment %}
+
+											<!-- <div class="hero-banner">
+												{% if hero and hero.image %}
+													<img src="{{ hero.image.url }}" width="327" height="490" alt="" class="w-100">
+												{% else %}
+													<img src="{% static "deps/images/hero-banner.png" %}" width="327" height="490" alt="" class="w-100">
+												{% endif %}
+													{% comment %} <img src="{% static "deps/images/pattern-2.svg" %}" width="27" height="26" alt="shape" class="shape shape-1">
+		
+													<img src="{% static "deps/images/pattern-3.svg" %}" width="27" height="26" alt="shape" class="shape shape-2"> {% endcomment %}
+											</div> -->
+
+										{% comment %} </div> {% endcomment %}
 
 										<div class="card aside-card">
 

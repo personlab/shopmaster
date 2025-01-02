@@ -8,6 +8,7 @@
 	<h3 class="h4_collect_blog positionss">{{ post.title }}</h3>
 		<p class="hero-text positionss">{{ post.content }}</p>
 		{% if post.image %}
+				<img src="{{ post.image.url }}" alt="{{ post.title }}" class="zoomable-img img-100" style="max-width: 300px;">
 			<p class="hero-text positionss">{{ post.content_1 }}</p>
 				<img src="{{ post.image_1.url }}" alt="{{ post.title }}" class="zoomable-img img-100" style="max-width: 300px;">
 			<p class="hero-text positionss">{{ post.content_2 }}</p>
@@ -18,16 +19,15 @@
 		<p class="positionss__1"><em>Создано: {{ post.created_at }}</em></p>
 
 		<!-- Отображение тегов -->
-		<p>Теги: 
+		<p class="tags__detail">Теги:&nbsp;
 			{% if tags %}
 					{% for tag in tags %}
-							<a href="{% url 'blog:tag_posts' tag.id %}">#{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+							<a href="{% url 'blog:tag_posts' tag.id %}">#{{ tag.name }}</a>{% if not forloop.last %}&nbsp;{% endif %}
 					{% endfor %}
 			{% else %}
 					Нет тегов
 			{% endif %}
 		</p>
-
 
 <a href="{% url 'blog:post_list' %}" class="">Назад к списку постов</a>
 
