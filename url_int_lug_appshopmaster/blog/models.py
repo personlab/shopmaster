@@ -7,6 +7,7 @@ from django.utils.text import slugify
 # Модель для тегов
 class Tag(models.Model):
 		name= models.CharField(max_length=100, unique=True, verbose_name='Название тега')
+		image = models.ImageField(upload_to='tags/', null=True, blank=True, verbose_name='Изображение тега')
 
 		class Meta:
 				db_table = 'tag'

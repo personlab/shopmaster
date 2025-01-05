@@ -32,6 +32,7 @@
 	-->
 <link rel="stylesheet" href="{% static "deps/css/style.css" %}">
 
+
 <!--
 		- preload images
 -->
@@ -139,7 +140,7 @@
 				<p class="copyright-text">Copyright &copy; TonGameApp<span class="time"></span></p>
 			</nav>
 
-			<a href="#" class="btn btn-primary">Subscribe</a>
+			<a href="https://t.me/GameAppTon_bot" target="_blank" class="btn btn-primary">Subscribe</a>
 
 			<button class="nav-open-btn" area-label="open menu" data-nav-toggler>
 				<ion-icon name="menu-outline" aria-hidden="true"></ion-icon>
@@ -172,7 +173,7 @@
 												{{ hero.content }}
 											</p>
 
-											<div class="input-wrapper">
+											{% comment %} <div class="input-wrapper">
 
 													<input type="email" name="email_address" placeholder="Type your email address" required class="input-field">
 
@@ -182,7 +183,7 @@
 															<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
 													</button>
 
-											</div>
+											</div> {% endcomment %}
 											
 									</div>
 
@@ -280,69 +281,6 @@
 									</p>
 
 									<ul class="feature-list">
-								{% comment %} 
-										{% for item in featured_items %}
-										
-											<li>
-													<div class="card feature-card">
-		
-														<figure class="card-banner img-holder" style="--width: 1602; --height: 903;">
-																<img src="{{ item.image.url }}" width="1602" height="903" loading="lazy" alt="{{ item.title }}" class="img-cover">
-														</figure>
-		
-														<div class="card-content">
-		
-																<div class="card-wrapper">
-																		<div class="card-tag">
-
-																			{% for post, tags in posts_with_tags %}
-
-																									{% for tag in tags %}
-																											<a href="{% url 'blog:tag_posts' tag.id %}" class="span hover-2">#{{ tag.name }}</a>
-																									{% endfor %}
-
-																			{% endfor %}
-
-																		</div>
-		
-																		<div class="wrapper">
-																				<ion-icon name="time-outline" aria-hidden="true"></ion-icon>
-																				<span class="span">3 mins read</span>
-																		</div>
-		
-																</div>
-		
-																<h3 class="headline headline-3">
-																		<a href="#" class="card-title hover-2">
-																			{{ item.title }}
-																		</a>
-																</h3>
-		
-																<div class="card-wrapper">
-		
-																		<div class="profile-card">
-																				<img src="{{ item.author_image.url }}" width="48" height="48" loading="lazy" alt="{{ item.author_name }}" class="profile-banner">
-		
-																				<div>
-																						<p class="card-title">{{ item.author_name }}</p>
-		
-																						<p class="card-subtitle">{{ item.created_at }}</p>
-																				</div>
-		
-																		</div>
-		
-																		<a href="{{ item.link }}" target="_blank" class="card-btn">Больше</a>
-		
-																</div>
-		
-		
-														</div>
-		
-													</div>
-											</li>
-
-										{% endfor %}
-								{% endcomment %}
 
 										{% for item, tags in featured_items_with_tags %}
 												<li>
@@ -372,9 +310,9 @@
 																		<div class="card-wrapper">
 																				<div class="profile-card">
 																					{% if item and item.author_image %}
-																							<img src="{{ item.author_image.url }}" width="48" height="48" loading="lazy" alt="{{ item.author_name }}" class="profile-banner">
+																							<img src="{{ item.author_image.url }}" width="48" height="48" loading="lazy" alt="{{ item.author_name }}" class="profile-banner image_banner">
 																						{% else %}
-																							<img src="{% static "deps\images\Not found image.png" %}" width="48" height="48" alt="" class="profile-banner">
+																							<img src="{% static "deps\images\Not found image.png" %}" width="48" height="48" alt="" class="profile-banner image_banner">
 																					{% endif %}
 																						<div>
 																							<p class="card-title">{{ item.author_name }}</p>
@@ -388,222 +326,13 @@
 											</li>
 										{% endfor %}
 
-		
-											{% comment %} <li>
-												<div class="card feature-card">
-		
-													<figure class="card-banner img-holder" style="--width: 1602; --height: 903;">
-															<img src="{% static "deps/images/featured-2.png" %}" width="1602" height="903" loading="lazy" alt="Self-observation is the first step of inner unfolding" class="img-cover">
-													</figure>
-		
-													<div class="card-content">
-		
-															<div class="card-wrapper">
-																	<div class="card-tag">
-																			<a href="#" class="span hover-2">#Design</a>
-		
-																			<a href="#" class="span hover-2">#Movie</a>
-																	</div>
-		
-																	<div class="wrapper">
-																			<ion-icon name="time-outline" aria-hidden="true"></ion-icon>
-																			<span class="span">6 mins read</span>
-																	</div>
-		
-															</div>
-		
-															<h3 class="headline headline-3">
-																	<a href="#" class="card-title hover-2">
-																		Self-observation is the first step of inner unfolding
-																	</a>
-															</h3>
-		
-															<div class="card-wrapper">
-		
-																	<div class="profile-card">
-																			<img src="{% static "deps/images/author-1.png" %}" width="48" height="48" loading="lazy" alt="Joseph" class="profile-banner">
-		
-																			<div>
-																					<p class="card-title">Joseph</p>
-		
-																					<p class="card-subtitle">25 Nov 2022</p>
-																			</div>
-		
-																	</div>
-		
-																	<a href="#" class="card-btn">Read more</a>
-		
-															</div>
-		
-		
-													</div>
-		
-												</div>
-											</li>
-		
-											<li>
-												<div class="card feature-card">
-		
-													<figure class="card-banner img-holder" style="--width: 1602; --height: 903;">
-															<img src="{% static "deps/images/featured-3.png" %}" width="1602" height="903" loading="lazy" alt="Self-observation is the first step of inner unfolding" class="img-cover">
-													</figure>
-		
-													<div class="card-content">
-		
-															<div class="card-wrapper">
-																	<div class="card-tag">
-																			<a href="#" class="span hover-2">#Design</a>
-		
-																			<a href="#" class="span hover-2">#Movie</a>
-																	</div>
-		
-																	<div class="wrapper">
-																			<ion-icon name="time-outline" aria-hidden="true"></ion-icon>
-																			<span class="span">6 mins read</span>
-																	</div>
-		
-															</div>
-		
-															<h3 class="headline headline-3">
-																	<a href="#" class="card-title hover-2">
-																		Self-observation is the first step of inner unfolding
-																	</a>
-															</h3>
-		
-															<div class="card-wrapper">
-		
-																	<div class="profile-card">
-																			<img src="{% static "deps/images/author-1.png" %}" width="48" height="48" loading="lazy" alt="Joseph" class="profile-banner">
-		
-																			<div>
-																					<p class="card-title">Joseph</p>
-		
-																					<p class="card-subtitle">25 Nov 2022</p>
-																			</div>
-		
-																	</div>
-		
-																	<a href="#" class="card-btn">Read more</a>
-		
-															</div>
-		
-		
-													</div>
-		
-												</div>
-											</li>
-		
-											<li>
-												<div class="card feature-card">
-		
-													<figure class="card-banner img-holder" style="--width: 1602; --height: 903;">
-															<img src="{% static "deps/images/featured-4.png" %}" width="1602" height="903" loading="lazy" alt="Self-observation is the first step of inner unfolding" class="img-cover">
-													</figure>
-		
-													<div class="card-content">
-		
-															<div class="card-wrapper">
-																	<div class="card-tag">
-																			<a href="#" class="span hover-2">#Design</a>
-		
-																			<a href="#" class="span hover-2">#Movie</a>
-																	</div>
-		
-																	<div class="wrapper">
-																			<ion-icon name="time-outline" aria-hidden="true"></ion-icon>
-																			<span class="span">6 mins read</span>
-																	</div>
-		
-															</div>
-		
-															<h3 class="headline headline-3">
-																	<a href="#" class="card-title hover-2">
-																		Self-observation is the first step of inner unfolding
-																	</a>
-															</h3>
-		
-															<div class="card-wrapper">
-		
-																	<div class="profile-card">
-																			<img src="{% static "deps/images/author-1.png" %}" width="48" height="48" loading="lazy" alt="Joseph" class="profile-banner">
-		
-																			<div>
-																					<p class="card-title">Joseph</p>
-		
-																					<p class="card-subtitle">25 Nov 2022</p>
-																			</div>
-		
-																	</div>
-		
-																	<a href="#" class="card-btn">Read more</a>
-		
-															</div>
-		
-		
-													</div>
-		
-												</div>
-											</li>
-		
-											<li>
-												<div class="card feature-card">
-		
-													<figure class="card-banner img-holder" style="--width: 1602; --height: 903;">
-															<img src="{% static "deps/images/featured-5.png" %}" width="1602" height="903" loading="lazy" alt="Self-observation is the first step of inner unfolding" class="img-cover">
-													</figure>
-		
-													<div class="card-content">
-		
-															<div class="card-wrapper">
-																	<div class="card-tag">
-																			<a href="#" class="span hover-2">#Design</a>
-		
-																			<a href="#" class="span hover-2">#Movie</a>
-																	</div>
-		
-																	<div class="wrapper">
-																			<ion-icon name="time-outline" aria-hidden="true"></ion-icon>
-																			<span class="span">6 mins read</span>
-																	</div>
-		
-															</div>
-		
-															<h3 class="headline headline-3">
-																	<a href="#" class="card-title hover-2">
-																		Self-observation is the first step of inner unfolding
-																	</a>
-															</h3>
-		
-															<div class="card-wrapper">
-		
-																	<div class="profile-card">
-																			<img src="{% static "deps/images/author-1.png" %}" width="48" height="48" loading="lazy" alt="Joseph" class="profile-banner">
-		
-																			<div>
-																					<p class="card-title">Joseph</p>
-		
-																					<p class="card-subtitle">25 Nov 2022</p>
-																			</div>
-		
-																	</div>
-		
-																	<a href="#" class="card-btn">Read more</a>
-		
-															</div>
-		
-		
-													</div>
-		
-												</div>
-											</li> {% endcomment %}
-
 									</ul>
 
-									<a href="#" class="btn btn-secondary">
+									{% comment %} <a href="#" class="btn btn-secondary">
 											<span class="span">Show More Posts</span>
 
 											<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
-									</a>
+									</a> {% endcomment %}
 
 							</div>
 
@@ -616,129 +345,33 @@
 						- #POPULAR TAGS
 					-->
 					<section class="tag" aria-labelledby="tag-label">
-							<div class="container">
-
-									<h2 class="headline headline-2 section-title" id="tag-label">
-											<span class="span">Popular Tags</span>
-									</h2>
-
-									<p class="section-text">
-											Most searched keywords
-									</p>
-
-									<ul class="grid-list">
-											
-											<li>
-
-												<botton class="card tag-btn">
-														<img src="{% static "deps/images/tag1.png" %}" width="32" height="32" loading="lazy" alt="Travel">
-
-														<p class="btn-text">Travel</p>
-												</botton>
-
-											</li>
-
-											<li>
-												<botton class="card tag-btn">
-														<img src="{% static "deps/images/tag2.png" %}" width="32" height="32" loading="lazy" alt="Culture">
-
-
-														<p class="btn-text">Culture</p>
-												</botton>
-											</li>
-
-											<li>
-												<botton class="card tag-btn">
-														<img src="{% static "deps/images/tag3.png" %}" width="32" height="32" loading="lazy" alt="Lifestyle">
-
-
-														<p class="btn-text">Lifestyle</p>
-												</botton>
-											</li>
-
-											<li>
-												<botton class="card tag-btn">
-														<img src="{% static "deps/images/tag4.png" %}" width="32" height="32" loading="lazy" alt="Fashion">
-
-
-														<p class="btn-text">Fashion</p>
-												</botton>
-											</li>
-
-											<li>
-												<botton class="card tag-btn">
-														<img src="{% static "deps/images/tag5.png" %}" width="32" height="32" loading="lazy" alt="Food">
-
-
-														<p class="btn-text">Food</p>
-												</botton>
-											</li>
-
-											<li>
-												<botton class="card tag-btn">
-														<img src="{% static "deps/images/tag6.png" %}" width="32" height="32" loading="lazy" alt="Space">
-
-
-														<p class="btn-text">Space</p>
-												</botton>
-											</li>
-
-											<li>
-												<botton class="card tag-btn">
-														<img src="{% static "deps/images/tag7.png" %}" width="32" height="32" loading="lazy" alt="Animal">
-
-
-														<p class="btn-text">Animal</p>
-												</botton>
-											</li>
-
-											<li>
-												<botton class="card tag-btn">
-														<img src="{% static "deps/images/tag8.png" %}" width="32" height="32" loading="lazy" alt="Minimal">
-
-
-														<p class="btn-text">Minimal</p>
-												</botton>
-											</li>
-
-											<li>
-												<botton class="card tag-btn">
-														<img src="{% static "deps/images/tag9.png" %}" width="32" height="32" loading="lazy" alt="Interior">
-
-														<p class="btn-text">Interior</p>
-												</botton>
-											</li>
-		
-											<li>
-												<botton class="card tag-btn">
-														<img src="{% static "deps/images/tag10.png" %}" width="32" height="32" loading="lazy" alt="Plant">
-
-														<p class="btn-text">Plant</p>
-												</botton>
-											</li>
-		
-											<li>
-												<botton class="card tag-btn">
-														<img src="{% static "deps/images/tag11.png" %}" width="32" height="32" loading="lazy" alt="Nature">
-
-														<p class="btn-text">Nature</p>
-												</botton>
-											</li>
-		
-											<li>
-												<botton class="card tag-btn">
-													<img src="{% static "deps/images/tag12.png" %}" width="32" height="32" loading="lazy" alt="Business">
-
-													<p class="btn-text">Business</p>
-												</botton>
-											</li>
-
-									</ul>
-
-
-
-							</div>
-					</section>
+						<div class="container">
+				
+								<h2 class="headline headline-2 section-title" id="tag-label">
+										<span class="span">Popular Tags</span>
+								</h2>
+				
+								<p class="section-text">
+										Most searched keywords
+								</p>
+				
+								<ul class="grid-list">
+										{% for tag in popular_tags %}
+										<li>
+												<button class="card tag-btn">
+													{% if tag and tag.image %}
+														<img src="{{ tag.image.url }}" width="32" height="32" loading="lazy" alt="{{ tag.name }}">
+													{% else %}
+														<img src="{% static "deps/images/hero-banner.png" %}" width="32" height="32" alt="">
+													{% endif %}
+													<a href="{% url 'blog:tag_posts' tag.id %}"><p class="btn-text">{{ tag.name }}</p></a>
+												</button>
+										</li>
+										{% endfor %}
+								</ul>
+				
+						</div>
+				</section>
 
 					<!--
 						- #RECENT POST
@@ -767,7 +400,7 @@
 																<img src="{{ recent_post.image.url }}" width="271" height="258" loading="lazy" alt="{{ recent_post.title }}" class="img-cover">
 														</figure>
 													{% else %}
-														<img src="{% static "deps\images\Not found image.png" %}" width="48" height="48" alt="" class="profile-banner">
+														<img src="{% static "deps\images\Not found image.png" %}" width="271" height="258" alt="" class="profile-banner">
 													{% endif %}
 														<div class="card-content">
 
@@ -778,7 +411,7 @@
 																</h3>
 
 																<p class="card-text">
-																	{{ recent_post.content }}
+																	{{ recent_post.content|slice:"200" }}... <!-- срез до 200 символов-->
 																</p>
 
 																<div class="card-wrapper">
@@ -802,176 +435,51 @@
 											</li>
 											{% endfor %}
 
-												{% comment %} <li>
-													<div class="recent-post-card">
-
-															<figure class="card-banner img-holder" style="--width: 271; --height: 258;">
-																	<img src="{% static "deps/images/recent-post-2.jpg" %}" width="271" height="258" loading="lazy" alt="Helpful Tips for Working from Home as a Freelancer" class="img-cover">
-															</figure>
-
-															<div class="card-content">
-
-																	<a href="#" class="card-badge">Working Tips</a>
-
-																	<h3 class="headline headline-3 card-title">
-																			<a href="#" class="link hover-2">Helpful Tips for Working from Home as a Freelancer</a>
-																	</h3>
-
-																	<p class="card-text">
-																			Gosh jaguar ostrich quail one excited dear hello and bound and the and bland moral misheard roadrunner flapped lynx far that and jeepers giggled far and far
-																	</p>
-
-																	<div class="card-wrapper">
-																			<div class="card-tag">
-																					<a href="#" class="span hover-2"># Travel</a>
-
-																					<a href="#" class="span hover-2"># Lifestyle</a>
-																			</div>
-
-																			<div class="wrapper">
-																					<ion-icon name="time-outline" aria-hidden="true"></ion-icon>
-
-																					<span class="span">3 mins read</span>
-																			</div>
-																	</div>
-
-															</div>
-
-													</div>
-												</li>
-
-												<li>
-													<div class="recent-post-card">
-
-															<figure class="card-banner img-holder" style="--width: 271; --height: 258;">
-																	<img src="{% static "deps/images/recent-post-3.jpg" %}" width="271" height="258" loading="lazy" alt="Helpful Tips for Working from Home as a Freelancer" class="img-cover">
-															</figure>
-
-															<div class="card-content">
-
-																	<a href="#" class="card-badge">Working Tips</a>
-
-																	<h3 class="headline headline-3 card-title">
-																			<a href="#" class="link hover-2">Helpful Tips for Working from Home as a Freelancer</a>
-																	</h3>
-
-																	<p class="card-text">
-																			Gosh jaguar ostrich quail one excited dear hello and bound and the and bland moral misheard roadrunner flapped lynx far that and jeepers giggled far and far
-																	</p>
-
-																	<div class="card-wrapper">
-																			<div class="card-tag">
-																					<a href="#" class="span hover-2"># Travel</a>
-
-																					<a href="#" class="span hover-2"># Lifestyle</a>
-																			</div>
-
-																			<div class="wrapper">
-																					<ion-icon name="time-outline" aria-hidden="true"></ion-icon>
-
-																					<span class="span">3 mins read</span>
-																			</div>
-																	</div>
-
-															</div>
-
-													</div>
-												</li>
-
-												<li>
-													<div class="recent-post-card">
-
-															<figure class="card-banner img-holder" style="--width: 271; --height: 258;">
-																	<img src="{% static "deps/images/recent-post-4.jpg" %}" width="271" height="258" loading="lazy" alt="Helpful Tips for Working from Home as a Freelancer" class="img-cover">
-															</figure>
-
-															<div class="card-content">
-
-																	<a href="#" class="card-badge">Working Tips</a>
-
-																	<h3 class="headline headline-3 card-title">
-																			<a href="#" class="link hover-2">Helpful Tips for Working from Home as a Freelancer</a>
-																	</h3>
-
-																	<p class="card-text">
-																			Gosh jaguar ostrich quail one excited dear hello and bound and the and bland moral misheard roadrunner flapped lynx far that and jeepers giggled far and far
-																	</p>
-
-																	<div class="card-wrapper">
-																			<div class="card-tag">
-																					<a href="#" class="span hover-2"># Travel</a>
-
-																					<a href="#" class="span hover-2"># Lifestyle</a>
-																			</div>
-
-																			<div class="wrapper">
-																					<ion-icon name="time-outline" aria-hidden="true"></ion-icon>
-
-																					<span class="span">3 mins read</span>
-																			</div>
-																	</div>
-
-															</div>
-
-													</div>
-												</li>
-
-												<li>
-													<div class="recent-post-card">
-
-															<figure class="card-banner img-holder" style="--width: 271; --height: 258;">
-																	<img src="{% static "deps/images/recent-post-5.jpg" %}" width="271" height="258" loading="lazy" alt="Helpful Tips for Working from Home as a Freelancer" class="img-cover">
-															</figure>
-
-															<div class="card-content">
-
-																	<a href="#" class="card-badge">Working Tips</a>
-
-																	<h3 class="headline headline-3 card-title">
-																			<a href="#" class="link hover-2">Helpful Tips for Working from Home as a Freelancer</a>
-																	</h3>
-
-																	<p class="card-text">
-																			Gosh jaguar ostrich quail one excited dear hello and bound and the and bland moral misheard roadrunner flapped lynx far that and jeepers giggled far and far
-																	</p>
-
-																	<div class="card-wrapper">
-																			<div class="card-tag">
-																					<a href="#" class="span hover-2"># Travel</a>
-
-																					<a href="#" class="span hover-2"># Lifestyle</a>
-																			</div>
-
-																			<div class="wrapper">
-																					<ion-icon name="time-outline" aria-hidden="true"></ion-icon>
-
-																					<span class="span">3 mins read</span>
-																			</div>
-																	</div>
-
-															</div>
-
-													</div>
-												</li> {% endcomment %}
-
 										</ul>
 
-										<nav aria-label="pagination" class="pagination">
+										<!-- -->
 
-												<a href="#" class="pagination-btn" aria-label="previous page">
-														<ion-icon name="arrow-back" aria-hidden="true"></ion-icon>
+
+										<nav aria-label="pagination" class="pagination pagination-sm">
+
+												<!-- Кнопка назад -->
+												<a href="{% if recent_posts.has_previous %}?page={{ recent_posts.previous_page_number }}#recent
+													{% else %}
+															#recent
+													{% endif %}" class="pagination-btn {% if not recent_posts.has_previous %}disabled{% endif %}" aria-label="previous page">
+													<ion-icon name="arrow-back" aria-hidden="true"></ion-icon>
 												</a>
 
-												<a href="#" class="pagination-btn">1</a>
-												<a href="#" class="pagination-btn">2</a>
-												<a href="#" class="pagination-btn">3</a>
-												<a href="#" class="pagination-btn" aria-laber="more page">...</a>
+													<!-- Логика для 5 кнопок с центральной позицией -->
+													{% with left=recent_posts.number|add:'-1' center=recent_posts.number right=recent_posts.number|add:'+1' %}
+															{% for page in recent_posts.paginator.page_range %}
+																	{% if page == 1 or page == recent_posts.paginator.num_pages %}
+																			<!-- Первая и последняя страницы всегда отображаются -->
+																			<a href="?page={{ page }}" class="pagination-btn{% if recent_posts.number == page %} active__button {% endif %}">{{ page }}</a>
+																	{% elif page >= left and page <= right %}
+																			<!-- Показывать диапазон страниц вокруг центральной -->
+																			<a href="?page={{ page }}" class="pagination-btn{% if recent_posts.number == page %} active__button {% endif %}">{{ page }}</a>
+																	{% elif page == left|add:'-1' or page == right|add:'+1' %}
+																			<!-- Добавить "..." для пропущенных частей -->
+																			<span class="pagination-btn">...</span>
+																	{% endif %}
+															{% endfor %}
+													{% endwith %}
 
-												<a href="#" class="pagination-btn" aria-label="next page">
-													<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+
+									
+												<!-- Кнопка вперед -->
+												<a href="{% if recent_posts.has_next %}?page={{ recent_posts.next_page_number }}#recent
+													{% else %}
+															#recent
+													{% endif %}" 
+													class="pagination-btn {% if not recent_posts.has_next %}disabled{% endif %}" aria-label="next page">
+														<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
 												</a>
 
-										</nav>
+									</nav>
+
+
 
 								</div>
 
@@ -1187,75 +695,6 @@
 
 										</div>
 
-										<div class="card aside-card insta-card">
-
-												<a href="#" class="logo">
-														<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
-												</a>
-
-												<p class="card-text">
-														Follow us on instagram
-												</p>
-
-												<ul class="insta-list">
-
-														<li>
-																<a href="#" class="insta-post img-holder" style="--width: 276; --height: 277;">
-																		<img src="{% static "deps/images/insta-post-1.png" %}" width="276" height="277" loading="lazy" alt="insta post" class="img-cover">
-																</a>
-														</li>
-
-														<li>
-																<a href="#" class="insta-post img-holder" style="--width: 276; --height: 277;">
-																		<img src="{% static "deps/images/insta-post-2.png" %}" width="276" height="277" loading="lazy" alt="insta post" class="img-cover">
-																</a>
-														</li>
-
-														<li>
-																<a href="#" class="insta-post img-holder" style="--width: 276; --height: 277;">
-																		<img src="{% static "deps/images/insta-post-3.png" %}" width="276" height="277" loading="lazy" alt="insta post" class="img-cover">
-																</a>
-														</li>
-
-														<li>
-															<a href="#" class="insta-post img-holder" style="--width: 276; --height: 277;">
-																	<img src="{% static "deps/images/insta-post-4.png" %}" width="276" height="277" loading="lazy" alt="insta post" class="img-cover">
-															</a>
-														</li>
-
-														<li>
-															<a href="#" class="insta-post img-holder" style="--width: 276; --height: 277;">
-																	<img src="{% static "deps/images/insta-post-5.png" %}" width="276" height="277" loading="lazy" alt="insta post" class="img-cover">
-															</a>
-														</li>
-
-														<li>
-															<a href="#" class="insta-post img-holder" style="--width: 276; --height: 277;">
-																	<img src="{% static "deps/images/insta-post-6.png" %}" width="276" height="277" loading="lazy" alt="insta post" class="img-cover">
-															</a>
-														</li>
-
-														<li>
-															<a href="#" class="insta-post img-holder" style="--width: 276; --height: 277;">
-																	<img src="{% static "deps/images/insta-post-7.png" %}" width="276" height="277" loading="lazy" alt="insta post" class="img-cover">
-															</a>
-														</li>
-
-														<li>
-															<a href="#" class="insta-post img-holder" style="--width: 276; --height: 277;">
-																	<img src="{% static "deps/images/insta-post-8.png" %}" width="276" height="277" loading="lazy" alt="insta post" class="img-cover">
-															</a>
-														</li>
-
-														<li>
-															<a href="#" class="insta-post img-holder" style="--width: 276; --height: 277;">
-																	<img src="{% static "deps/images/insta-post-9.png" %}" width="276" height="277" loading="lazy" alt="insta post" class="img-cover">
-															</a>
-														</li>
-
-												</ul>
-
-										</div>
 
 								</div>
 
@@ -1472,8 +911,6 @@
 	<script src="{% static "deps/js/script/script-mains.js" %}"></script>
 	<!-- email js -->
 
-
-	
 	<!--
 		- ionicon link
 	-->
@@ -1481,10 +918,15 @@
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 	<!-- 
-		- email js
-		-->
+	- email js
+	-->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="{% static "deps/js/script/script-email.js" %}"></script>
+
+	<!-- 
+	- pagination
+	-->
+	<script src="{% static "deps/js/script/script-pagination.js" %}"></script>
 
 
 </body>

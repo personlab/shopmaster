@@ -5,7 +5,7 @@
 
 {% block content %}
 
-	<h3 class="h4_collect_blog positionss">{{ post.title }}</h3>
+	{% comment %} <h3 class="h4_collect_blog positionss">{{ post.title }}</h3>
 		<p class="hero-text positionss">{{ post.content }}</p>
 		{% if post.image %}
 				<img src="{{ post.image.url }}" alt="{{ post.title }}" class="zoomable-img img-100" style="max-width: 300px;">
@@ -27,7 +27,66 @@
 			{% else %}
 					Нет тегов
 			{% endif %}
-		</p>
+		</p> {% endcomment %}
+
+
+		{% if post.image %}
+			<img src="{{ post.image.url }}" alt="{{ post.title }}" class="zoomable-img img-100" style="max-width: 300px;">
+		{% endif %}
+			<h3 class="h4_collect_blog positionss">{{ post.title }}</h3>
+			<p class="post-subtitle">{{ post.subtitle|default:'' }}</p> <!-- subtitle только для RecentPost -->
+			<p class="post-author">Автор: {{ post.author_name }}</p>
+			<p class="post-time">Время чтения: {{ post.reading_time }} мин.</p>
+			<p>{{ post.content }}</p>
+				
+				<!-- Для модели Post выводим дополнительные блоки -->
+		{% if post.content_1 or post.image_1 %}
+			<div class="post-block">
+		{% if post.image_1 %}
+			<img src="{{ post.image_1.url }}" alt="Изображение 1" class="zoomable-img img-100" style="max-width: 300px;">
+		{% endif %}
+			<p>{{ post.content_1 }}</p>
+			</div>
+		{% endif %}
+
+		{% if post.content_2 or post.image_2 %}
+		<div class="post-block">
+		{% if post.image_2 %}
+				<img src="{{ post.image_2.url }}" alt="Изображение 2" class="zoomable-img img-100" style="max-width: 300px;">
+		{% endif %}
+			<p>{{ post.content_2 }}</p>
+			</div>
+		{% endif %}
+
+		{% if post.content_3 or post.image_3 %}
+			<div class="post-block">
+		{% if post.image_3 %}
+					<img src="{{ post.image_3.url }}" alt="Изображение 3" class="zoomable-img img-100" style="max-width: 300px;">
+		{% endif %}
+			<p>{{ post.content_3 }}</p>
+			</div>
+		{% endif %}
+
+		<br>
+		{% comment %} <h2>Теги</h2> {% endcomment %}
+		<ul class="tags__detail">
+			{% for tag in tags %}
+				<li><a href="{% url 'blog:tag_posts' tag.id %}"> #{{ tag.name }}&nbsp;</a></li>
+			{% endfor %}
+		</ul>
+
+		<h2><a href="{% url 'blog:post_list' %}#recent"> Recent Posts</a></h2>
+		<ul class="tags__detail">
+			{% for recent_post, recent_tags in recent_posts_with_tags %}
+				<li>
+					<a href="{% url 'blog:post_detail' recent_post.slug %}">
+						{{ recent_post.title }}&nbsp; &nbsp; 
+					</a>
+					{% comment %} <p>{{ recent_post.subtitle }}</p> {% endcomment %}
+				</li>
+			{% endfor %}
+		</ul>
+
 
 <a href="{% url 'blog:post_list' %}" class="">Назад к списку постов</a>
 

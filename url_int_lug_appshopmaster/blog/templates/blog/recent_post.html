@@ -1,0 +1,35 @@
+<div id="recent">
+	{% for post, tags in recent_posts_with_tags %}
+			<div class="post">
+					<h2>{{ post.title }}</h2>
+					<p>{{ post.content }}</p>
+					<div>
+							{% for tag in tags %}
+									<span>#{{ tag.name }}</span>
+							{% endfor %}
+					</div>
+			</div>
+	{% endfor %}
+</div>
+
+<nav aria-label="pagination" class="pagination pagination-sm">
+	<!-- Кнопка "Назад" -->
+	<a href="?page={{ page_obj.previous_page_number }}" id="prev-page" 
+		 class="pagination-btn {% if not page_obj.has_previous %}disabled{% endif %}">
+			<ion-icon name="arrow-back" aria-hidden="true"></ion-icon>
+	</a>
+
+	<!-- Номера страниц -->
+	{% for num in page_obj.paginator.page_range %}
+			<a href="?page={{ num }}" data-page="{{ num }}" 
+				 class="pagination-btn {% if page_obj.number == num %}active{% endif %}">
+					{{ num }}
+			</a>
+	{% endfor %}
+
+	<!-- Кнопка "Вперед" -->
+	<a href="?page={{ page_obj.next_page_number }}" id="next-page" 
+		 class="pagination-btn {% if not page_obj.has_next %}disabled{% endif %}">
+			<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+	</a>
+</nav>

@@ -3,10 +3,12 @@ from turtle import title
 from urllib import request
 from django.conf import settings
 from django.shortcuts import render
+from django.core.paginator import Paginator
 
 from django.shortcuts import render, get_object_or_404
 from django.test import tag
 from django.views import View
+from django.core.paginator import EmptyPage, PageNotAnInteger
 
 from django.http import Http404, JsonResponse
 import requests
@@ -48,25 +50,38 @@ class PostsView(View):
 
 				# Проверяем наличие записей в модели Post
 				posts = Post.objects.all() if Post.objects.exists() else []
+				popular_tags = Tag.objects.all()[:12]
 
-				# Проверяем наличие записей в модели RecentPost
-				recent_posts_with_tags = []
-				if RecentPost.objects.exists():
-						recent_posts = RecentPost.objects.all()
-						for recent_post in recent_posts:
-								tags = recent_post.tags.all()  # Получаем теги для каждого поста
-								recent_posts_with_tags.append((recent_post, tags))
-				else:
-						recent_posts = []
+				# Пагинация для RecentPost
+				recent_posts = RecentPost.objects.all()
+				paginator = Paginator(recent_posts, 2) # количество постов на странице
 
-				# Проверяем наличие записей в Featured
+				# Получение номера страницы из GET-параметров
+				page_number = request.GET.get('page', 1)
+
+				try:
+						page_number = int(page_number)
+				except (ValueError, TypeError):
+						page_number = 1  # Устанавливаем на 1 при ошибке преобразования
+
+				try:
+						page_obj = paginator.page(int(page_number)) # Работаем со страницей
+				except EmptyPage:
+						# Если номер страницы недопустим, показываем первую страницу
+						page_obj = paginator.page(1)
+
+				recent_posts_with_tags = [
+						(recent_post, recent_post.tags.all()) for recent_post in page_obj
+				]
+
 				featured_items_with_tags = []
 				if Featured.objects.exists():
 						featured_items = Featured.objects.order_by('-created_at')[:5]
 						for item in featured_items:
-								post = item.post  # Проверяем есть ли связанный пост
+								post = item.post
 								tags = post.tags.all() if post else []
 								featured_items_with_tags.append((item, tags))
+
 
 				context = {
 						'title': 'TonGameApp - Блог',
@@ -74,12 +89,14 @@ class PostsView(View):
 						'recent_posts_with_tags': recent_posts_with_tags,
 						'hero': hero,
 						'featured_items_with_tags': featured_items_with_tags,
+						'popular_tags': popular_tags,
+						'paginator': paginator,
+						'recent_posts': page_obj
 				}
 
-				return render(request, 'blog/post_list.html', context=context)
+				return render(request, 'blog/post_list.html', context)
 
 
-		
 
 class TagPostsView(View):
 		def post(self, request, tag_id=None):
@@ -96,13 +113,16 @@ class TagPostsView(View):
 
 				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
 
+
 		def get(self, request, tag_id):
 				hero = Hero.objects.first()
 				tags = get_object_or_404(Tag, id=tag_id)
-				posts = tags.post.all()
+				posts = tags.post.all() # Получаем все теги из основной модели Post
+				recent_posts_with_tag = RecentPost.objects.filter(tags=tags) # Получаем посты с тегом из модели RecentPost
 				context = {
 						'title': f'Посты с тегом {tags.name}',
 						'posts': posts,
+						'recent_posts_with_tag': recent_posts_with_tag,
 						'tag': tags,
 						'hero': hero,
 				}
@@ -124,24 +144,24 @@ class PostDetailView(View):
 
 				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
 
+
 		def get(self, request, slug):
 				hero = Hero.objects.first()
 				post = None
 				tags = []
 				recent_posts_with_tags = []
 
-				# Проверим сначала RecentPost
+				# Проверка RecentPost
 				if RecentPost.objects.filter(slug=slug).exists():
 						post = get_object_or_404(RecentPost, slug=slug)
-						recent_posts = RecentPost.objects.all()
-						for recent_post in recent_posts:
-								recent_tags = recent_post.tags.all()  # Получаем теги для каждого recent_post
-								recent_posts_with_tags.append((recent_post, recent_tags))
-				# Проверим в модели Post
+						recent_posts_with_tags = [
+								(recent_post, recent_post.tags.all())
+				for recent_post in RecentPost.objects.prefetch_related('tags')  # Prefetch tags
+										]
+				# Проверка Post
 				elif Post.objects.filter(slug=slug).exists():
 						post = get_object_or_404(Post, slug=slug)
-						tags = post.tags.all()
-				# Если нигде не найдено
+						tags = post.tags.all() # Извлечение тегов из Post
 				else:
 						raise Http404("No post matches the given query.")
 
@@ -150,7 +170,10 @@ class PostDetailView(View):
 						'post': post,
 						'tags': tags,
 						'hero': hero,
-						'recent_posts_with_tags': recent_posts_with_tags, # Добавляем recent_posts_with_tags
+						'recent_posts_with_tags': recent_posts_with_tags,
 				}
 
 				return render(request, 'blog/post_detail.html', context=context)
+
+
+
