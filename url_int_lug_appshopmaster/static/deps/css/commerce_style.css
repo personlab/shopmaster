@@ -87,9 +87,9 @@ ion-icon {
 	display: block;
 }
 
-/* .post-main {
-	margin-top: 50px;
-} */
+.post-main-top {
+	margin-top: 100px;
+}
 
 .h4_collect_blog {
 	font-size: var(--fs-1);
@@ -98,15 +98,32 @@ ion-icon {
 .post-main .img-100 {
 	margin: auto;
 	cursor: pointer;
-}
-
-.positionss {
 	margin-top: 30px;
 	margin-bottom: 30px;
 }
 
+.positionss {
+	display: flex;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	justify-content: center;
+	align-items: center;
+}
+
 .positionss__1 {
 	margin-top: 30px;
+}
+
+.post-time {
+	margin-bottom: 30px;
+}
+
+.h2_posts_detail:is(:hover, :focus) {
+	color: var(--bg-carolina-blue);
+}
+
+.a_posts_detail:is(:hover, :focus) {
+	color: var(--bg-carolina-blue);
 }
 
 /* 

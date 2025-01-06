@@ -4,10 +4,12 @@ from django.db import models
 from django.utils.text import slugify
 
 
+
 # Модель для тегов
 class Tag(models.Model):
 		name= models.CharField(max_length=100, unique=True, verbose_name='Название тега')
 		image = models.ImageField(upload_to='tags/', null=True, blank=True, verbose_name='Изображение тега')
+		popularity_count = models.PositiveIntegerField(default=0, verbose_name='Популярность тега')
 
 		class Meta:
 				db_table = 'tag'
@@ -34,6 +36,7 @@ class Post(models.Model):
 		created_at = models.DateTimeField(auto_now_add=True)
 		reading_time = models.IntegerField(default=0, verbose_name='Время чтения')
 		author_name = models.CharField(max_length=100, verbose_name='Имя автора')
+		popularity_count = models.PositiveIntegerField(default=0, verbose_name='Популярность поста')
 
 		class Meta:
 				db_table = 'posts'
@@ -73,6 +76,7 @@ class RecentPost(models.Model):
 		created_at = models.DateTimeField(auto_now_add=True)
 		reading_time = models.IntegerField(default=0, verbose_name='Время чтения')
 		author_name = models.CharField(max_length=100, verbose_name='Имя автора')
+		popularity_count = models.PositiveIntegerField(default=0, verbose_name='Популярность поста')
 
 		class Meta:
 				db_table = 'posts Recent Post'

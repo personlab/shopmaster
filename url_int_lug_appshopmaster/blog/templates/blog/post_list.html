@@ -214,7 +214,9 @@
 									<div class="card topic-card">
 											<div class="card-content">
 													<h2 class="headline headline-2 section-title card-title" id="topic-label">
-														Hot topics
+														<span class="span">
+															Hot topics
+														</span>
 													</h2>
 
 													<p class="card-text">
@@ -492,126 +494,31 @@
 												</h3>
 
 												<ul class="popular-list">
-
-														<li>
-																<div class="popular-card">
-
-																		<figure class="card-banner img-holder" style="--width: 64; --height: 64;">
-																				<img src="{% static "deps/images/popular-post-1.jpg" %}" width="64" height="64" loading="lazy" alt="Creating is a privilege but it’s also a gift" class="img-cover">
-																		</figure>
-
-																		<div class="card-content">
-
-																				<h4 class="headline headline-4 card-title">
-																						<a href="#" class="link hover-2">Creating is a privilege but it’s also a gift</a>
-																				</h4>
-
-																				<div class="wrapper">
-																						<p class="card-subtitle">15 mins read</p>
-
-																						<time datetime="" class="puplish-date" datetime="22022-04-15">15 April 2022</time>
-																				</div>
-
-																		</div>
-
-																</div>
-														</li>
-
-														<li>
+													{% for post in top_5_posts %}
+													<li>
 															<div class="popular-card">
 
 																	<figure class="card-banner img-holder" style="--width: 64; --height: 64;">
-																			<img src="{% static "deps/images/popular-post-2.jpg" %}" width="64" height="64" loading="lazy" alt="Being unique is better than being perfect" class="img-cover">
+																			<img src="/media/{{ post.image }}" width="64" height="64" loading="lazy" alt="{{ post.title }}" class="img-cover">
 																	</figure>
 
 																	<div class="card-content">
 
 																			<h4 class="headline headline-4 card-title">
-																					<a href="#" class="link hover-2">Being unique is better than being perfect</a>
+																					<a href="{% url "blog:post_detail" post.slug %}" class="link hover-2">{{ post.title }}</a>
 																			</h4>
 
 																			<div class="wrapper">
-																					<p class="card-subtitle">15 mins read</p>
+																					<p class="card-subtitle">{{ post.reading_time }} mins read</p>
 
-																					<time datetime="" class="puplish-date" datetime="2022-04-15">15 April 2022</time>
+																					<time datetime="" class="puplish-date" datetime="{{ post.created_at|date:"Y-m-d" }}">{{ post.created_at|date:"d M Y" }}</time>
 																			</div>
 
 																	</div>
 
 															</div>
-														</li>
-
-														<li>
-															<div class="popular-card">
-
-																	<figure class="card-banner img-holder" style="--width: 64; --height: 64;">
-																			<img src="{% static "deps/images/popular-post-3.jpg" %}" width="64" height="64" loading="lazy" alt="Every day, in every city and town across the country" class="img-cover">
-																	</figure>
-
-																	<div class="card-content">
-
-																			<h4 class="headline headline-4 card-title">
-																					<a href="#" class="link hover-2">Every day, in every city and town across the country</a>
-																			</h4>
-
-																			<div class="wrapper">
-																					<p class="card-subtitle">15 mins read</p>
-
-																					<time datetime="" class="puplish-date" datetime="2022-04-15">15 April 2022</time>
-																			</div>
-
-																	</div>
-
-															</div>
-														</li>
-
-														<li>
-															<div class="popular-card">
-
-																	<figure class="card-banner img-holder" style="--width: 64; --height: 64;">
-																			<img src="{% static "deps/images/popular-post-4.jpg" %}" width="64" height="64" loading="lazy" alt="Your voice, your mind, your story, your vision" class="img-cover">
-																	</figure>
-
-																	<div class="card-content">
-
-																			<h4 class="headline headline-4 card-title">
-																					<a href="#" class="link hover-2">Your voice, your mind, your story, your vision</a>
-																			</h4>
-
-																			<div class="wrapper">
-																					<p class="card-subtitle">15 mins read</p>
-
-																					<time datetime="" class="puplish-date" datetime="2022-04-15">15 April 2022</time>
-																			</div>
-
-																	</div>
-
-															</div>
-														</li>
-
-														<li>
-															<div class="popular-card">
-
-																	<figure class="card-banner img-holder" style="--width: 64; --height: 64;">
-																			<img src="{% static "deps/images/popular-post-2.jpg" %}" width="64" height="64" loading="lazy" alt="Being unique is better than being perfect" class="img-cover">
-																	</figure>
-
-																	<div class="card-content">
-
-																			<h4 class="headline headline-4 card-title">
-																					<a href="#" class="link hover-2">Being unique is better than being perfect</a>
-																			</h4>
-
-																			<div class="wrapper">
-																					<p class="card-subtitle">15 mins read</p>
-
-																					<time datetime="" class="puplish-date" datetime="2022-04-15">15 April 2022</time>
-																			</div>
-
-																	</div>
-
-															</div>
-														</li>
+													</li>
+													{% endfor %}
 
 												</ul>
 
@@ -619,7 +526,7 @@
 
 										<div class="card aside-card">
 
-												<h3 class="headrline headline-2 aside-title">
+												<h3 class="headline headline-2 aside-title">
 														<span class="span">Last comment</span>
 												</h3>
 

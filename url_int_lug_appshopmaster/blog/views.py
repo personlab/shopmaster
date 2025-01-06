@@ -2,6 +2,7 @@ from email.mime import image
 from turtle import title
 from urllib import request
 from django.conf import settings
+from django.db.models import CharField
 from django.shortcuts import render
 from django.core.paginator import Paginator
 
@@ -9,6 +10,10 @@ from django.shortcuts import render, get_object_or_404
 from django.test import tag
 from django.views import View
 from django.core.paginator import EmptyPage, PageNotAnInteger
+
+from django.db.models import F, Value
+from django.db.models.functions import Concat
+from itertools import chain
 
 from django.http import Http404, JsonResponse
 import requests
@@ -45,12 +50,37 @@ class PostsView(View):
 
 				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
 
+
 		def get(self, request):
 				hero = Hero.objects.first()
 
 				# Проверяем наличие записей в модели Post
 				posts = Post.objects.all() if Post.objects.exists() else []
-				popular_tags = Tag.objects.all()[:12]
+				popular_tags = Tag.objects.all().order_by('-popularity_count')[:12] # Извлечение тегов/сортировка по популярности
+
+				# Получить посты из таблицы Post
+				post_posts = Post.objects.annotate(
+						model_type=Value('Post', output_field=CharField())
+				).values(
+						'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				)
+
+				# Получить посты из таблицы RecentPost
+				recent_posts_one = RecentPost.objects.annotate(
+						model_type=Value('RecentPost', output_field=CharField())
+				).values(
+						'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				)
+
+				# Объединение QuerySets
+				all_posts = sorted(
+						chain(post_posts, recent_posts_one),
+						key=lambda post: post['popularity_count'], 
+						reverse=True
+				)
+
+				# Взять топ 5 популярных постов
+				top_5_posts = all_posts[:5]
 
 				# Пагинация для RecentPost
 				recent_posts = RecentPost.objects.all()
@@ -62,7 +92,7 @@ class PostsView(View):
 				try:
 						page_number = int(page_number)
 				except (ValueError, TypeError):
-						page_number = 1  # Устанавливаем на 1 при ошибке преобразования
+						page_number = 1 # Устанавливаем на 1 при ошибке преобразования
 
 				try:
 						page_obj = paginator.page(int(page_number)) # Работаем со страницей
@@ -89,6 +119,7 @@ class PostsView(View):
 						'recent_posts_with_tags': recent_posts_with_tags,
 						'hero': hero,
 						'featured_items_with_tags': featured_items_with_tags,
+						'top_5_posts': top_5_posts,
 						'popular_tags': popular_tags,
 						'paginator': paginator,
 						'recent_posts': page_obj
@@ -117,6 +148,8 @@ class TagPostsView(View):
 		def get(self, request, tag_id):
 				hero = Hero.objects.first()
 				tags = get_object_or_404(Tag, id=tag_id)
+				tags.popularity_count += 1
+				tags.save()
 				posts = tags.post.all() # Получаем все теги из основной модели Post
 				recent_posts_with_tag = RecentPost.objects.filter(tags=tags) # Получаем посты с тегом из модели RecentPost
 				context = {
@@ -151,9 +184,35 @@ class PostDetailView(View):
 				tags = []
 				recent_posts_with_tags = []
 
+				# Получить посты из таблицы Post
+				post_posts = Post.objects.annotate(
+						model_type=Value('Post', output_field=CharField())
+				).values(
+						'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				)
+
+				# Получить посты из таблицы RecentPost
+				recent_posts_one = RecentPost.objects.annotate(
+						model_type=Value('RecentPost', output_field=CharField())
+				).values(
+						'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				)
+
+				# Объединение QuerySets
+				all_posts = sorted(
+						chain(post_posts, recent_posts_one),
+						key=lambda post: post['popularity_count'], 
+						reverse=True
+				)
+
+				# Взять топ 5 популярных постов
+				top_5_posts = all_posts[:5]
+
 				# Проверка RecentPost
 				if RecentPost.objects.filter(slug=slug).exists():
 						post = get_object_or_404(RecentPost, slug=slug)
+						post.popularity_count += 1
+						post.save()
 						recent_posts_with_tags = [
 								(recent_post, recent_post.tags.all())
 				for recent_post in RecentPost.objects.prefetch_related('tags')  # Prefetch tags
@@ -161,6 +220,8 @@ class PostDetailView(View):
 				# Проверка Post
 				elif Post.objects.filter(slug=slug).exists():
 						post = get_object_or_404(Post, slug=slug)
+						post.popularity_count += 1
+						post.save()
 						tags = post.tags.all() # Извлечение тегов из Post
 				else:
 						raise Http404("No post matches the given query.")
@@ -170,10 +231,10 @@ class PostDetailView(View):
 						'post': post,
 						'tags': tags,
 						'hero': hero,
+						'top_5_posts': top_5_posts,
 						'recent_posts_with_tags': recent_posts_with_tags,
 				}
 
 				return render(request, 'blog/post_detail.html', context=context)
-
 
 

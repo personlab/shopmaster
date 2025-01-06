@@ -39,4 +39,9 @@ admin.site.register(Featured, FeaturedAdmin)
 
 
 
+class TagAdmin(admin.ModelAdmin):
+	list_display = ('name', 'popularity_count', 'image')
+	list_filter = ('name',)
+	search_fields = ('name',)
+
 admin.site.register(Tag)
