@@ -4,12 +4,17 @@ from django.shortcuts import render
 from django.template import context
 import requests
 
+from django.db.models import F, Value
+from django.db.models.functions import Concat
+from itertools import chain
+from django.db.models import CharField
+
 from goods import views
 from goods.models import Categories
 from main.models import Slide
 from django.conf import settings
 from django.http import JsonResponse
-from blog.models import Hero
+from blog.models import Hero, Post, RecentPost
 
 #  С применением классов
 from django.views import View
@@ -64,8 +69,33 @@ class ContactView(View):
 		telegram_sender.send_message(message)
 
 		return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
+	
 			
 	def get(self, request):
+		# Получить посты из таблицы Post
+		post_posts = Post.objects.annotate(
+				model_type=Value('Post', output_field=CharField())
+		).values(
+				'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+		)
+
+		# Получить посты из таблицы RecentPost
+		recent_posts_one = RecentPost.objects.annotate(
+				model_type=Value('RecentPost', output_field=CharField())
+		).values(
+				'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+		)
+
+		# Объединение QuerySets
+		all_posts = sorted(
+				chain(post_posts, recent_posts_one),
+				key=lambda post: post['popularity_count'], 
+				reverse=True
+		)
+
+		# Взять топ 5 популярных постов
+		top_5_posts = all_posts[:5]
+
 		hero = Hero.objects.first()
 		context = {
 			'title': 'Home - Контакты',
@@ -73,6 +103,7 @@ class ContactView(View):
 			'e_mail': "example@gmail.com",
 			'phone': '+79155040000',
 			'hero': hero,
+			'top_5_posts': top_5_posts,
 		}
 		return render(request, 'main/contact.html', context=context)
 	

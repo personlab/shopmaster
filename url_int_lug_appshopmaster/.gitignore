@@ -13,3 +13,4 @@ __pycache__/
 db.sqlite3
 media/
 static/deps/videos/
+database_tongameapp/

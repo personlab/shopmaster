@@ -6,8 +6,12 @@ from django.shortcuts import get_list_or_404, render, get_object_or_404
 from django.views import View
 import requests
 
+from django.db.models import F, CharField, Value
+from django.db.models.functions import Concat
+from itertools import chain
+
 from goods.models import Products
-from blog.models import Hero
+from blog.models import Hero, Post, RecentPost
 
 
 class SendMessageTelegramView:
@@ -54,11 +58,36 @@ class CatalogView(View):
 			paginator = Paginator(goods, 3)
 			current_page = paginator.page(int(page))
 
+			# Получить посты из таблицы Post
+			post_posts = Post.objects.annotate(
+					model_type=Value('Post', output_field=CharField())
+			).values(
+					'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+			)
+
+			# Получить посты из таблицы RecentPost
+			recent_posts_one = RecentPost.objects.annotate(
+					model_type=Value('RecentPost', output_field=CharField())
+			).values(
+					'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+			)
+
+			# Объединение QuerySets
+			all_posts = sorted(
+					chain(post_posts, recent_posts_one),
+					key=lambda post: post['popularity_count'], 
+					reverse=True
+			)
+
+			# Взять топ 5 популярных постов
+			top_5_posts = all_posts[:5]
+
 			context = {
 							"title": "Home - Каталог",
 							"hero": hero,
 							"goods": current_page,
 							"slug_url": category_slug,
+							'top_5_posts': top_5_posts,
 					}
 			return render(request, "goods/catalog.html", context=context)
 

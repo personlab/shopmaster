@@ -482,7 +482,38 @@ body.nav-active {
 	font-size: var(--fontSize-8);
 }
 
+.li__saerch {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
+form.d__flex_search {
+	display: flex;
+	justify-content: flex-start;
+}
+
+form.d__flex_search .form-control {
+	border-right: none;
+	color: white;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 4px;
+}
+
+form.d__flex_search .form-control::placeholder {
+	color: white; /* Цвет заполнителя (placeholder) */
+	opacity: 0.7; /* Опционально: уменьшаем яркость заполнителя */
+}
+
+form.d__flex_search button {
+	margin-left: -1px;
+}
+
+.text_content_search {
+	margin-top: 10px;
+}
 
 /*-----------------------------------*\
   #HERO

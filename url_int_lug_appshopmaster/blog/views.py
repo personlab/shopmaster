@@ -1,10 +1,13 @@
 from email.mime import image
+import re
 from turtle import title
 from urllib import request
 from django.conf import settings
 from django.db.models import CharField
 from django.shortcuts import render
 from django.core.paginator import Paginator
+from django.db.models import Q
+from django.shortcuts import render
 
 from django.shortcuts import render, get_object_or_404
 from django.test import tag
@@ -19,6 +22,8 @@ from django.http import Http404, JsonResponse
 import requests
 
 from .models import Post, Hero, Featured, RecentPost, Tag
+
+from django.contrib.postgres.search import SearchVector
 
 class SendMessageTelegramView:
 		def send_message(self, message):
@@ -236,5 +241,74 @@ class PostDetailView(View):
 				}
 
 				return render(request, 'blog/post_detail.html', context=context)
+		
+
+
+class PostSearchView(View):
+		
+		def post(self, request, slug=None):
+				user_name = request.POST.get('user_name')
+				user_email = request.POST.get('user_email')
+				user_phone = request.POST.get('email_phone')
+				user_message = request.POST.get('user_message')
+
+				message = f"Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
+
+				# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
+				telegram_sender = SendMessageTelegramView()
+				telegram_sender.send_message(message)
+
+				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
+
+		def get(self, request):
+				hero = Hero.objects.first()
+				query = request.GET.get('q', '')  # Получаем запрос из параметра GET
+				posts = Post.objects.all()
+				recent_posts_search = RecentPost.objects.all()
+
+				# Получить посты из таблицы Post
+				post_posts = Post.objects.annotate(
+						model_type=Value('Post', output_field=CharField())
+				).values(
+						'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				)
+
+				# Получить посты из таблицы RecentPost
+				recent_posts_one = RecentPost.objects.annotate(
+						model_type=Value('RecentPost', output_field=CharField())
+				).values(
+						'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				)
+
+				# Объединение QuerySets
+				all_posts = sorted(
+						chain(post_posts, recent_posts_one),
+						key=lambda post: post['popularity_count'], 
+						reverse=True
+				)
+
+				# Взять топ 5 популярных постов
+				top_5_posts = all_posts[:5]
+
+				if query:
+						posts = posts.annotate(
+							search=SearchVector('title', 'content')
+						).filter(search=query)
+
+				if query:
+						recent_posts_search = recent_posts_search.annotate(
+							search=SearchVector('title', 'content')
+						).filter(search=query)
+
+				context = {
+						'hero': hero,
+						'title': 'Результаты поиска',
+						'posts': posts,
+						'recent_posts_search': recent_posts_search,
+						'query': query,
+						'top_5_posts': top_5_posts
+				}
+
+				return render(request, 'blog/search.html', context=context)
 
 
