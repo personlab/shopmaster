@@ -57,14 +57,13 @@
 			{% for recent_post, recent_tags in recent_posts_with_tags %}
 				<li>
 					<a href="{% url 'blog:post_detail' recent_post.slug %}">
-						{{ recent_post.title }}&nbsp; &nbsp; 
+						{{ recent_post.title|truncatechars:20 }}&nbsp; &nbsp; 
 					</a>
-					{% comment %} <p>{{ recent_post.subtitle }}</p> {% endcomment %}
 				</li>
 			{% endfor %}
 		</ul>
 
-		<div class="a_posts_detail">
+		<div class="a_posts_return">
 				<a href="{% url 'blog:post_list' %}">Назад к списку постов</a>
 		</div>
 

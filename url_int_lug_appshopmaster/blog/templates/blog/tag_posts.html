@@ -10,12 +10,12 @@
 		<title>{{ title }}</title>
 		<h1>{{ post.title }}</h1>
 
-		<h2>Посты с тегом: #{{ tag.name }}</h2>
+		<h2 class="main_post_tag">Посты с тегом: <span class="result__search">#{{ tag.name }}</span></h2>
 			<ul>
 					{% if posts %}
 							{% for post in posts %}
 									<li>
-										<h3><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h3>
+										<h3 class="search_title_detail"><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h3>
 											<p>Время чтения: {{ post.reading_time }} мин</p>
 											<p>Имя автора: {{ post.author_name }}</p>
 									</li>
@@ -25,12 +25,12 @@
 					{% endif %}
 			</ul>
 
-			<h2>Недавние посты с тегом: #{{ tag.name }}</h2>
+			<h2 style="padding-top: 30px;">Недавние посты с тегом: <span class="result__search">#{{ tag.name }}</span></h2>
 				<ul>
 						{% if recent_posts_with_tag %}
 								{% for recent_post in recent_posts_with_tag %}
 										<li>
-											<h3><a href="{% url 'blog:post_detail' recent_post.slug %}">{{ recent_post.title }}</a></h3>
+											<h3 class="search_title_detail"><a href="{% url 'blog:post_detail' recent_post.slug %}">{{ recent_post.title }}</a></h3>
 											<p>Время чтения: {{ recent_post.reading_time }} мин</p>
 											<p>Имя автора: {{ recent_post.author_name }}</p>
 										</li>
@@ -41,7 +41,9 @@
 				</ul>
 
 
-		<a href="{% url 'blog:post_list' %}">Назад к списку постов</a>
+			<div class="a_posts_return">
+					<a href="{% url 'blog:post_list' %}">Назад к списку постов</a>
+			</div>
 
 {% endblock content %}
 

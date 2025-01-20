@@ -19,11 +19,12 @@ from django.db.models.functions import Concat
 from itertools import chain
 
 from django.http import Http404, JsonResponse
+from pygments import highlight
 import requests
 
 from .models import Post, Hero, Featured, RecentPost, Tag
 
-from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchHeadline
 
 class SendMessageTelegramView:
 		def send_message(self, message):
@@ -148,6 +149,8 @@ class TagPostsView(View):
 				telegram_sender.send_message(message)
 
 				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
+		
+
 
 
 		def get(self, request, tag_id):
@@ -157,12 +160,38 @@ class TagPostsView(View):
 				tags.save()
 				posts = tags.post.all() # Получаем все теги из основной модели Post
 				recent_posts_with_tag = RecentPost.objects.filter(tags=tags) # Получаем посты с тегом из модели RecentPost
+
+				# Получить посты из таблицы Post
+				post_posts = Post.objects.annotate(
+						model_type=Value('Post', output_field=CharField())
+				).values(
+						'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				)
+
+				# Получить посты из таблицы RecentPost
+				recent_posts_one = RecentPost.objects.annotate(
+						model_type=Value('RecentPost', output_field=CharField())
+				).values(
+						'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				)
+
+				# Объединение QuerySets
+				all_posts = sorted(
+						chain(post_posts, recent_posts_one),
+						key=lambda post: post['popularity_count'], 
+						reverse=True
+				)
+
+				# Взять топ 5 популярных постов
+				top_5_posts = all_posts[:5]
+
 				context = {
 						'title': f'Посты с тегом {tags.name}',
 						'posts': posts,
 						'recent_posts_with_tag': recent_posts_with_tag,
 						'tag': tags,
 						'hero': hero,
+						'top_5_posts': top_5_posts,
 				}
 				return render(request, 'blog/tag_posts.html', context=context)
 
@@ -241,7 +270,6 @@ class PostDetailView(View):
 				}
 
 				return render(request, 'blog/post_detail.html', context=context)
-		
 
 
 class PostSearchView(View):
@@ -263,8 +291,8 @@ class PostSearchView(View):
 		def get(self, request):
 				hero = Hero.objects.first()
 				query = request.GET.get('q', '')  # Получаем запрос из параметра GET
-				posts = Post.objects.all()
-				recent_posts_search = RecentPost.objects.all()
+				# posts = Post.objects.all()
+
 
 				# Получить посты из таблицы Post
 				post_posts = Post.objects.annotate(
@@ -290,25 +318,55 @@ class PostSearchView(View):
 				# Взять топ 5 популярных постов
 				top_5_posts = all_posts[:5]
 
-				if query:
-						posts = posts.annotate(
-							search=SearchVector('title', 'content')
-						).filter(search=query)
+				if query:  # Проверяем, что запрос не пуст
+						search_query = SearchQuery(query)
 
-				if query:
-						recent_posts_search = recent_posts_search.annotate(
-							search=SearchVector('title', 'content')
-						).filter(search=query)
+						# Поиск в обеих моделях
+						posts_search = Post.objects.annotate(
+								search=SearchVector('title', 'content')  # Создаем вектор поиска для Post
+						).filter(search=search_query)
+
+						recent_posts_search = RecentPost.objects.annotate(
+								search=SearchVector('title', 'content')  # Создаем вектор поиска для RecentPost
+						).filter(search=search_query)
+
+						highlighted_posts = []
+
+						def highlight_text(text, query):
+								highlight_style = "<span>{}</span>"
+								pattern = re.compile(re.escape(query), re.IGNORECASE)  # Создаем регулярное выражение для поиска
+								return pattern.sub(lambda m: highlight_style.format(m.group(0)), text)  # Заменяем найденные слова на выделенные
+
+						for post in posts_search:
+								highlighted_title = highlight_text(post.title, query)  # Выделяем заголовок
+								highlighted_content = highlight_text(post.content, query)  # Выделяем контент
+								highlighted_posts.append({
+										'title': highlighted_title,
+										'content': highlighted_content,
+										'slug': post.slug,
+								})
+
+						for recent_post in recent_posts_search:
+								highlighted_title = highlight_text(recent_post.title, query)  # Выделяем заголовок
+								highlighted_content = highlight_text(recent_post.content, query)  # Выделяем контент
+								highlighted_posts.append({
+										'title': highlighted_title,
+										'content': highlighted_content,
+										'slug': recent_post.slug,
+								})
+
+				else:
+						highlighted_posts = []  # Пустой список, если запрос пуст
 
 				context = {
 						'hero': hero,
 						'title': 'Результаты поиска',
-						'posts': posts,
-						'recent_posts_search': recent_posts_search,
+						'posts': highlighted_posts,
 						'query': query,
 						'top_5_posts': top_5_posts
 				}
 
 				return render(request, 'blog/search.html', context=context)
+
 
 

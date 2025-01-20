@@ -11,4 +11,5 @@ __pycache__/
 
 # django stuff
 db.sqlite3
-media/ 
+media/
+static/deps/videos/

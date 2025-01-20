@@ -28,7 +28,7 @@
 	<div class="menu-btn"></div>
 	<div class="navigation">
 		<div class="navigation-items">
-			{% comment %} <a href="{% url "catalog:index" category_slug='all' %}">Магазин</a> {% endcomment %}
+			<a href="{% url "users:log_reg" %}">Войти</a>
 			<a href="#">О нас</a>
 			<a href="#">Галерея</a>
 			<a href="{% url "main:contact" %}">Контакты</a>
@@ -91,32 +91,46 @@
 											 <!-- ===============Slider left/right arrow navigation end=====================-->
 
 											 <!-- ===============Slide pagination buttons for each slide=====================-->
-												<div class="slide-pagination">
+												{% comment %}<div class="slide-pagination">
 													<div class="slide-btn first-slide-btn"></div>
 													<div class="slide-btn"></div>
 													<div class="slide-btn"></div>
 													<div class="slide-btn"></div>
-													{% comment %} <div class="slide-btn"></div>
 													<div class="slide-btn"></div>
 													<div class="slide-btn"></div>
 													<div class="slide-btn"></div>
-													<div class="slide-btn"></div> {% endcomment %}
+													<div class="slide-btn"></div>
+													<div class="slide-btn"></div>
+												</div> {% endcomment %}
+
+												<!-- ===============Slide pagination buttons for each slide=====================-->
+												<div class="slide-pagination">
+													{% for slide in slides %}
+														<div class="slide-btn first-slide-btn"></div>
+													{% endfor %}
 												</div>
 
 											 <!-- ===============Slide pagination buttons for each slide end=====================-->
 
 											 <!-- ===============Slide visibiality indicator bars for each slide=====================-->
-												<div class="slide-indicator-bars">
+												{% comment %} <div class="slide-indicator-bars">
 													<div class="indicator-bar first-indicator-bar"></div>
 													<div class="indicator-bar"></div>
 													<div class="indicator-bar"></div>
 													<div class="indicator-bar"></div>
-													{% comment %} <div class="indicator-bar"></div>
 													<div class="indicator-bar"></div>
 													<div class="indicator-bar"></div>
 													<div class="indicator-bar"></div>
-													<div class="indicator-bar"></div> {% endcomment %}
+													<div class="indicator-bar"></div>
+													<div class="indicator-bar"></div> 
+												</div>{% endcomment %}
+
+												<div class="slide-indicator-bars">
+													{% for slide in slides %}
+														<div class="indicator-bar first-indicator-bar"></div>
+													{% endfor %}
 												</div>
+
 												<!-- ===============Slide visibiality indicator bars for each slide end=====================-->
 
 		</section>

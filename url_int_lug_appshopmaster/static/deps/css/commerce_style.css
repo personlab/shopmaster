@@ -87,30 +87,30 @@ ion-icon {
 	display: block;
 }
 
-.post-main-top {
+/* .post-main-top {
 	margin-top: 100px;
-}
+} */
 
-.h4_collect_blog {
+/* .h4_collect_blog {
 	font-size: var(--fs-1);
-}
+} */
 
-.post-main .img-100 {
+/* .post-main .img-100 {
 	margin: auto;
 	cursor: pointer;
 	margin-top: 30px;
 	margin-bottom: 30px;
-}
+} */
 
-.positionss {
+/* .positionss {
 	display: flex;
 	margin-top: 30px;
 	margin-bottom: 30px;
 	justify-content: center;
 	align-items: center;
-}
+} */
 
-.positionss__1 {
+/* .positionss__1 {
 	margin-top: 30px;
 }
 
@@ -124,7 +124,7 @@ ion-icon {
 
 .a_posts_detail:is(:hover, :focus) {
 	color: var(--bg-carolina-blue);
-}
+} */
 
 /* 
 .:is(:hover, :focus) {

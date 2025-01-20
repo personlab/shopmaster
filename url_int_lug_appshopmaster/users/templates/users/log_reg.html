@@ -1,53 +1,125 @@
-{% extends "blog/base_one.html" %}
+{% extends "users/base-log-reg.html" %}
 
 {% load static %}
 
+
 {% block content %}
 
-<div class="post-main-top">
-	{% if query %}
-			<h3>Результаты поиска по запросу: <span class="result__search">"{{ query }}"</span></h3>
-			
-			{% if posts or recent_posts %}
-					<ul>
-							{% for post in posts %}
-									<li>
-											{% autoescape off %}
-												<a href="{% url 'blog:post_detail' post.slug %}"><h2 class="search_title_detail">{{ post.title }}</h2></a>
-											{% endautoescape %}
-											
-											{% autoescape off %}
-												<p class="search_content_detail">{{ post.content|truncatechars:100 }}...</p>
-											{% endautoescape %}
-									</li>
-							{% endfor %}
+<div class="form__container__log">
+		<div class="col__col col__1">
+				<div class="image__layer__log">
+						<img src="{% static "deps/images/white-outline.png" %}" alt="" class="form__image__main">
+						<img src="{% static "deps/images/dots.png" %}" alt="" class="form__image dots">
+						<img src="{% static "deps/images/coin.png" %}" alt="" class="form__image coin">
+						<img src="{% static "deps/images/spring.png" %}" alt="" class="form__image spring">
+						<img src="{% static "deps/images/rocket.png" %}" alt="" class="form__image rocket">
+						<img src="{% static "deps/images/cloud.png" %}" alt="" class="form__image cloud">
+						<img src="{% static "deps/images/stars.png" %}" alt="" class="form__image stars">
+				</div>
+				<p class="featured__words">Welcome the <span>TonGameApp</span></p>
+		</div>
+		<div class="col__col col__2">
+				<div class="btn__box__log">
+					<button class="bth__log__reg btn__one__log" id="login">Войти</button>
+					<button class="bth__log__reg btn__two__log" id="register">Регистрация</button>
+				</div>
+
+				<!-- Login form container -->
+				 <div class="login__form__log">
+						<div class="form__title__log">
+								<span>Войти</span>
+						</div>
+						<div class="form__inputs_log">
+								<div class="inputs__box">
+										<input type="text" class="input__fields" placeholder="Ваше имя" required>
+										<i class="bx bx-user icon__log"></i>
+								</div>
+								<div class="inputs__box">
+									<input type="password" class="input__fields" placeholder="Пароль" required>
+									<i class="bx bx-lock-alt icon__log"></i>
+							</div>
+							<div class="forgot-pass">
+									<a href="#" class="">Забыли проль?</a>
+							</div>
+							<div class="inputs__box">
+									<button class="inputs__submit">
+										<span>Войти</span>
+										<i class="bx bx-right-arrow-alt"></i>
+									</button>
+							</div>
+						</div>
+
+						<p class="text__socials">Или авторизуйтесь через:</p>
+						<div class="log_reg__social">
+								<a href="#" class="btn btn-dark">
+										<img class="mx-1" src="{% static "deps/icons/google.svg" %}" alt="Catalog Icon" width="16" height="16">
+										Google
+								</a>
+								<a href="#" class="btn btn-dark">
+										<img class="mx-1" src="{% static "deps/icons/facebook.svg" %}" alt="Catalog Icon" width="16" height="16">
+										Facebook
+								</a>
+								<a href="#" class="btn btn-dark">
+										<img class="mx-1" src="{% static "deps/icons/github.svg" %}" alt="Catalog Icon" width="16" height="16">
+										GitHub
+								</a>
+						</div>
+
+						<p class="text__socials">Следите за нами</p>
+						<div class="social__log_reg">
+								<i class="bx bxl-telegram"></i>
+								<i class="bx bxl-vk"></i>
+						</div>
+				 </div>
+
+				<!-- Register form container -->
+					<div class="register__form__log">
+					<div class="form__title__log">
+							<span>Создать аккаунт</span>
+					</div>
+					<div class="form__inputs_log">
+							<div class="inputs__box">
+									<input type="text" class="input__fields" placeholder="Email" required>
+									<i class="bx bx-envelope icon__log"></i>
+							</div>
+							<div class="inputs__box">
+									<input type="text" class="input__fields" placeholder="Ваше имя" required>
+									<i class="bx bx-user icon__log"></i>
+							</div>
+							<div class="inputs__box">
+								<input type="password" class="input__fields" placeholder="Пароль" required>
+								<i class="bx bx-lock-alt icon__log"></i>
+							</div>
+							<div class="inputs__box">
+								<input type="text" class="input__fields" placeholder="Email" required>
+								<i class="bx bx-envelope icon__log"></i>
+							</div>
+							<div class="inputs__box">
+									<input type="text" class="input__fields" placeholder="Ваше имя" required>
+									<i class="bx bx-user icon__log"></i>
+							</div>
+							<div class="inputs__box">
+								<input type="password" class="input__fields" placeholder="Пароль" required>
+								<i class="bx bx-lock-alt icon__log"></i>
+							</div>
 							
-							{% for post in recent_posts %}
-									<li>
-											{% autoescape off %}
-												<a href="{% url 'blog:post_detail' post.slug %}"><h2 class="search_title_detail">{{ post.title }}</h2></a>
-											{% endautoescape %}
-											
-											{% autoescape off %}
-												<p class="search_content_detail">{{ post.content|truncatechars:100 }}...</p>
-											{% endautoescape %}
-									</li>
-							{% endfor %}
-					</ul>
-			{% else %}
-					<p>Ничего не найдено.</p>
-			{% endif %}
-	{% endif %}
+							<div class="inputs__box">
+									<button class="inputs__submit">
+										<span>Создать</span>
+										<i class="bx bx-right-arrow-alt"></i>
+									</button>
+							</div>
+					</div>
+							<p class="text__socials">Следите за нами</p>
+							<div class="social__log_reg">
+									<i class="bx bxl-telegram"></i>
+									<i class="bx bxl-vk"></i>
+							</div>
+				</div>
+		</div>
 </div>
-
-<div class="a_posts_return">
-		<a href="{% url 'blog:post_list' %}">Назад к списку постов</a>
-</div>
-
 
 {% endblock content %}
-
-
 
 
 {% block footer %}

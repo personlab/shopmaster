@@ -41,7 +41,7 @@ class IndexView(View):
 				'title': 'TonGameApp - Главная',
 				'slides': slides
 			}
-			return render(request, 'main/index.html', context=context)
+			return render(request, 'index.html', context=context)
 		
 
 class AboutView(View):

@@ -30,8 +30,9 @@
 	<!--
 		- custom css link
 	-->
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 	<link rel="stylesheet" href="{% static "deps/css/style.css" %}">
-	<link rel="stylesheet" href="{% static "deps/css/commerce_style.css" %}">
+	{% comment %} <link rel="stylesheet" href="{% static "deps/css/commerce_style.css" %}"> {% endcomment %}
 
 	<!--
 			- preload images
@@ -106,6 +107,10 @@
 						<li>
 							<a href="{% url "main:index" %}" class="navbar-link hover-1" data-nav-toggler>Главная</a>
 						</li>
+
+						<li>
+							<a href="{% url "users:log_reg" %}" class="navbar-link hover-1" data-nav-toggler>Войти</a>
+						</li>
 						
 						<li>
 							<a href="{% url "blog:post_list" %}" class="navbar-link hover-1" data-nav-toggler>Блог</a>
@@ -125,10 +130,12 @@
 						</li> {% endcomment %}
 
 						
-						<li class="li__saerch">
+						<li class="li__search">
 							<form class="d__flex_search" role="search" action="{% url "blog:search" %}" method="get">
-								<input class="form-control me-2" type="search" name="q" placeholder="Search" value="{{ query }}" aria-label="Search">
-								<button class="btn btn-primary" type="submit">Поиск</button>
+								<input class="form-control me-2" type="search" name="q" placeholder="Поиск" value="{{ query }}" aria-label="Search">
+								<button class="btn btn-primary" type="submit">
+									<ion-icon name="search-outline"></ion-icon>
+								</button>
 							</form>
 						</li>
 
@@ -373,6 +380,7 @@
 	<!--
 		- custom js link
 	-->
+	<script src="{% static "deps/js/script/log-reg.js" %}"></script>
 	<script src="{% static "deps/js/script/script-time.js" %}"></script>
 	<script src="{% static "deps/js/script/script-blog.js" %}"></script>
 	<script src="{% static "deps/js/script/script-mains.js" %}"></script>

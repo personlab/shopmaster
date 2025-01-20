@@ -30,6 +30,7 @@ urlpatterns = [
 		path('', include('main.urls', namespace='main')),
 		path('catalog/', include('goods.urls', namespace='catalog')),
 		path('blog/', include('blog.urls', namespace='blog')),
+		path('user/', include('users.urls', namespace='user')),
 ]
 
 if settings.DEBUG:

@@ -88,10 +88,12 @@
 						{% comment %} <li>
 							<a href="{% url "catalog:index" category_slug='all' %}" class="navbar-link hover-1" data-nav-toggler>Магазин</a>
 						</li> {% endcomment %}
-						<li class="li__saerch">
+						<li class="li__search">
 							<form class="d__flex_search" role="search" action="{% url "blog:search" %}" method="get">
-								<input class="form-control me-2" type="search" name="q" placeholder="Search" value="{{ query }}" aria-label="Search">
-								<button class="btn btn-primary" type="submit">Поиск</button>
+								<input class="form-control me-2" type="search" name="q" placeholder="Поиск" value="{{ query }}" aria-label="Search">
+								<button class="btn btn-primary" type="submit">
+									<ion-icon name="search-outline"></ion-icon>
+								</button>
 							</form>
 						</li>
 
