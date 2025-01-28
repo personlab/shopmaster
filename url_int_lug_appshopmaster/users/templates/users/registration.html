@@ -1,0 +1,337 @@
+{% extends "users/base-log-reg.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+			<div class="form__container__log">
+					<div class="col__col col__1">
+									<div class="image__layer__log">
+											<img src="{% static "deps/images/white-outline.png" %}" alt="" class="form__image__main">
+											<img src="{% static "deps/images/dots.png" %}" alt="" class="form__image dots">
+											<img src="{% static "deps/images/coin.png" %}" alt="" class="form__image coin">
+											<img src="{% static "deps/images/spring.png" %}" alt="" class="form__image spring">
+											<img src="{% static "deps/images/rocket.png" %}" alt="" class="form__image rocket">
+											<img src="{% static "deps/images/cloud.png" %}" alt="" class="form__image cloud">
+											<img src="{% static "deps/images/stars.png" %}" alt="" class="form__image stars">
+									</div>
+									<p class="featured__words">Welcome the <span>TonGameApp</span></p>
+						</div>
+					<div class="col__col col__2">
+								<div class="btn__box__log">
+									<button class="bth__log__reg" id="login"><a href="{% url "user:login" %}">Войти</a></button>
+									<button class="bth__log__reg btn__two__log" id="register">Регистрация</button>
+								</div>
+
+								<!-- Login form container -->
+								
+								{% comment %} <div class="login__form__log">
+										<div class="form__title__log">
+												<span>Войти</span>
+										</div>
+										<form class="form__inputs_log" action="{% url "user:login" %}" method="post">
+											{% csrf_token %}
+												{% if form.non_field_errors %}
+												<p class="forgot-pass">{{ form.non_field_errors }}</p>
+												{% endif %}
+												<div class="inputs__box">
+														<input type="text" name="username" id="id_username" value="{% if form.username.value %}{{ form.username.value }}{% endif %}" class="input__fields" placeholder="Ваше имя" required>
+														<i class="bx bx-user icon__log"></i>
+												</div>
+												<div class="inputs__box">
+														<input type="password" name="password" id="id_password" class="input__fields" placeholder="Пароль" required> 
+														<i class="bx bx-hide show-hide icon__log"></i>
+												</div>
+
+											<div class="forgot-pass">
+													<a href="#" class="">Забыли пароль?</a>
+											</div>
+											<div class="inputs__box">
+													<button type="submit" class="btn__submit">
+														<span>Войти</span>
+														<i class="bx bx-right-arrow-alt"></i>
+													</button>
+											</div>
+										</form>
+
+										<p class="text__socials">Или авторизуйтесь через:</p>
+										<div class="log_reg__social">
+												<a href="#" class="btn btn-dark">
+														<img class="mx-1" src="{% static "deps/icons/google.svg" %}" alt="Catalog Icon" width="16" height="16">
+														Google
+												</a>
+												<a href="#" class="btn btn-dark">
+														<img class="mx-1" src="{% static "deps/icons/facebook.svg" %}" alt="Catalog Icon" width="16" height="16">
+														Facebook
+												</a>
+												<a href="#" class="btn btn-dark">
+														<img class="mx-1" src="{% static "deps/icons/github.svg" %}" alt="Catalog Icon" width="16" height="16">
+														GitHub
+												</a>
+										</div>
+
+										<p class="text__socials">Следите за нами</p>
+										<div class="social__log_reg">
+												<i class="bx bxl-telegram"></i>
+												<i class="bx bxl-vk"></i>
+										</div>
+								</div> {% endcomment %}
+
+								<!-- Register form container -->
+								<div class="register__form__log">
+									<div class="form__title__log">
+											<span>Создать аккаунт</span>
+									</div>
+											<form class="form__inputs_log" action="{% url "user:registration" %}" method="post">
+												{% csrf_token %}
+													<div class="inputs__box">
+															<input type="text" name="first_name" id="id_first_name" class="input__fields"
+															value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}" placeholder="Ваше имя" required>
+															{% if form.first_name.errors %}
+															<div class="alert alert-danger alert-dismissible fade show">{{ form.first_name.errors }}</div>
+															{% endif %}
+															<i class="bx bxs-user icon__log"></i>
+													</div>
+													<div class="inputs__box">
+															<input type="text" name="last_name" id="id_last_name" class="input__fields"
+															value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}" placeholder="Ваша фамилия" required>
+															{% if form.last_name.errors %}
+															<div class="alert alert-danger alert-dismissible fade show">{{ form.last_name.errors }}</div>
+															{% endif %}
+															<i class="bx bx-user icon__log"></i>
+													</div>
+													<div class="inputs__box">
+															<input type="text" name="username" id="id_username" class="input__fields"
+															value="{% if form.username.value %}{{ form.username.value }}{% endif %}" placeholder="Ваш никнейм" required>
+															{% if form.username.errors %}
+															<div class="alert alert-danger alert-dismissible fade show">{{ form.username.errors }}</div>
+															{% endif %}
+															<i class="bx bxs-user-account icon__log"></i>
+													</div>
+													<div class="inputs__box">
+															<input type="email" name="email" id="id_email" class="input__fields"
+															value="{% if form.email.value %}{{ form.email.value }}{% endif %}" placeholder="Ваш email" required>
+															{% if form.email.errors %}
+															<div class="alert alert-danger alert-dismissible fade show">{{ form.email.errors }}</div>
+															{% endif %}
+															<i class="bx bx-envelope icon__log"></i>
+													</div>
+													<div class="inputs__box">
+															<input type="password" name="password1" id="id_password1" class="input__fields"
+															value="{% if form.password1.value %}{{ form.password1.value }}{% endif %}" placeholder="Введите пароль" required>
+															{% if form.password1.errors %}
+															<div class="alert alert-danger alert-dismissible fade show">{{ form.password1.errors }}</div>
+															{% endif %}
+															<i class="bx bx-hide show-hide icon__log"></i>
+													</div>
+													<div class="inputs__box">
+																<input type="password" name="password2" id="id_password2" class="input__fields"
+																value="{% if form.password2.value %}{{ form.password2.value }}{% endif %}" placeholder="Повторите пароль" required>
+																{% if form.password2.errors %}
+																<div class="alert alert-danger alert-dismissible fade show">{{ form.password2.errors }}</div>
+																{% endif %}
+																<i class="bx bx-hide show-hide icon__log"></i>
+													</div>
+													
+													<div class="inputs__box">
+															<button type="submit" class="btn__submit">
+																<span>Создать</span>
+																<i class="bx bx-right-arrow-alt"></i>
+															</button>
+													</div>
+											</form>
+
+											<p class="text__socials">Следите за нами</p>
+											<div class="social__log_reg">
+													<i class="bx bxl-telegram"></i>
+													<i class="bx bxl-vk"></i>
+											</div>
+								</div>
+					</div>
+			</div>
+
+
+{% endblock content %}
+
+
+{% block footer %}
+	<!--
+	- #FOOTER
+-->
+
+<footer>
+		<div class="container">
+
+				<div class="card footer">
+
+						<div class="section footer-top">
+
+								<div class="footer-brand">
+
+										<a href="#" class="logo">
+												<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
+										</a>
+
+										<p class="footer-text">
+												When an unknown prnoto sans took a galley and scrambled it to make specimen book not only five When an unknown prnoto sans took a galley and scrambled it to five centurie.
+										</p>
+
+										<p class="footer-list-title">Address</p>
+
+										<address class="footer-text address">
+											123 Main Street <br>
+											New York, NY 10001
+										</address>
+
+								</div>
+
+								<div class="footer-list">
+
+										<p class="footer-list-title">Categories</p>
+
+										<ul>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Action</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Bisiness</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Adventure</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Canada</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">America</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Curiosity</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Animal</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Dental</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Biology</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Design</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Breakfast</a>
+												</li>
+
+												<li>
+													<a href="#" class="footer-link hover-2">Dessert</a>
+												</li>
+
+										</ul>
+
+								</div>
+
+								{% comment %} <div class="footer-list">
+
+									<form action="" id="contact-form">
+										{% csrf_token %}
+											<p class="footer-list-title">Contact me</p>
+
+											<p class="footer-text">
+													У вас есть вопросы? Напишите мне.
+											</p>
+
+											<div class="input-wrapper">
+													<input type="text" name="user_name" placeholder="You name" required id="" class="input-field" autocomplete="off">
+
+													<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+											</div>
+
+											<div class="input-wrapper">
+													<input type="email" name="user_email" placeholder="Email address" required id="" class="input-field" autocomplete="off">
+
+													<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+											</div>
+
+											<div class="input-wrapper">
+													<input type="tel" name="email_phone" placeholder="You nomber" required id="" class="input-field" autocomplete="off">
+
+													<ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
+											</div>
+
+											<div class="input-wrapper">
+												<textarea name="user_message" class="input-field" cols="30" rows="6" placeholder="Сообщение" required ></textarea>
+												<div class="ion_mess">
+														<ion-icon name="send-outline"></ion-icon>
+												</div>
+											</div>
+
+
+											<button type="submit" class="btn btn-primary">
+													<span class="span">Отправить</span>
+
+													<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+											</button>
+
+										</br>
+
+											<p class="contact__message" id="contact-message">Статус отправки</p>
+									</form>
+
+								</div> {% endcomment %}
+
+						</div>
+
+						<div class="footer-bottom">
+								<p class="copyright">
+										Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a> <span class="time"></span>
+								</p>
+
+								<ul class="social-list">
+
+										<li>
+												<a href="#" class="social-link">
+													<ion-icon name="logo-twitter"></ion-icon>
+
+													<span class="span">Twitter</span>
+												</a>
+										</li>
+
+										<li>
+												<a href="#" class="social-link">
+													<ion-icon name="logo-linkedin"></ion-icon>
+
+													<span class="span">Linkedin</span>
+												</a>
+										</li>
+
+										<li>
+												<a href="#" class="social-link">
+													<ion-icon name="logo-instagram"></ion-icon>
+
+													<span class="span">Instagram</span>
+												</a>
+										</li>
+
+								</ul>
+						</div>
+
+				</div>
+
+		</div>
+</footer>
+
+{% endblock footer %}

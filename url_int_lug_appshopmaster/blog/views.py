@@ -90,7 +90,7 @@ class PostsView(View):
 
 				# Пагинация для RecentPost
 				recent_posts = RecentPost.objects.all()
-				paginator = Paginator(recent_posts, 2) # количество постов на странице
+				paginator = Paginator(recent_posts, 1) # количество постов на странице
 
 				# Получение номера страницы из GET-параметров
 				page_number = request.GET.get('page', 1)

@@ -66,17 +66,27 @@
 					</button>
 				</div>
 					<ul class="navbar-list">
-						<li>
-							<a href="{% url "main:index" %}" class="navbar-link hover-1" data-nav-toggler>Главная</a>
-						</li>
-
-						<li>
-							<a href="{% url "user:log_reg" %}" class="navbar-link hover-1" data-nav-toggler>Войти<i class="ri-arrow-down-s-line"></i></a>
+							<li>
+								<a href="{% url "main:index" %}" class="navbar-link hover-1" data-nav-toggler>Главная</a>
+							</li>
+						{% if not user.is_authenticated %}
+								<li>
+										<a href="{% url "user:login" %}" class="navbar-link hover-1" data-nav-toggler>Войти</a>
+								</li>
+						{% else %}
+							<li>
+								<a href="{% url "user:profile" %}" class="navbar-link hover-1">Мой профиль<i class="ri-arrow-down-s-line"></i></a>
 									<ul class="subs__menu lists__blocks">
-										<li><a href="{% url "user:profile" %}">Аккаунт</a></li>
-										<li><a href="{% url "user:logout" %}">Выйти</a></li>
+												<li>
+													{% if user.is_admin or user.is_staff %}
+															<a href="http://127.0.0.1:8000/admin/">Админ панель</a>
+													{% endif %}
+												</li>
+												<li><a href="{% url "user:profile" %}">Аккаунт</a></li>
+												<li><a href="{% url "user:logout" %}">Выйти</a></li>
 									</ul>
-						</li>
+							</li>
+						{% endif %}
 						
 						<li>
 							<a href="{% url "blog:post_list" %}" class="navbar-link hover-1" data-nav-toggler>Блог</a>
@@ -146,7 +156,7 @@
 
 				</div>
 
-				<p class="copyright-text">Copyright &copy; TonGameApp <span class="time"></span></p>
+				<p class="copyright-text">Copyright &copy; TonGameApp</br><span class="time"></span></p>
 			</nav>
 
 			<a href="https://t.me/GameAppTon_bot" class="btn btn-primary">Subscribe</a>
@@ -165,9 +175,9 @@
 						
 						<div class="card__log__reg footer__log__reg">
 									<div class="container__reg__log">
-
+										{% comment %} {% include "includes/notifications.html" %} {% endcomment %}
 										{% block content %}
-									
+
 										{% endblock content %}
 
 								</div>
@@ -208,8 +218,9 @@
 	<script src="{% static "deps/js/script/script-blog.js" %}"></script>
 	<script src="{% static "deps/js/script/script-mains.js" %}"></script>
 	<script src="{% static "deps/js/script/script-commerce.js" %}"></script>
+	<script src="{% static "deps/js/script/password-block.js" %}"></script>
 
-	
+	  
 	<!--
 		- ionicon link
 	-->

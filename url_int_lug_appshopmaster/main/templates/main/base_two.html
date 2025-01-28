@@ -1,120 +1,420 @@
 {% load static %}
-{% load goods_tags %}
+{% load tz %}
 
-{% comment %} <-- --> {% endcomment %}
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static "deps/css/bootstrap/bootstrap.min.css" %}">
-    <link rel="stylesheet" href="{% static "deps/css/my_css.css" %}">
-    <!-- Стиль footer-a для главной страницы -->
-    {% block css %}
-		
-		{% endblock css %}
-    <!-- Favicons for different platforms -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
-    <link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-    <title>{{ title }}</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!--
+		- primary meta tags
+	-->
+	<title>{{ title }}</title>
+	<meta name="title" content="{{ title }}">
+	<meta name="description" content="{{ title }}">
+	<!-- Favicons for different platforms -->
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
+	<link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
+
+	<!--
+		- google font link
+	-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap"
+	rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+
+	<!--
+		- custom css link
+	-->
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="{% static "deps/css/style.css" %}">
+	{% comment %} <link rel="stylesheet" href="{% static "deps/css/commerce_style.css" %}"> {% endcomment %}
+
+	<!--
+			- preload images
+	-->
+	<link rel="preload" as="image" href="{% static "deps/images/hero-banner.png" %}">
+	<link rel="preload" as="image" href="{% static "deps/images/pattern-2.svg" %}">
+	<link rel="preload" as="image" href="{% static "deps/images/pattern-3.svg" %}">
+
+
 </head>
+<body id="top">
+
+			{% comment %} <!-- Форма фильтров -->
+			<div class="dropdown mb-2">
+				<button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						Фильтры
+				</button>
+
+				<form action="" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="checkbox" name="on_sale" id="flexCheckDefault" value="on">
+								<input type="hidden" name="q" value="request.GET.q">
+								<label class="form-check-label" for="flexCheckDefault">
+										Товары по акции
+								</label>
+						</div>
+						<p class="text-white mx-3 mt-3">Сортировать:</p>
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault1" value="default" checked>
+								<label class="form-check-label" for="flexRadioDefault1">
+										По умолчанию
+								</label>
+						</div>
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault2" value="price">
+								<label class="form-check-label" for="flexRadioDefault2">
+										От дешевых к дорогим
+								</label>
+						</div>
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault3" value="-price">
+								<label class="form-check-label" for="flexRadioDefault3">
+										От дорогих к дешевым
+								</label>
+						</div>
+						<button type="submit" class="btn btn-primary mx-3 mt-3">Применить</button>
+				</form>
+		</div> {% endcomment %}
+
+	<!--
+		- #HEADER
+	-->
+	<header class="header" data-header>
+		<div class="container">
+
+			<a href="{% url "main:index" %}" class="logo">
+				<img src="{% static "deps\images\logo.svg" %}" width="119" height="37" alt="TonGameApp">
+			</a>
+
+			<nav class="navbar" data-navbar>
+				<div class="navbar-top">
+					<a href="{% url "main:index" %}" class="logo">
+						<img src="{% static "deps\images\logo.svg" %}" width="119" height="37" alt="TonGameApp">
+					</a>
+
+					<button class="nav-close-btn" aria-label="close menu" data-nav-toggler>
+						<ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+					</button>
+				</div>
+					<ul class="navbar-list">
+						<li>
+							<a href="{% url "main:index" %}" class="navbar-link hover-1" data-nav-toggler>Главная</a>
+						</li>
+
+						{% if not user.is_authenticated %}
+								<li>
+										<a href="{% url "user:login" %}" class="navbar-link hover-1" data-nav-toggler>Войти</a>
+								</li>
+						{% else %}
+								<li>
+									<a href="{% url "user:profile" %}" class="navbar-link hover-1">Мой профиль<i class="ri-arrow-down-s-line"></i></a>
+										<ul class="subs__menu lists__blocks">
+													<li>
+														{% if user.is_admin or user.is_staff %}
+																<a href="http://127.0.0.1:8000/admin/">Админ панель</a>
+														{% endif %}
+													</li>
+													<li><a href="{% url "user:profile" %}">Аккаунт</a></li>
+													<li><a href="{% url "user:logout" %}">Выйти</a></li>
+										</ul>
+								</li>
+						{% endif %}
+						
+						<li>
+							<a href="{% url "blog:post_list" %}" class="navbar-link hover-1" data-nav-toggler>Блог</a>
+						</li>
+
+						<li>
+							<a href="#featured" class="navbar-link hover-1" data-nav-toggler>Featured Post</a>
+						</li>
+
+						{% comment %} <li>
+							<a href="{% url "main:contact" %}" class="navbar-link hover-1" data-nav-toggler>Контакты</a>
+						</li> {% endcomment %}
 
 
+						{% comment %} <li>
+							<a href="{% url "catalog:index" category_slug='all' %}" class="navbar-link hover-1" data-nav-toggler>Магазин</a>
+						</li> {% endcomment %}
 
-<body>
-		<section class="main-section">
-			<a href="" class="logo">Animals</a>
-								<!-- Пустой блок на Ваше усмотрение -->
-										<div class="slider">
-											<!-- ===============slider start=====================-->
-											{% for slide in slides %}
-											<div class="slide {% if forloop.first %} first-slide {% endif %}">
-												<div class="slide-images">
-													<img src="{% static slide.bg_image %}" alt="" class="slide-bg-img">
-													<h1 class="animal-name">{{ slide.animal_name }}</h1>
-													<img src="{% static slide.animal_image %}" alt="" class="slide-animal-img">
-												</div>
-												<div class="slide-text-content">
-													<h3 class="slide-caption">{{ slide.caption }}</h3>
-													<p class="slide-paragraph">
-														{{ slide.paragraph }} 
-														<span class="paragraph-anchor-tag"><a href="" class="read-more">Read More</a></span>
-													</p>
-													<button class="watch-video-btn">Watch video</button>
-												</div>
-												<div class="slide-video-modal">
-													<i class="ri-close-line video-close-btn"></i>
-													<div class="video-modal-content">
-														<div class="video-card">
-															<video src="{% static slide.video %}" class="animal-video" controls autoplay loop></video>
-															<p class="video-paragraph">{{ slide.video_description }}
-																<span class="video-anchor-tag"><a href="" class="read-more">Read More</a></span>
-															</p>
-														</div>
+						
+						<li class="li__search">
+							<form class="d__flex_search" role="search" action="{% url "blog:search" %}" method="get">
+								<input class="form-control me-2" type="search" name="q" placeholder="Поиск" value="{{ query }}" aria-label="Search">
+								<button class="btn btn-primary" type="submit">
+									<ion-icon name="search-outline"></ion-icon>
+								</button>
+							</form>
+						</li>
+
+					</ul>
+
+
+				<div class="navbar-bottom">
+
+					<div class="profile-card">
+						<img src="{% static "deps/images/author-1.png" %}" width="48" height="48" alt="Steven" class="profile-banner">
+
+						<div>
+							<p class="card-title">Hello Steven!</p>
+
+							<p class="card-subtitile">
+								You have 3 new message
+							</p>
+						</div>
+					</div>
+
+					<ul class="link-list">
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">Profile</a>
+						</li>
+
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">Articles Saved</a>
+						</li>
+
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">Add New Post</a>
+						</li>
+
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">My Likes</a>
+						</li>
+
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">Account Setting</a>
+						</li>
+
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">Sign Out</a>
+						</li>
+					</ul>
+
+				</div>
+
+				<p class="copyright-text">Copyright &copy; TonGameApp</br><span class="time"></span></p>
+			</nav>
+
+			<a href="https://t.me/GameAppTon_bot" class="btn btn-primary">Subscribe</a>
+
+			<button class="nav-open-btn" area-label="open menu" data-nav-toggler>
+				<ion-icon name="menu-outline" aria-hidden="true"></ion-icon>
+			</button>
+		</div>
+	</header>
+
+
+	<main>
+			<article>
+
+					<section class="section recent-post" id="recent" aria-labelledby="recent-label" >
+						<div class="container">
+
+								<div class="post-main">
+
+										{% block content %}
+									
+										{% endblock content %}
+
+								</div>
+
+								<div class="post-aside grid-list">
+
+									<div class="card aside-card">
+
+										<h3 class="headline headline-2 aside-title">
+												<span class="span">Popular Posts</span>
+										</h3>
+
+										<ul class="popular-list">
+											{% for post in top_5_posts %}
+											<li>
+													<div class="popular-card">
+
+															<figure class="card-banner img-holder" style="--width: 64; --height: 64;">
+																	<img src="/media/{{ post.image }}" width="64" height="64" loading="lazy" alt="{{ post.title }}" class="img-cover">
+															</figure>
+
+															<div class="card-content">
+
+																	<h4 class="headline headline-4 card-title">
+																			<a href="{% url "blog:post_detail" post.slug %}" class="link hover-2">{{ post.title }}</a>
+																	</h4>
+
+																	<div class="wrapper">
+																			<p class="card-subtitle">{{ post.reading_time }} mins read</p>
+
+																			<time datetime="" class="puplish-date" datetime="{{ post.created_at|date:"Y-m-d" }}">{{ post.created_at|date:"d M Y" }}</time>
+																	</div>
+
+															</div>
+
 													</div>
-												</div>
-											</div>
+											</li>
 											{% endfor %}
 
+										</ul>
+
+									</div>
+
+										<div class="card aside-card">
+
+												<h3 class="headline headline-2 aside-title">
+														<span class="span">Last comment</span>
+												</h3>
+
+												<ul class="comment-list">
+
+														<li>
+																<div class="comment-card">
+
+																	<blockquote class="card-text">
+																			“ Gosh jaguar ostrich quail one excited dear hello and bound and the and bland moral misheard roadrunner “
+																	</blockquote>
+
+																	<div class="profile-card">
+																			<figure class="profile-banner img-holder">
+																					<img src="{% static "deps/images/author-6.png" %}" width="32" height="32" loading="lazy" alt="Jane Cooper">
+																			</figure>
+
+																			<div>
+																					<p class="card-title">Jane Cooper</p>
+
+																					<time datetime="2022-04-15" class="card-date">15 Aprile 2022</time>
+																			</div>
+																	</div>
+
+																</div>
+														</li>
+
+														<li>
+															<div class="comment-card">
+
+																<blockquote class="card-text">
+																		“ Gosh jaguar ostrich quail one excited dear hello and bound and the and bland moral misheard roadrunner “
+																</blockquote>
+
+																<div class="profile-card">
+																		<figure class="profile-banner img-holder">
+																				<img src="{% static "deps/images/author-7.png" %}" width="32" height="32" loading="lazy" alt="Katen Doe">
+																		</figure>
+
+																		<div>
+																				<p class="card-title">Katen Doe</p>
+
+																				<time datetime="2022-04-15" class="card-date">15 Aprile 2022</time>
+																		</div>
+																</div>
+
+															</div>
+														</li>
+
+														<li>
+															<div class="comment-card">
+
+																<blockquote class="card-text">
+																		“ Gosh jaguar ostrich quail one excited dear hello and bound and the and bland moral misheard roadrunner “
+																</blockquote>
+
+																<div class="profile-card">
+																		<figure class="profile-banner img-holder">
+																				<img src="{% static "deps/images/author-8.png" %}" width="32" height="32" loading="lazy" alt="Barbara Cartland">
+																		</figure>
+
+																		<div>
+																				<p class="card-title">Barbara Cartland</p>
+
+																				<time datetime="2022-04-15" class="card-date">15 Aprile 2022</time>
+																		</div>
+																</div>
+
+															</div>
+														</li>
+
+												</ul>
+
 										</div>
-											 <!-- ===============Social media link=====================-->
-												<div class="slider-media-icons">
-													<a href="#" class="media-links"><i class="ri-vk-fill"></i> </a>
-													<a href="#" class="media-links"><i class="ri-telegram-fill"></i> </a>
+
+										<div class="card aside-card insta-card">
+
+												<a href="#" class="logo">
+														<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
+												</a>
+
+												<p class="card-text">
+														Follow us on instagramss
+												</p>
+
+												<div class="hero-banner">
+													{% if hero and hero.image %}
+														<img src="{{ hero.image.url }}" width="327" height="490" alt="" class="w-100">
+													{% else %}
+														<img src="{% static "deps/images/hero-banner.png" %}" width="327" height="490" alt="" class="w-100">
+													{% endif %}
 												</div>
 
-											 <!-- ===============Social media link end=====================-->
-												
-											 <!-- ===============Slider left/right arrow navigation=====================-->
+										</div>
 
-											 <div class="slider-navigation">
-												<div class="prev-btn"><i class="ri-arrow-left-s-line"></i>Prev</div>
-												<div class="next-btn">Next<i class="ri-arrow-right-s-line"></i></div>
-											 </div>
+								</div>
 
-											 <!-- ===============Slider left/right arrow navigation end=====================-->
+						</div>
+					</section>
 
-											 <!-- ===============Slide pagination buttons for each slide=====================-->
-												<div class="slide-pagination">
-													<div class="slide-btn first-slide-btn"></div>
-													<div class="slide-btn"></div>
-													<div class="slide-btn"></div>
-													<div class="slide-btn"></div>
-													<div class="slide-btn"></div>
-													<div class="slide-btn"></div>
-													<div class="slide-btn"></div>
-													<div class="slide-btn"></div>
-													<div class="slide-btn"></div>
-												</div>
 
-											 <!-- ===============Slide pagination buttons for each slide end=====================-->
+			</article>
+	</main>
 
-											 <!-- ===============Slide visibiality indicator bars for each slide=====================-->
-												<div class="slide-indicator-bars">
-													<div class="indicator-bar first-indicator-bar"></div>
-													<div class="indicator-bar"></div>
-													<div class="indicator-bar"></div>
-													<div class="indicator-bar"></div>
-													<div class="indicator-bar"></div>
-													<div class="indicator-bar"></div>
-													<div class="indicator-bar"></div>
-													<div class="indicator-bar"></div>
-													<div class="indicator-bar"></div>
-												</div>
-												<!-- ===============Slide visibiality indicator bars for each slide end=====================-->
 
-		</section>
-		<script src="{% static "deps/js/jquery/jquery-3.7.0.min.js" %}"></script>
-		<script src="{% static "deps/js/jquery-events.js" %}"></script>
-		<script src="{% static "deps/js/jquery-ajax.js" %}"></script>
-		<script src="{% static "deps/js/bootstrap/bootstrap.bundle.min.js" %}"></script>
-		<script src="{% static "deps/js/script/script-slider.js" %}"></script>
+	<!--
+		- #FOOTER
+	-->
+
+{% block footer %}
+
+
+{% endblock footer %}
+
+
+
+	<!-- 
+		- #BACK TO TOP
+	-->
+	
+	<a href="#top" class="back-top-btn" aria-label="back to top" data-back-top-btn>
+		<ion-icon name="arrow-up-outline" aria-hidden="true"></ion-icon>
+	</a>
+
+
+	<!--
+		- custom js link
+	-->
+	<script src="{% static "deps/js/script/log-reg.js" %}"></script>
+	<script src="{% static "deps/js/script/script-time.js" %}"></script>
+	<script src="{% static "deps/js/script/script-blog.js" %}"></script>
+	<script src="{% static "deps/js/script/script-mains.js" %}"></script>
+	<script src="{% static "deps/js/script/script-commerce.js" %}"></script>
+
+	
+	<!--
+		- ionicon link
+	-->
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+	<!-- 
+	- email js
+	-->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="{% static "deps/js/script/script-email.js" %}"></script>
+
+		
 </body>
-
 </html>

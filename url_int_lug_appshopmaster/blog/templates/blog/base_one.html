@@ -26,6 +26,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap"
 	rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
 
 	<!--
 		- custom css link
@@ -108,9 +109,24 @@
 							<a href="{% url "main:index" %}" class="navbar-link hover-1" data-nav-toggler>Главная</a>
 						</li>
 
-						<li>
-							<a href="{% url "users:log_reg" %}" class="navbar-link hover-1" data-nav-toggler>Войти</a>
-						</li>
+						{% if not user.is_authenticated %}
+								<li>
+										<a href="{% url "user:login" %}" class="navbar-link hover-1" data-nav-toggler>Войти</a>
+								</li>
+						{% else %}
+								<li>
+									<a href="{% url "user:profile" %}" class="navbar-link hover-1">Мой профиль<i class="ri-arrow-down-s-line"></i></a>
+										<ul class="subs__menu lists__blocks">
+													<li>
+														{% if user.is_admin or user.is_staff %}
+																<a href="http://127.0.0.1:8000/admin/">Админ панель</a>
+														{% endif %}
+													</li>
+													<li><a href="{% url "user:profile" %}">Аккаунт</a></li>
+													<li><a href="{% url "user:logout" %}">Выйти</a></li>
+										</ul>
+								</li>
+						{% endif %}
 						
 						<li>
 							<a href="{% url "blog:post_list" %}" class="navbar-link hover-1" data-nav-toggler>Блог</a>
@@ -184,7 +200,7 @@
 
 				</div>
 
-				<p class="copyright-text">Copyright &copy; TonGameApp <span class="time"></span></p>
+				<p class="copyright-text">Copyright &copy; TonGameApp</br><span class="time"></span></p>
 			</nav>
 
 			<a href="https://t.me/GameAppTon_bot" class="btn btn-primary">Subscribe</a>

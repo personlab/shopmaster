@@ -505,6 +505,10 @@ body.nav-active {
 	border-block-end: 1px solid var(--border-white-alpha-15);
 }
 
+.navbar-list-top {
+	border-block-end: 1px solid var(--border-white-alpha-15);
+}
+
 
 
 .lists__blocks a {
@@ -1175,7 +1179,7 @@ form.d__flex_search button {
 	justify-content: center;
 	flex-direction: column;
 	width: 55%;
-	background: var(--bg-oxford-blue-2);
+	/* background: var(--bg-oxford-blue-2); */
 	backdrop-filter: blur(30px);
 	border-radius: 0 30% 20% 0;
 	transition: border-radius .3s;
@@ -1299,6 +1303,10 @@ form.d__flex_search button {
 	background: rgba(44, 70, 129, 0.89);
 }
 
+.btn__two__log {
+	background: rgba(44, 70, 129, 0.89);
+}
+
 /* =============== LOGIN FORM	============== */
 
 .login__form__log {
@@ -1317,7 +1325,7 @@ form.d__flex_search button {
 
 .register__form__log {
 	position: absolute;
-	left: 150%;
+	left: 50%; /* 150 */
 	transform: translateX(-50%);
 	display: flex;
 	flex-direction: column;
@@ -1371,6 +1379,7 @@ form.d__flex_search button {
 	right: 15px;
 	transform: translateY(-50%);
 	color: var(--white);
+	cursor: pointer;
 }
 
 .forgot-pass {
@@ -1388,7 +1397,12 @@ form.d__flex_search button {
 	text-decoration: underline;
 }
 
-.inputs__submit {
+.errorlist li {
+	margin: 10px;
+	color: #e96e97;
+}
+
+.btn__submit {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -1405,7 +1419,7 @@ form.d__flex_search button {
 	transition: .3s;
 }
 
-.inputs__submit:is(:hover, :focus-visible) {
+.btn__submit:is(:hover, :focus-visible) {
 	gap: 15px;
 }
 
@@ -1436,6 +1450,11 @@ form.d__flex_search button {
 .text__socials {
 	margin-top: 30px;
 	color: var(--text-wild-blue-yonder);
+}
+
+.text__socials a:hover {
+	text-decoration: underline;
+	color: var(--white);
 }
 
 /* .log_reg__social {
@@ -2207,6 +2226,13 @@ form.d__flex_search button {
 			border-block-end: none;
 			display: flex;
 			gap: 40px;
+			margin-inline: auto;
+		}
+
+		.navbar-list-top {
+			border-block-end: none;
+			display: flex;
+			gap: 20px;
 			margin-inline: auto;
 		}
 

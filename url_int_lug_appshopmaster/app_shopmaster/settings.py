@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
-from django.conf.global_settings import MEDIA_ROOT, MEDIA_URL
+from django.conf.global_settings import AUTH_USER_MODEL, MEDIA_ROOT, MEDIA_URL
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -89,8 +89,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'app_shopmaster.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# # Database
+# # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 # DATABASES = {
 # 		'default': {
@@ -166,7 +166,9 @@ INTERNAL_IPS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'users.User'
 
 
 TELEGRAM_BOT_TOKEN = '5909764830:AAEwez_YhyjVE3gUyL_B30aKd9FA4PdK2Kk'
 TELEGRAM_CHAT_ID = '1380244093'
+
