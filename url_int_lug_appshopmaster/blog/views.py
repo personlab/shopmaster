@@ -4,10 +4,11 @@ from turtle import title
 from urllib import request
 from django.conf import settings
 from django.db.models import CharField
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.shortcuts import render, get_object_or_404
 from django.test import tag
@@ -22,7 +23,9 @@ from django.http import Http404, JsonResponse
 from pygments import highlight
 import requests
 
-from .models import Post, Hero, Featured, RecentPost, Tag
+from blog.forms import CommentForm, CommentRecentForm
+
+from .models import Post, Hero, Featured, RecentPost, Tag, Comment
 
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchHeadline
 
@@ -61,7 +64,8 @@ class PostsView(View):
 				hero = Hero.objects.first()
 
 				# Проверяем наличие записей в модели Post
-				posts = Post.objects.all() if Post.objects.exists() else []
+				# posts = Post.objects.all() if Post.objects.exists() else []
+				posts = Post.objects.filter(is_archived=False) if Post.objects.exists() else []
 				popular_tags = Tag.objects.all().order_by('-popularity_count')[:12] # Извлечение тегов/сортировка по популярности
 
 				# Получить посты из таблицы Post
@@ -117,6 +121,8 @@ class PostsView(View):
 								post = item.post
 								tags = post.tags.all() if post else []
 								featured_items_with_tags.append((item, tags))
+				
+				latest_comments = Comment.objects.select_related('post').order_by('-created_at')[:3]
 
 
 				context = {
@@ -128,7 +134,8 @@ class PostsView(View):
 						'top_5_posts': top_5_posts,
 						'popular_tags': popular_tags,
 						'paginator': paginator,
-						'recent_posts': page_obj
+						'recent_posts': page_obj,
+						'latest_comments': latest_comments,
 				}
 
 				return render(request, 'blog/post_list.html', context)
@@ -196,27 +203,33 @@ class TagPostsView(View):
 				return render(request, 'blog/tag_posts.html', context=context)
 
 
+
 class PostDetailView(View):
-		def post(self, request, slug=None):
-				user_name = request.POST.get('user_name')
-				user_email = request.POST.get('user_email')
-				user_phone = request.POST.get('email_phone')
-				user_message = request.POST.get('user_message')
-
-				message = f"Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
-
-				# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
-				telegram_sender = SendMessageTelegramView()
-				telegram_sender.send_message(message)
-
-				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
-
-
 		def get(self, request, slug):
 				hero = Hero.objects.first()
-				post = None
 				tags = []
 				recent_posts_with_tags = []
+				form = None  # Изначально форма не определена
+
+				# Проверка RecentPost
+				post = RecentPost.objects.filter(slug=slug).first()
+				if post:
+						post.popularity_count += 1
+						post.save()
+						recent_posts_with_tags = [
+								(recent_post, recent_post.tags.all())
+								for recent_post in RecentPost.objects.prefetch_related('tags').all()
+						]
+				else:
+						# Проверка Post
+						post = Post.objects.filter(slug=slug).first()
+						if post:
+								post.popularity_count += 1
+								post.save()
+								tags = post.tags.all()  # Извлечение тегов из Post
+								form = CommentForm(user=request.user)  # Создаем пустую форму только для Post
+						else:
+								raise Http404("No post matches the given query.")
 
 				# Получить посты из таблицы Post
 				post_posts = Post.objects.annotate(
@@ -232,33 +245,16 @@ class PostDetailView(View):
 						'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
 				)
 
-				# Объединение QuerySets
 				all_posts = sorted(
 						chain(post_posts, recent_posts_one),
-						key=lambda post: post['popularity_count'], 
+						key=lambda post: post['popularity_count'],
 						reverse=True
 				)
 
-				# Взять топ 5 популярных постов
 				top_5_posts = all_posts[:5]
+				# Получить последние 3 комментария из всех постов
+				latest_comments = Comment.objects.select_related('post').order_by('-created_at')[:3]
 
-				# Проверка RecentPost
-				if RecentPost.objects.filter(slug=slug).exists():
-						post = get_object_or_404(RecentPost, slug=slug)
-						post.popularity_count += 1
-						post.save()
-						recent_posts_with_tags = [
-								(recent_post, recent_post.tags.all())
-				for recent_post in RecentPost.objects.prefetch_related('tags')  # Prefetch tags
-										]
-				# Проверка Post
-				elif Post.objects.filter(slug=slug).exists():
-						post = get_object_or_404(Post, slug=slug)
-						post.popularity_count += 1
-						post.save()
-						tags = post.tags.all() # Извлечение тегов из Post
-				else:
-						raise Http404("No post matches the given query.")
 
 				context = {
 						'title': post.title,
@@ -267,9 +263,134 @@ class PostDetailView(View):
 						'hero': hero,
 						'top_5_posts': top_5_posts,
 						'recent_posts_with_tags': recent_posts_with_tags,
+						'form': form, # Передаем форму в контекст только в случае Post
+						'latest_comments': latest_comments,
 				}
 
 				return render(request, 'blog/post_detail.html', context=context)
+
+		
+		def post(self, request, slug=None):
+				# Обработка формы отправки сообщения в Telegram
+				if 'user_name' in request.POST:
+						user_name = request.POST.get('user_name')
+						user_email = request.POST.get('user_email')
+						user_phone = request.POST.get('user_phone')
+						user_message = request.POST.get('user_message')
+
+						message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
+
+						# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
+						telegram_sender = SendMessageTelegramView()
+						telegram_sender.send_message(message)
+
+						return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
+				
+				hero = Hero.objects.first()
+
+				if request.POST.get('type') == 'recent':
+						try:
+								recent_post = RecentPost.objects.get(slug=slug)
+								selected_post = recent_post
+						except RecentPost.DoesNotExist:
+								recent_post = None
+								selected_post = None
+				else:
+						post = get_object_or_404(Post, slug=slug)
+						selected_post = post
+
+				if selected_post is None:
+						raise Http404("Пост не найден")
+
+				if request.method == 'POST' and selected_post:
+						form = CommentForm(request.POST, user=request.user)
+						if form.is_valid():
+								comment = form.save(commit=False)
+								comment.post = selected_post
+
+								# Сохраняем аватарку автора, если пользователь авторизован
+								if request.user.is_authenticated:
+										comment.author_image = request.user.image.url  # Предполагается, что у пользователя есть поле `image`
+								else:
+										comment.author_image = "{% static 'deps/images/default-avatar.png' %}"  # Используем аватарку по умолчанию для анонимных пользователей
+
+								try:
+										comment.save()
+
+										# Если запрос AJAX, возвращаем JSON-ответ
+										if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+												return JsonResponse({
+														'success': True,
+														'comment': {
+																'text': comment.text,
+																'author': comment.author,
+																'author_image': comment.author_image,  # Добавляем URL аватарки в ответ
+																'created_at': comment.created_at.strftime('%d.%m.%Y %H:%M'),
+														}
+												})
+										else:
+												# Если это обычный POST-запрос, выполняем редирект
+												return redirect('post_detail', slug=selected_post.slug) + f"?type=post"
+								except Exception as e:
+										print(f"Ошибка при сохранении комментария: {e}")
+										if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+												return JsonResponse({'success': False, 'error': str(e)})
+										else:
+												# Обработка ошибки для обычного POST-запроса
+												...
+				elif selected_post:
+						form = CommentForm(user=request.user)
+				else:
+						form = None
+
+				# Получить посты из таблицы RecentPost
+				recent_posts_one = RecentPost.objects.annotate(
+						model_type=Value('RecentPost', output_field=CharField())
+				).values(
+						'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				)
+
+				# Получить посты из таблицы Post
+				post_posts = Post.objects.annotate(
+						model_type=Value('Post', output_field=CharField())
+				).values(
+						'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				)
+
+				selected_post.popularity_count += 1
+				selected_post.save()
+
+				# Объединение QuerySets для всех постов
+				all_posts = sorted(
+						chain(post_posts, recent_posts_one),
+						key=lambda post: post['popularity_count'],
+						reverse=True
+				)
+
+				# Взять топ 5 популярных постов
+				top_5_posts = all_posts[:5]
+
+				tags = selected_post.tags.all()
+				comments = selected_post.comments.all() if selected_post else []
+
+				context = {
+						'hero': hero,
+						'title': selected_post.title if selected_post else '',
+						'post': selected_post if selected_post else None,
+						'recent_post': None,
+						'tags': tags,
+						'top_5_posts': top_5_posts,
+						'comments': comments,
+						'form': form if form else None,
+				}
+
+				return render(request, 'blog/post_detail.html', context=context)
+
+
+
+
+
+
 
 
 class PostSearchView(View):

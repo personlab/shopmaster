@@ -44,13 +44,68 @@
 			</div>
 		{% endif %}
 
-		<br>
-		{% comment %} <h2>Теги</h2> {% endcomment %}
+		</br>
+		
 		<ul class="tags__detail">
-			{% for tag in tags %}
-				<li><a href="{% url 'blog:tag_posts' tag.id %}"> #{{ tag.name }}&nbsp;</a></li>
-			{% endfor %}
+		{% for tag in tags %}
+			<li><a href="{% url 'blog:tag_posts' tag.id %}"> #{{ tag.name }}&nbsp;</a></li>
+		{% endfor %}
 		</ul>
+
+
+	<!-- Отображение формы для комментариев -->
+	{% if form %}
+	{% if user.is_authenticated %}
+	<!-- Отображение имени пользователя -->
+	<div class="comments_user">
+			<p>Вы как:</p> <img class="comments_user_banner" src="{{ user.image.url }}" loading="lazy" alt="{{ user.username }}"><strong class="h2_posts_detail">{{ user.username }}</strong>
+	</div>
+
+	<!-- Форма для комментария -->
+	<form id="users__commentss" method="POST" action="{% url 'blog:post_detail' slug=post.slug %}" data-user-image="{% if user.is_authenticated %}{{ user.image.url }}{% endif %}">
+			{% csrf_token %}
+			<textarea class="form__user__comment" name="text" cols="40" rows="10" placeholder="Ваше сообщение" required="" rezine="none" id="id_text"></textarea>
+			<button class="btn__user__comment" type="submit">Отправить</button>
+</form>
+	{% else %}
+	<!-- Сообщение для неавторизованных пользователей -->
+	<p>Зарегистрируйтесь, чтобы оставить комментарий.</p>
+	
+	<div class="btn__box__log">
+		<button class="bth__log__reg" id="login"><a href="{% url "user:login" %}">Войти</a></button>
+		<button class="bth__log__reg btn__two__log" id="register">Регистрация</button>
+	</div>
+	{% endif %} 
+
+	<!-- Отображение комментариев -->
+	<h2>Комментарии:</h2>
+	{% endif %}
+
+	<div class="comment-list">
+			{% for comment in post.comments.all %}
+			<li>
+					<div class="comment-card">
+							<blockquote class="card-text">
+									“{{ comment.text }}”
+							</blockquote>
+							<div class="profile-card comment__img">
+									<figure>
+											<img src={{ comment.author_image }} width="32" height="32" loading="lazy" alt="{{ comment.author }}">
+									</figure>
+									<div>
+											<p class="card-title">{{ comment.author }}</p>
+											<time datetime="{{ comment.created_at|date:'Y-m-d' }}" class="card-date">{{ comment.created_at|date:"d.m.Y H:i" }}</time>
+									</div>
+							</div>
+					</div>
+			</li>
+			{% endfor %}
+	</div>
+
+
+	<br>
+
+
 
 		<h2 class="h2_posts_detail"><a href="{% url 'blog:post_list' %}#recent"> Recent Posts</a></h2>
 		<ul class="tags__detail">

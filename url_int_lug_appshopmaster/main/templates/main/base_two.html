@@ -122,7 +122,7 @@
 																<a href="http://127.0.0.1:8000/admin/">Админ панель</a>
 														{% endif %}
 													</li>
-													<li><a href="{% url "user:profile" %}">Аккаунт</a></li>
+													{% comment %} <li><a href="{% url "user:profile" %}">Аккаунт</a></li> {% endcomment %}
 													<li><a href="{% url "user:logout" %}">Выйти</a></li>
 										</ul>
 								</li>
@@ -158,7 +158,7 @@
 					</ul>
 
 
-				<div class="navbar-bottom">
+				{% comment %} <div class="navbar-bottom">
 
 					<div class="profile-card">
 						<img src="{% static "deps/images/author-1.png" %}" width="48" height="48" alt="Steven" class="profile-banner">
@@ -198,6 +198,40 @@
 						</li>
 					</ul>
 
+				</div> {% endcomment %}
+
+				<div class="navbar-bottom">
+					{% if user.is_authenticated %}
+					<div class="profile-card">
+						{% if user.image %}
+								<img src="{{ user.image.url }}" alt="{{ user.username }}" class="profile-banner">
+						{% else %}
+								<img src="{% static "deps\images\Not found image.png" %}" width="48" height="48" alt="" class="profile-banner image_banner">
+						{% endif %}
+
+						<div>
+							<p class="card-title">Привет, {{ user.first_name }} {{ user.last_name }}</p>
+
+							<p class="card-subtitile">
+								You have 3 new message
+							</p>
+						</div>
+					</div>
+
+					<ul class="link-list">
+						<li>
+							<a href="{% url "user:profile" %}" class="navbar-bottom-link hover-1">Настройки аккаунта</a>
+						</li>
+
+						<li>
+							<a href="{% url "user:logout" %}" class="navbar-bottom-link hover-1" style="color: hsla(199, 89%, 49%, 1);">Выйти</a>
+						</li>
+					</ul>
+					{% else %}
+					<li>
+						<a href="{% url "user:login" %}" class="navbar-link hover-1" data-nav-toggler>Войти</a>
+					</li>
+				{% endif %}
 				</div>
 
 				<p class="copyright-text">Copyright &copy; TonGameApp</br><span class="time"></span></p>
@@ -265,83 +299,38 @@
 
 									</div>
 
-										<div class="card aside-card">
-
-												<h3 class="headline headline-2 aside-title">
-														<span class="span">Last comment</span>
-												</h3>
-
-												<ul class="comment-list">
-
-														<li>
-																<div class="comment-card">
-
-																	<blockquote class="card-text">
-																			“ Gosh jaguar ostrich quail one excited dear hello and bound and the and bland moral misheard roadrunner “
-																	</blockquote>
-
-																	<div class="profile-card">
-																			<figure class="profile-banner img-holder">
-																					<img src="{% static "deps/images/author-6.png" %}" width="32" height="32" loading="lazy" alt="Jane Cooper">
-																			</figure>
-
-																			<div>
-																					<p class="card-title">Jane Cooper</p>
-
-																					<time datetime="2022-04-15" class="card-date">15 Aprile 2022</time>
-																			</div>
-																	</div>
-
-																</div>
-														</li>
-
-														<li>
-															<div class="comment-card">
-
-																<blockquote class="card-text">
-																		“ Gosh jaguar ostrich quail one excited dear hello and bound and the and bland moral misheard roadrunner “
-																</blockquote>
-
-																<div class="profile-card">
-																		<figure class="profile-banner img-holder">
-																				<img src="{% static "deps/images/author-7.png" %}" width="32" height="32" loading="lazy" alt="Katen Doe">
-																		</figure>
-
-																		<div>
-																				<p class="card-title">Katen Doe</p>
-
-																				<time datetime="2022-04-15" class="card-date">15 Aprile 2022</time>
+									<div class="card aside-card">
+										<h3 class="headline headline-2 aside-title">
+												<span class="span">Last comment</span>
+										</h3>
+								
+										<ul class="comment-list">
+												{% if latest_comments %}
+														{% for comment in latest_comments %}
+																<li>
+																		<div class="comment-card">
+																				<blockquote class="card-text">
+																						“{{ comment.text }}”
+																				</blockquote>
+								
+																				<div class="profile-card">
+																						<figure class="profile-banner img-holder">
+																								<img src="{% if comment.author_image %}{{ comment.author_image }}{% else %}{% static 'deps/images/default-avatar.png' %}{% endif %}" width="32" height="32" loading="lazy" alt="{{ comment.author }}">
+																						</figure>
+								
+																						<div>
+																								<p class="card-title">{{ comment.author }}</p>
+																								<time datetime="{{ comment.created_at|date:'Y-m-d' }}" class="card-date">{{ comment.created_at|date:"d F Y" }}</time>
+																						</div>
+																				</div>
 																		</div>
-																</div>
-
-															</div>
-														</li>
-
-														<li>
-															<div class="comment-card">
-
-																<blockquote class="card-text">
-																		“ Gosh jaguar ostrich quail one excited dear hello and bound and the and bland moral misheard roadrunner “
-																</blockquote>
-
-																<div class="profile-card">
-																		<figure class="profile-banner img-holder">
-																				<img src="{% static "deps/images/author-8.png" %}" width="32" height="32" loading="lazy" alt="Barbara Cartland">
-																		</figure>
-
-																		<div>
-																				<p class="card-title">Barbara Cartland</p>
-
-																				<time datetime="2022-04-15" class="card-date">15 Aprile 2022</time>
-																		</div>
-																</div>
-
-															</div>
-														</li>
-
-												</ul>
-
-										</div>
+																</li>
+														{% endfor %}
+												{% else %}
+														<li>Нет комментариев для отображения.</li>
+												{% endif %}
+										</ul>
+								</div>
 
 										<div class="card aside-card insta-card">
 

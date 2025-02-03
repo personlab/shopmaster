@@ -1,48 +1,92 @@
-{% extends "users/base-log-reg.html" %}
+{% extends "users/base-profile.html" %}
 
 {% load static %}
 
 {% block content %}
 
 <!-- Профиль с данными пользователя -->
-<div class="col-md-5">
-	<div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
-			<h3 class="text-center mb-4">Профиль пользователя</h3>
-			<form>
+<div class="col-md-5 content__users">
+	{% comment %} <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow"> {% endcomment %}
+		<form action="{% url "user:profile" %}" method="post" enctype="multipart/form-data">
+			{% include "includes/notifications.html" %}
+				<h3 class="span__user">Профиль пользователя</h3>
+				{% csrf_token %}
 					<div class="row">
-							<div class="col-md-12 mb-3 text-center">
-									<img src="../deps/images/baseavatar.jpg"
-											alt="Аватар пользователя" class="img-fluid rounded-circle"
-											style="max-width: 150px;">
-									<input type="file" class="form-control mt-3" id="avatar"
-											accept="image/*">
-							</div>
-							<div class="col-md-12 mb-3">
-									<label for="firstName" class="form-label">Имя*</label>
-									<input type="text" class="form-control" id="firstName"
-											placeholder="Введите ваше имя" value="" required>
-							</div>
-							<div class="col-md-12 mb-3">
-									<label for="lastName" class="form-label">Фамилия*</label>
-									<input type="text" class="form-control" id="lastName"
-											placeholder="Введите вашу фамилию" value="" required>
-							</div>
-							<div class="col-md-12 mb-3">
-									<label for="username" class="form-label">Имя пользователя*</label>
-									<input type="text" class="form-control" id="username"
-											placeholder="Введите ваше имя пользователя" value="" required>
-							</div>
-							<div class="col-md-12 mb-3">
-									<label for="email" class="form-label">Email*</label>
-									<input type="email" class="form-control" id="email"
-											placeholder="Введите ваш email *youremail@example.com" value=""
-											required>
-							</div>
+												<div class="img__user">
+													{% if user.image %}
+															<img src="{{ user.image.url }}"
+																	alt="Аватар пользователя">
+													{% else %}
+															<img src="{% static "deps/images/baseavatar.jpg" %}"
+																	alt="Аватар пользователя" class="img-fluid rounded-circle">
+													{% endif %}
+												</div>
+
+												 <div class="col-md-12 mb-3 input__wrapper">
+													<input name="image" type="file" id="id_image" class="input id_image" accept="image/*" onchange="updateFileName()">
+													<label for="id_image" class="id_image-button">
+														<span class="id_image-icon-wrapper">
+															<img class="id_image-icon" src="/static/deps/images/arrow-down-box-fill.svg" alt="Выбрать файл" width="25">
+														</span>
+														<span id="file-name" class="id_image-button-text">Выберите файл</span> <!-- Изменено здесь -->
+													</label>
+													
+													{% if form.image.errors %}
+														<div class="alert alert-danger alert-dismissible fade show">{{ form.image.errors }}</div>
+													{% endif %}
+												</div>
+
+
+													<div class="col-md-12 mb-3">
+															<input type="text" class="input__fields" id="id_first_name"
+															name="first_name"
+															placeholder="Введите ваше имя"
+															value="{{ form.first_name.value }}"
+															required>
+																	{% if form.first_name.errors %}
+																			<div class="alert alert-danger alert-dismissible fade show">{{ form.first_name.errors }}</div>
+																	{% endif %}
+													</div>
+													<div class="col-md-12 mb-3">
+															<input type="text" class="input__fields" id="id_last_name"
+															name="last_name"
+															placeholder="Введите вашу фамилию"
+															value="{{ form.last_name.value }}"
+															required>
+																	{% if form.last_name.errors %}
+																			<div class="alert alert-danger alert-dismissible fade show">{{ form.last_name.errors }}</div>
+																	{% endif %}
+													</div>
+													<div class="col-md-12 mb-3">
+															<input type="text" class="input__fields" id="id_username"
+															name="username"
+															placeholder="Введите ваше имя пользователя"
+															value="{{ form.username.value }}"
+															required>
+																	{% if form.username.errors %}
+																			<div class="alert alert-danger alert-dismissible fade show">{{ form.username.errors }}</div>
+																	{% endif %}
+													</div>
+													<div class="col-md-12 mb-3">
+															<input type="email" class="input__fields" id="id_email"
+															name="email"
+															placeholder="Введите ваш email"
+															value="{{ form.email.value }}"
+															required>
+																	{% if form.email.errors %}
+																			<div class="alert alert-danger alert-dismissible fade show">{{ form.email.errors }}</div>
+																	{% endif %}
+													</div>
 					</div>
-					<button type="submit" class="btn btn-dark">Сохранить</button>
+					<div class="btn__profile__use">
+							<button type="submit" class="btn__profile btn__primary__profile__use">Обновить</button>
+							<button class="btn__profile__logout btn__primary__profile__use"><a href="{% url "user:logout" %}">Выйти</a></button>
+					</div>
 			</form>
-	</div>
-</div>
+	{% comment %} </div>{% endcomment %}
+</div> 
+
+
 
 
 

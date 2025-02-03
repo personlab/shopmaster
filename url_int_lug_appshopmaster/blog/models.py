@@ -3,6 +3,11 @@ from tabnanny import verbose
 from django.db import models
 from django.utils.text import slugify
 
+from users.models import User
+from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
+
 
 
 # Модель для тегов
@@ -37,6 +42,7 @@ class Post(models.Model):
 		reading_time = models.IntegerField(default=0, verbose_name='Время чтения')
 		author_name = models.CharField(max_length=100, verbose_name='Имя автора')
 		popularity_count = models.PositiveIntegerField(default=0, verbose_name='Популярность поста')
+		is_archived = models.BooleanField(default=False, verbose_name='Архивировать')
 
 		class Meta:
 				db_table = 'posts'
@@ -121,3 +127,39 @@ class Featured(models.Model):
 				# Если имя автора не указано, используем "admin" по умолчанию
 				self.author_name = "admin"
 		super().save(*args, **kwargs)
+
+
+class Comment(models.Model):
+		post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', null=True)
+		author = models.CharField(max_length=50, default='Anonymous')
+		text = models.TextField(verbose_name='Текст комментария')
+		created_at = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
+		author_image = models.CharField(max_length=255, blank=True, null=True)  # Поле для URL аватарки
+
+		class Meta:
+				db_table = 'comments'
+				verbose_name = 'комментарий'
+				verbose_name_plural = 'Комментарии'
+
+		def __str__(self):
+				if self.post:
+						return f'Комментарий от {self.author} к посту {self.post.title}'
+				return f'Комментарий от {self.author} (пост не указан)'
+		
+		def save(self, *args, **kwargs):
+			# Убедимся, что created_at сохраняется в московском времени
+			if not self.id:  # Если объект создается впервые
+					self.created_at = timezone.localtime(timezone.now())
+			super().save(*args, **kwargs)
+		
+
+# модель комментариев
+class CommentRecentPost(models.Model):
+		post = models.ForeignKey(RecentPost, on_delete=models.CASCADE, related_name='commentrecentpost_set', null=True)
+		author = models.CharField(max_length=50, default='Anonymous')
+		text = models.TextField(default='') 
+		created_at = models.DateTimeField(auto_now_add=True)
+
+		def __str__(self):
+				return f'Comment by {self.author} on {self.post}'
+				

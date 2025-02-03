@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from django.contrib import admin
-from .models import Post, Hero, Featured, Tag, RecentPost
+from .models import Post, Hero, Featured, Tag, RecentPost, Comment
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -45,3 +45,15 @@ class TagAdmin(admin.ModelAdmin):
 	search_fields = ('name',)
 
 admin.site.register(Tag)
+
+
+class CommentAdmin(admin.ModelAdmin):
+	list_display = ('author', 'get_post_title', 'created_at')  # Используем метод для отображения заголовка поста
+	list_filter = ('author', 'created_at')
+	search_fields = ('author', 'text')
+
+	def get_post_title(self, obj):
+			return obj.post.title if obj.post else 'Пост не указан'
+	get_post_title.short_description = 'Заголовок поста'  # Название колонки в админке
+
+admin.site.register(Comment, CommentAdmin)
