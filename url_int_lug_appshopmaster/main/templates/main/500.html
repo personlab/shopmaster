@@ -1,0 +1,21 @@
+{% extends "main/base_two.html" %}
+
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="ru">
+
+{% block content %}
+
+<title>Internal Server Error</title>
+
+	<div class="server__errors">
+				<h1>500 - Internal Server Error</h1>
+				<p>Извините, внутренняя ошибка сервера.</p>
+				<p>Мы занем о проблеме и уже работаем над ней.</p>
+				<p>Вернуться в&nbsp;<a href="{% url 'blog:post_list' %}"><h3>Блог</h3></a></p>
+	</div>
+
+
+{% endblock content %}

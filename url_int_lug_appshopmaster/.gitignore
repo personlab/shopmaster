@@ -2,6 +2,7 @@
 venv/
 .pylintrc
 __pycache__/
+cache/
 
 
 # ide stuff
@@ -14,3 +15,4 @@ db.sqlite3
 media/
 static/deps/videos/
 database_tongameapp/
+.env

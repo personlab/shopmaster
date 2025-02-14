@@ -133,7 +133,7 @@
 						</li>
 
 						<li>
-							<a href="#featured" class="navbar-link hover-1" data-nav-toggler>Featured Post</a>
+							<a href="{% url 'blog:post_list' %}#featured" class="navbar-link hover-1" data-nav-toggler>Избранное</a>
 						</li>
 
 						<li>
@@ -158,47 +158,39 @@
 					</ul>
 
 
-				<div class="navbar-bottom">
-
-					<div class="profile-card">
-						<img src="{% static "deps/images/author-1.png" %}" width="48" height="48" alt="Steven" class="profile-banner">
-
-						<div>
-							<p class="card-title">Hello Steven!</p>
-
-							<p class="card-subtitile">
-								You have 3 new message
-							</p>
+					<div class="navbar-bottom">
+						{% if user.is_authenticated %}
+						<div class="profile-card">
+							{% if user.image %}
+									<img src="{{ user.image.url }}" alt="{{ user.username }}" class="profile-banner">
+							{% else %}
+									<img src="{% static "deps\images\Not found image.png" %}" width="48" height="48" alt="" class="profile-banner image_banner">
+							{% endif %}
+	
+							<div>
+								<p class="card-title">Привет, {{ user.first_name }} {{ user.last_name }}</p>
+	
+								<p class="card-subtitile">
+									{% comment %} You have 3 new message {% endcomment %}
+								</p>
+							</div>
 						</div>
+	
+						<ul class="link-list">
+							<li>
+								<a href="{% url "user:profile" %}" class="navbar-bottom-link hover-1">Настройки аккаунта</a>
+							</li>
+	
+							<li>
+								<a href="{% url "user:logout" %}" class="navbar-bottom-link hover-1" style="color: hsla(199, 89%, 49%, 1);">Выйти</a>
+							</li>
+						</ul>
+						{% else %}
+						<li>
+							<a href="{% url "user:login" %}" class="navbar-link hover-1" data-nav-toggler>Войти</a>
+						</li>
+					{% endif %}
 					</div>
-
-					<ul class="link-list">
-						<li>
-							<a href="#" class="navbar-bottom-link hover-1">Profile</a>
-						</li>
-
-						<li>
-							<a href="#" class="navbar-bottom-link hover-1">Articles Saved</a>
-						</li>
-
-						<li>
-							<a href="#" class="navbar-bottom-link hover-1">Add New Post</a>
-						</li>
-
-						<li>
-							<a href="#" class="navbar-bottom-link hover-1">My Likes</a>
-						</li>
-
-						<li>
-							<a href="#" class="navbar-bottom-link hover-1">Account Setting</a>
-						</li>
-
-						<li>
-							<a href="#" class="navbar-bottom-link hover-1">Sign Out</a>
-						</li>
-					</ul>
-
-				</div>
 
 				<p class="copyright-text">Copyright &copy; TonGameApp</br><span class="time"></span></p>
 			</nav>
@@ -226,12 +218,14 @@
 
 								</div>
 
+								<!-- POPULAR POSTS -->
+
 								<div class="post-aside grid-list">
 
 									<div class="card aside-card">
 
 										<h3 class="headline headline-2 aside-title">
-												<span class="span">Popular Posts</span>
+												<span class="span">Популярное</span>
 										</h3>
 
 										<ul class="popular-list">
@@ -265,71 +259,42 @@
 
 									</div>
 
+									<!-- LAST COMMENT -->
+
 									<div class="card aside-card">
 										<h3 class="headline headline-2 aside-title">
-												<span class="span">Last comment</span>
+												<span class="span">Последний комментарий</span>
 										</h3>
 								
 										<ul class="comment-list">
-												{% if latest_comments %}
-														{% for comment in latest_comments %}
-																<li>
-																		<div class="comment-card">
-																				<blockquote class="card-text">
-																						“{{ comment.text }}”
-																				</blockquote>
-								
-																				<div class="profile-card">
-																						<figure class="profile-banner img-holder">
-																								<img src="{% if comment.author_image %}{{ comment.author_image }}{% else %}{% static 'deps/images/default-avatar.png' %}{% endif %}" width="32" height="32" loading="lazy" alt="{{ comment.author }}">
-																						</figure>
-								
-																						<div>
-																								<p class="card-title">{{ comment.author }}</p>
-																								<time datetime="{{ comment.created_at|date:'Y-m-d' }}" class="card-date">{{ comment.created_at|date:"d F Y" }}</time>
-																						</div>
-																				</div>
-																		</div>
-																</li>
-														{% endfor %}
-												{% else %}
-														<li>Нет комментариев для отображения.</li>
-												{% endif %}
-										</ul>
+											{% if latest_comments %}
+													{% for comment in latest_comments %}
+															<li>
+																	<div class="comment-card">
+																		<a href="{% url "blog:post_detail" comment.post.slug %}">
+																			<blockquote class="card-text">
+																					“{{ comment.text|truncatechars:100 }}”
+																			</blockquote>
+																		</a>
+							
+																			<div class="profile-card img__cp">
+																					<figure class="profile-banner img-holder">
+																							<img src="{% if comment.author_image %}{{ comment.author_image }}{% else %}{% static 'deps/images/default-avatar.png' %}{% endif %}" loading="lazy" alt="{{ comment.author }}">
+																					</figure>
+							
+																					<div>
+																							<p class="card-title">{{ comment.author }}</p>
+																							{% comment %} <time datetime="{{ comment.created_at|date:'Y-m-d' }}" class="card-date">{{ comment.created_at|date:"d F Y" }}</time> {% endcomment %}
+																					</div>
+																			</div>
+																	</div>
+															</li>
+													{% endfor %}
+											{% else %}
+													<li>Нет комментариев для отображения.</li>
+											{% endif %}
+									</ul>
 								</div>
-
-									{% comment %} <div class="card aside-card">
-										<h3 class="headline headline-2 aside-title">
-												<span class="span">Last comment</span>
-										</h3>
-								
-										<ul class="comment-list">
-												{% if latest_comments %}
-														{% for comment in latest_comments %}
-																<li>
-																		<div class="comment-card">
-																				<blockquote class="card-text">
-																						“{{ comment.text }}”
-																				</blockquote>
-								
-																				<div class="profile-card">
-																						<figure class="profile-banner img-holder">
-																							<img src="{{ user.image.url }}" width="32" height="32" loading="lazy" alt="{{ user.username }}">
-																						</figure>
-								
-																						<div>
-																								<p class="card-title">{{ comment.author }}</p>
-																								<time datetime="{{ comment.created_at|date:'Y-m-d' }}" class="card-date">{{ comment.created_at|date:"d F Y" }}</time>
-																						</div>
-																				</div>
-																		</div>
-																</li>
-														{% endfor %}
-												{% else %}
-														<li>Нет комментариев для отображения.</li>
-												{% endif %}
-										</ul>
-								</div> {% endcomment %}
 
 										<div class="card aside-card insta-card">
 
@@ -359,6 +324,19 @@
 
 			</article>
 	</main>
+
+<!-- Модальное окно для уведомления о cookies -->
+<div id="cookieModal" class="modals__one">
+	<div class="modal__content__one">
+			<h2>Мы используем файлы cookie</h2>
+			<p>
+					Мы используем файлы cookie для улучшения вашего опыта на нашем сайте. 
+					Продолжая использовать сайт, вы соглашаетесь с нашей 
+					{% comment %} <a href="{% url 'privacy_policy' %}">Политикой конфиденциальности</a>. {% endcomment %}
+			</p>
+			<button class="btn btn-primary" id="acceptCookies">Принять</button>
+	</div>
+</div>
 
 
 	<!--
@@ -391,6 +369,7 @@
 	<script src="{% static "deps/js/script/script-mains.js" %}"></script>
 	<script src="{% static "deps/js/script/script-commerce.js" %}"></script>
 	<script src="{% static "deps/js/script/user-comments.js" %}"></script>
+	<script src="{% static "deps/js/script/modal.js" %}"></script>
 
 	
 	<!--

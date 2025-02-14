@@ -179,6 +179,18 @@
 
 			</article>
 	</main>
+	<!-- Модальное окно для уведомления о cookies -->
+	<div id="cookieModal" class="modals__one">
+		<div class="modal__content__one">
+				<h2>Мы используем файлы cookie</h2>
+				<p>
+						Мы используем файлы cookie для улучшения вашего опыта на нашем сайте. 
+						Продолжая использовать сайт, вы соглашаетесь с нашей 
+						{% comment %} <a href="{% url 'privacy_policy' %}">Политикой конфиденциальности</a>. {% endcomment %}
+				</p>
+				<button class="btn btn-primary" id="acceptCookies">Принять</button>
+		</div>
+	</div>
 
 
 	<!--
@@ -211,6 +223,7 @@
 	<script src="{% static "deps/js/script/script-commerce.js" %}"></script>
 	<script src="{% static "deps/js/script/password-block.js" %}"></script>
 	<script src="{% static "deps/js/script/file-name.js" %}"></script>
+	<script src="{% static "deps/js/script/modal.js" %}"></script>
 
 	  
 	<!--

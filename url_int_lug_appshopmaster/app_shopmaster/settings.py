@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
-from django.conf.global_settings import AUTH_USER_MODEL, MEDIA_ROOT, MEDIA_URL
+from django.conf.global_settings import AUTH_USER_MODEL, CACHES, MEDIA_ROOT, MEDIA_URL
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,13 +24,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i3qyxd*5w*etynbov!o%q=uay)ck2zg2bw&i6&@@a-q8-tg0+#'
+# SECRET_KEY = 'django-insecure-i3qyxd*5w*etynbov!o%q=uay)ck2zg2bw&i6&@@a-q8-tg0+#'
+
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = False
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = False
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+# ALLOWED_HOSTS = ['*']
 
 SITE_ID = 1
 # 'django.contrib.sites',
@@ -47,25 +53,25 @@ INSTALLED_APPS = [
 
 		'django.contrib.sites',
 		
-		'debug_toolbar',
 
 		'main',
 		'goods',
 		'blog',
 		'users',
 ]
+		# 'debug_toolbar',
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+		'django.middleware.security.SecurityMiddleware',
+		'django.contrib.sessions.middleware.SessionMiddleware',
+		'django.middleware.common.CommonMiddleware',
+		'django.middleware.csrf.CsrfViewMiddleware',
+		'django.contrib.auth.middleware.AuthenticationMiddleware',
+		'django.contrib.messages.middleware.MessageMiddleware',
+		'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-		"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
+		# "debug_toolbar.middleware.DebugToolbarMiddleware",
 
 ROOT_URLCONF = 'app_shopmaster.urls'
 
@@ -104,10 +110,17 @@ DATABASES = {
 		'default': {
 				'ENGINE': 'django.db.backends.postgresql',
 				'NAME': 'TonGameApp',
-				'USER': 'TonGameApp',
+				'USER': 'admin',
 				'PASSWORD': 'admin',
 				'HOST': 'localhost',
 				'PORT': '5432',
+		}
+}
+
+CACHES = {
+		"default": {
+				"BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+				"LOCATION": BASE_DIR / "cache",
 		}
 }
 
@@ -147,20 +160,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # Папка для сбора статических файлов
 
 STATICFILES_DIRS = [
 	BASE_DIR / 'static'
 	]
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/' # URL-префикс для медиафайлов
 
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+####################
+
+# MEDIA_ROOT = BASE_DIR / 'media' # Папка для хранения медиафайлов
+
+####################
 
 INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
+		# ...
+		"127.0.0.1",
+		# ...
 ]
 
 # Default primary key field type
@@ -170,6 +191,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 
-TELEGRAM_BOT_TOKEN = '5909764830:AAEwez_YhyjVE3gUyL_B30aKd9FA4PdK2Kk'
-TELEGRAM_CHAT_ID = '1380244093'
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 

@@ -16,7 +16,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from blog.models import Hero, Post, RecentPost
 
-#  С применением классов
+# С применением классов
 from django.views import View
 
 
@@ -118,3 +118,17 @@ class DroppView(View):
 			'pay': "Оплата",
 		}
 		return render(request, 'main/drop-shipping.html', context=context)
+	
+
+
+
+def custom_404(request, exception=None):
+		return render(request, 'main/404.html', status=404)
+
+
+def custom_500(request):
+		return render(request, 'main/500.html', status=500)
+
+
+# def test_500(request):
+# 		raise Exception("Тестовая ошибка 500") # Тест страицы 500

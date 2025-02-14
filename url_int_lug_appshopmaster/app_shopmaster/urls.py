@@ -21,8 +21,16 @@ from django.urls import include, path
 from app_shopmaster import settings
 from django.conf.urls.static import static
 from debug_toolbar.toolbar import debug_toolbar_urls
+from main import views
+
 
 from blog import urls
+
+from django.conf.urls import handler404, handler500
+
+handler404 = 'main.views.custom_404' # Указываем функцию-обработчик
+handler500 = 'main.views.custom_500'
+
 
 
 urlpatterns = [
@@ -33,10 +41,13 @@ urlpatterns = [
 		path('user/', include('users.urls', namespace='user')),
 ]
 
+		# path('test-500/', views.test_500, name='test_500'),
+		
 if settings.DEBUG:
 	urlpatterns += [
 			path("__debug__/", include("debug_toolbar.urls")),
 		]
+	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

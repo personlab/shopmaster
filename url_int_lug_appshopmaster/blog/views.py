@@ -1,4 +1,5 @@
 from email.mime import image
+
 import re
 from turtle import title
 from urllib import request
@@ -9,6 +10,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
 
 from django.shortcuts import render, get_object_or_404
 from django.test import tag
@@ -61,26 +63,43 @@ class PostsView(View):
 
 
 		def get(self, request):
-				hero = Hero.objects.first()
+				hero = cache.get('hero')
+				if not hero:
+						hero = Hero.objects.first()
+						cache.set('hero', hero, 60*15)
 
 				# Проверяем наличие записей в модели Post
 				# posts = Post.objects.all() if Post.objects.exists() else []
-				posts = Post.objects.filter(is_archived=False) if Post.objects.exists() else []
-				popular_tags = Tag.objects.all().order_by('-popularity_count')[:12] # Извлечение тегов/сортировка по популярности
+				posts = cache.get('posts')
+				if not posts:
+						posts = Post.objects.filter(is_archived=False) if Post.objects.exists() else []
+						cache.set('posts', posts, 60*15)
+
+				popular_tags = cache.get('popular_tags')
+				if not popular_tags:
+						popular_tags = Tag.objects.all().order_by('-popularity_count')[:12] 
+						cache.set('popular_tags', popular_tags, 60*15) # Кеш на 15 минут
+						# Извлечение тегов/сортировка по популярности
 
 				# Получить посты из таблицы Post
-				post_posts = Post.objects.annotate(
-						model_type=Value('Post', output_field=CharField())
-				).values(
-						'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
-				)
+				post_posts = cache.get('post_posts')
+				if not post_posts:
+						post_posts = Post.objects.annotate(
+								model_type=Value('Post', output_field=CharField())
+						).values(
+								'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+						)
+						cache.set('post_posts', post_posts, 60*15)
 
 				# Получить посты из таблицы RecentPost
-				recent_posts_one = RecentPost.objects.annotate(
-						model_type=Value('RecentPost', output_field=CharField())
-				).values(
-						'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
-				)
+				recent_posts_one = cache.get('recent_posts_one')
+				if not recent_posts_one:
+						recent_posts_one= RecentPost.objects.annotate(
+								model_type=Value('RecentPost', output_field=CharField())
+						).values(
+								'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+						)
+						cache.set('recent_posts_one', recent_posts_one, 60*15)
 
 				# Объединение QuerySets
 				all_posts = sorted(
@@ -122,7 +141,7 @@ class PostsView(View):
 								tags = post.tags.all() if post else []
 								featured_items_with_tags.append((item, tags))
 				
-				latest_comments = Comment.objects.select_related('post').order_by('-created_at')[:3]
+				latest_comments = Comment.objects.select_related('post').order_by('-created_at')[:3] # Отображение 3 комментариев на странице блог в сайд баре
 
 
 				context = {
@@ -231,19 +250,39 @@ class PostDetailView(View):
 						else:
 								raise Http404("No post matches the given query.")
 
+				# # Получить посты из таблицы Post
+				# post_posts = Post.objects.annotate(
+				# 		model_type=Value('Post', output_field=CharField())
+				# ).values(
+				# 		'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				# )
+
+				# # Получить посты из таблицы RecentPost
+				# recent_posts_one = RecentPost.objects.annotate(
+				# 		model_type=Value('RecentPost', output_field=CharField())
+				# ).values(
+				# 		'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+				# )
+
 				# Получить посты из таблицы Post
-				post_posts = Post.objects.annotate(
-						model_type=Value('Post', output_field=CharField())
-				).values(
-						'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
-				)
+				post_posts = cache.get('post_posts')
+				if not post_posts:
+						post_posts = Post.objects.annotate(
+								model_type=Value('Post', output_field=CharField())
+						).values(
+								'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+						)
+						cache.set('post_posts', post_posts, 60*15)
 
 				# Получить посты из таблицы RecentPost
-				recent_posts_one = RecentPost.objects.annotate(
-						model_type=Value('RecentPost', output_field=CharField())
-				).values(
-						'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
-				)
+				recent_posts_one = cache.get('recent_posts_one')
+				if not recent_posts_one:
+						recent_posts_one= RecentPost.objects.annotate(
+								model_type=Value('RecentPost', output_field=CharField())
+						).values(
+								'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+						)
+						cache.set('recent_posts_one', recent_posts_one, 60*15)
 
 				all_posts = sorted(
 						chain(post_posts, recent_posts_one),
@@ -254,6 +293,7 @@ class PostDetailView(View):
 				top_5_posts = all_posts[:5]
 				# Получить последние 3 комментария из всех постов
 				latest_comments = Comment.objects.select_related('post').order_by('-created_at')[:3]
+				comments = post.comments.all().order_by('-created_at') if isinstance(post, Post)  else []
 
 
 				context = {
@@ -262,6 +302,7 @@ class PostDetailView(View):
 						'tags': tags,
 						'hero': hero,
 						'top_5_posts': top_5_posts,
+						'comments': comments,
 						'recent_posts_with_tags': recent_posts_with_tags,
 						'form': form, # Передаем форму в контекст только в случае Post
 						'latest_comments': latest_comments,
@@ -371,7 +412,7 @@ class PostDetailView(View):
 				top_5_posts = all_posts[:5]
 
 				tags = selected_post.tags.all()
-				comments = selected_post.comments.all() if selected_post else []
+				comments = selected_post.comments.all().order_by('-created_at') if selected_post else []
 
 				context = {
 						'hero': hero,

@@ -37,6 +37,7 @@ class Post(models.Model):
 		image_2 = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Изображение 2')
 		content_3 = models.TextField(verbose_name='Текст 3')
 		image_3 = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Изображение 3')
+		link = models.URLField(max_length=200, blank=True, null=True, verbose_name='Ссылка для кнопки')
 		tags = models.ManyToManyField(Tag, related_name='post', verbose_name='Теги')
 		created_at = models.DateTimeField(auto_now_add=True)
 		reading_time = models.IntegerField(default=0, verbose_name='Время чтения')
@@ -78,6 +79,7 @@ class RecentPost(models.Model):
 		slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
 		content = models.TextField(verbose_name='Текст')
 		image = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Картинка')
+		link = models.URLField(max_length=200, blank=True, null=True, verbose_name='Ссылка для кнопки')
 		tags = models.ManyToManyField(Tag, related_name='recentpost', verbose_name='Теги')  # Добавлено это поле
 		created_at = models.DateTimeField(auto_now_add=True)
 		reading_time = models.IntegerField(default=0, verbose_name='Время чтения')
@@ -87,7 +89,7 @@ class RecentPost(models.Model):
 		class Meta:
 				db_table = 'posts Recent Post'
 				verbose_name = 'в recent post'
-				verbose_name_plural = 'Recent Post'
+				verbose_name_plural = 'Recent Post Game'
 
 		def __str__(self):
 				return self.title

@@ -67,6 +67,7 @@
 	--fontSize-6: 1.4rem;
 	--fontSize-7: 1.2rem;
 	--fontSize-8: 1.3rem;
+	--fontSize-9: .9rem;
 	--fontSize-35: 3.5rem;
 
 	/** font weight */
@@ -263,6 +264,10 @@ body.nav-active {
 	gap: 10px;
 }
 
+.img__cp {
+	display: flex;
+	flex-direction: column;
+}
 
 .profile-card img {
 	object-fit: cover;
@@ -270,6 +275,7 @@ body.nav-active {
 	width: 48px;
 	height: 48px;
 }
+
 
 
 .profile-card .profile-banner {
@@ -1103,7 +1109,7 @@ form.d__flex_search button {
 }
 
 .comment-card .card-date {
-	font-size: var(--fontSize-7);
+	font-size: var(--fontSize-9);
 }
 
 .insta-card .card-text {
@@ -1137,6 +1143,16 @@ form.d__flex_search button {
 	font-size: var(--fs-2);
 }
 
+
+/*-----------------------------------*\
+  #LAST COMMENT
+\*-----------------------------------*/
+
+
+.author__card_t .card__title {
+	font-size: var(--fontSize-9);
+	font-weight: var(--weight-semiBold);
+}
 
 /*-----------------------------------*\
   #LOGIN REGISTER FORM
@@ -1467,15 +1483,63 @@ form.d__flex_search button {
 	color: var(--white);
 }
 
-/* .log_reg__social {
-	display: flex;
-	gap: 20px;
-	margin-top: 20px;
-} */
-
 .log_reg__social a {
 	padding: 3px 15px;
 	border-radius: var(--radius-6);
+}
+
+
+/* Стили для модального окна файлы cookie */
+.modals__one {
+	display: none; /* Скрыто по умолчанию */
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	bottom: 10px;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0); /* Полупрозрачный фон */
+	justify-content: center;
+	align-items: center;
+}
+
+.modal__content__one {
+	background-color: var(--bg-oxford-blue);
+	padding: 20px;
+	border-radius: 10px;
+	max-width: 400px;
+	text-align: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	border: 1px solid var(--border-prussian-blue);
+}
+
+.modal__content__one h2 {
+	margin-top: 0;
+}
+
+.modal__content__one p {
+	color: var(--text-wild-blue-yonder);
+	font-size: var(--fontSize-6);
+	line-height: var(--lineHeight-1);
+}
+
+.button_cookie {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal__content__one button {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+.modal__content__one button:hover {
+	background-color: #0056b3;
 }
 
 
@@ -1509,7 +1573,7 @@ form.d__flex_search button {
 }
 
 .footer-text:not(.address) {
-	margin-block: 20px;
+	margin-block: 15px;
 }
 
 .footer-brand .footer-list-title {
@@ -1519,11 +1583,19 @@ form.d__flex_search button {
 .footer-list-title {
 	color: var(--text-columbia-blue);
 	font-size: var(--fontSize-3);
-	margin-block-end: 30px;
+	/* margin-block-end: 30px; */
 }
 
 .footer-list ul {
 	columns: 2;
+}
+
+.footer__list__ton {
+	columns: 2;
+}
+
+.footer__list__ton img {
+	color: #d10b92;
 }
 
 .footer-list textarea {
@@ -1607,24 +1679,48 @@ form.d__flex_search button {
 	flex-direction: initial;
 }
 
+.img__color__ton {
+	opacity: .5;
+}
+
+.img__color__ton:is(:hover, :focus) {
+	opacity: 1;
+}
+
+/* .ton__img__list {
+	position: relative;
+	height: 37px;
+	top: -9px;
+	visibility: hidden;
+} */
+
+.ton__img__list__two {
+	height: 30px;
+}
+
+.whale_ton a img {
+	mix-blend-mode: color-dodge;
+}
+
 
 /*-----------------------------------*\
   #POST DETAIL
 \*-----------------------------------*/
 
-.post-main-top {
+/* .post-main-top {
 	margin-top: 100px;
-}
+} */
 
 .h4_collect_blog {
 	font-size: var(--fs-1);
 }
 
 .post-main .img-100 {
-	margin: auto;
+	margin: 30px 0;
 	cursor: pointer;
-	margin-top: 30px;
+	/* margin-top: 30px; */
 	margin-bottom: 30px;
+	border-radius: var(--radius-16);
 }
 
 .positionss {
@@ -1673,6 +1769,10 @@ form.d__flex_search button {
 	font-size: smaller;
 }
 
+.a_posts_return:is(:hover, :focus) {
+	color: var(--bg-carolina-blue);
+} 
+
 .comments_user {
 	display: flex;
 	gap: 10px;
@@ -1690,10 +1790,17 @@ form.d__flex_search button {
 
 .form__user__comment {
 	background: inherit;
+	color: var(--text-shadow-blue);
 	border-radius: var(--radius-6);
-	padding: 5px 10px 5px 10px;
+	padding: 5px 0 0 0;
 	font-size: var(--ff-roboto);
 	resize: none;
+	border: none;
+	outline: none;
+}
+
+.form__user__comment::placeholder {
+	color: var(--text-shadow-blue);
 }
 
 .btn__user__comment {
@@ -1709,6 +1816,7 @@ form.d__flex_search button {
 	gap: 3px;
 	transition: var(--transition-1);
 	padding: 0 10px 1px 10px;
+	margin-top: 10px;
 	border-radius: var(--radius-6);
 }
 
@@ -1717,10 +1825,36 @@ form.d__flex_search button {
 	gap: 20px;
 }
 
+.post__block__flex {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
 .comment__img {
 	gap: 10px;
 }
 
+.comment__p {
+	margin: 30px 0;
+	font-weight: var(--fw-600);
+	color: var(--border-wild-blue-yonder);
+}
+
+.log__reg__top__buttom {
+	margin: 30px 0;
+}
+
+.comment__titl2 {
+	margin: 30px 0;
+}
+
+.btn__link__recent {
+	display: flex;
+	margin-top: 30px;
+	justify-content: flex-end;
+}
 
 
 
@@ -1994,6 +2128,44 @@ input[type="file"] {
 		padding-top: 50px;
 	}
 
+	.post-main-top {
+		margin-top: 50px;
+	}
+
+	.post-main .img-101 {
+		width: 100%;
+		height: 300px;
+		object-fit: cover;
+		margin: 0 0;
+		cursor: pointer;
+		margin-bottom: 30px;
+		border-radius: var(--radius-16);
+		border: 1px solid var(--border-prussian-blue);
+	}
+
+	.post-main .img-100 {
+		width: 100%;
+		object-fit: cover;
+		margin: 30px 0;
+		cursor: pointer;
+		margin-bottom: 30px;
+		border-radius: var(--radius-16);
+	}
+
+	.ton__img__list {
+		height: 37px;
+		margin-bottom: 20px;
+		visibility: visible;
+	}
+
+	.ton__img__list__two {
+		height: 40px;
+	}
+
+	.whale_ton a img {
+		mix-blend-mode: color-dodge;
+	}
+
 }
 
 /**
@@ -2154,6 +2326,10 @@ input[type="file"] {
 
 	.main_post_tag {
 		padding-top: 60px;
+	}
+
+	.post-main-top {
+		margin-top: 0;
 	}
 
 }
@@ -2336,6 +2512,29 @@ input[type="file"] {
 			--fontSize-2: 2rem
 		}
 
+		.post-main {
+			top: 0;
+		}
+
+		.post-main .img-101 {
+			width: 100%;
+			height: 300px;
+			object-fit: cover;
+			margin: 0 0;
+			cursor: pointer;
+			margin-bottom: 30px;
+			border-radius: var(--radius-16);
+		}
+
+		.post-main .img-100 {
+			width: 70%;
+			object-fit: cover;
+			margin: 30px 0;
+			cursor: pointer;
+			margin-bottom: 30px;
+			border-radius: var(--radius-16);
+		}
+
 		/**
 		* TAGS
 		*/
@@ -2369,6 +2568,20 @@ input[type="file"] {
 		.copyright {
 			margin-block-end: 0;
 		}
+
+		.modals__one {
+			left: 30%;
+		}
+
+		.ton__img__list {
+			height: 16px;
+			visibility: hidden;
+		}
+
+		.whale_ton a img {
+			mix-blend-mode: color-dodge;
+		}
+
 
 }
 

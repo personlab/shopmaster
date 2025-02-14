@@ -1,17 +1,17 @@
-{% comment %} {% extends "main/base.html" %} {% endcomment %}
 {% load static %}
 
 <!DOCTYPE html>
 <html lang="ru">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static "deps/css/bootstrap/bootstrap.min.css" %}">
-    <link rel="stylesheet" href="{% static "deps/css/my_css.css" %}">
-    <!-- Стиль footer-a для главной страницы -->
-    {% block css %}
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="{% static "deps/css/bootstrap/bootstrap.min.css" %}">
+		<link rel="stylesheet" href="{% static "deps/css/my_css.css" %}">
+		<link rel="stylesheet" href="{% static "deps/css/style-modal.css" %}">
+		<!-- Стиль footer-a для главной страницы -->
+		{% block css %}
 		
 		{% endblock css %}
 		<!-- Favicons for different platforms -->
@@ -20,7 +20,7 @@
 		<link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
 		<link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css">
-    <title>{{ title }}</title>
+		<title>{{ title }}</title>
 </head>
 
 <header>
@@ -140,12 +140,25 @@
 												<!-- ===============Slide visibiality indicator bars for each slide end=====================-->
 
 		</section>
+			<!-- Модальное окно для уведомления о cookies -->
+			<div id="cookieModal" class="modals__one">
+				<div class="modal__content__one">
+						<h2>Мы используем файлы cookie</h2>
+						<p>
+								Мы используем файлы cookie для улучшения вашего опыта на нашем сайте. 
+								Продолжая использовать сайт, вы соглашаетесь с нашей 
+								{% comment %} <a href="{% url 'privacy_policy' %}">Политикой конфиденциальности</a>. {% endcomment %}
+						</p>
+						<button class="btn btn-primary" id="acceptCookies">Принять</button>
+				</div>
+			</div>
 
 		<script src="{% static "deps/js/jquery/jquery-3.7.0.min.js" %}"></script>
 		<script src="{% static "deps/js/jquery-events.js" %}"></script>
 		<script src="{% static "deps/js/jquery-ajax.js" %}"></script>
 		<script src="{% static "deps/js/bootstrap/bootstrap.bundle.min.js" %}"></script>
 		<script src="{% static "deps/js/script/script-slider.js" %}"></script>
+		<script src="{% static "deps/js/script/modal.js" %}"></script>
 </body>
 
 </html>

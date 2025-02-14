@@ -1,0 +1,25 @@
+{% extends "main/base_two.html" %}
+
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="ru">
+
+{% block content %}
+
+<title>Страница не найдена</title>
+
+
+		{% comment %} <h1>404 - Страница не найдена</h1>
+		<p>Извините, но страница, которую вы ищете, не существует.</p>
+		<p>Вернитесь в <a href="{% url 'blog:post_list' %}">Блог</a></p> {% endcomment %}
+
+		<div class="server__errors">
+				<h1>404 - Страница не найдена</h1>
+				<p>Извините, но страница, которую вы ищете, не существует.</p>
+				<p>Вернуться в&nbsp;<a href="{% url 'blog:post_list' %}"><h3>Блог</h3></a></p>
+		</div>
+
+
+{% endblock content %}

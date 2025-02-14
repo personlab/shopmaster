@@ -8,7 +8,7 @@
 
 <div class="post-main-top">
 		{% if post.image %}
-			<img src="{{ post.image.url }}" alt="{{ post.title }}" class="zoomable-img img-100 " style="max-width: 300px;">
+			<img src="{{ post.image.url }}" alt="{{ post.title }}" class="zoomable-img img-101">
 		{% endif %}
 			<h3 class="h4_collect_blog positionss">{{ post.title }}</h3>
 			<p class="post-subtitle">{{ post.subtitle|default:'' }}</p> <!-- subtitle только для RecentPost -->
@@ -18,31 +18,38 @@
 				
 				<!-- Для модели Post выводим дополнительные блоки -->
 		{% if post.content_1 or post.image_1 %}
-			<div class="post-block">
+			<div class="post-block post__block__flex">
 		{% if post.image_1 %}
-			<img src="{{ post.image_1.url }}" alt="Изображение 1" class="zoomable-img img-100" style="max-width: 300px;">
+			<img src="{{ post.image_1.url }}" alt="Изображение 1" class="zoomable-img img-100">
 		{% endif %}
 			<p>{{ post.content_1 }}</p>
 			</div>
 		{% endif %}
 
 		{% if post.content_2 or post.image_2 %}
-		<div class="post-block">
+		<div class="post-block post__block__flex">
 		{% if post.image_2 %}
-				<img src="{{ post.image_2.url }}" alt="Изображение 2" class="zoomable-img img-100" style="max-width: 300px;">
+				<img src="{{ post.image_2.url }}" alt="Изображение 2" class="zoomable-img img-100">
 		{% endif %}
 			<p>{{ post.content_2 }}</p>
 			</div>
 		{% endif %}
 
 		{% if post.content_3 or post.image_3 %}
-			<div class="post-block">
+			<div class="post-block post__block__flex">
 		{% if post.image_3 %}
-					<img src="{{ post.image_3.url }}" alt="Изображение 3" class="zoomable-img img-100" style="max-width: 300px;">
+					<img src="{{ post.image_3.url }}" alt="Изображение 3" class="zoomable-img img-100">
 		{% endif %}
 			<p>{{ post.content_3 }}</p>
 			</div>
 		{% endif %}
+
+		<!-- Кнопка link для RecentPost -->
+		 <div class="btn__link__recent">
+				{% comment %} {% if post.link %} {% endcomment %}
+						<a href="{{ post.link }}" class="btn btn-primary">Играть сейчас</a>
+				{% comment %} {% endif %} {% endcomment %}
+		 </div>
 
 		</br>
 		
@@ -66,23 +73,23 @@
 			{% csrf_token %}
 			<textarea class="form__user__comment" name="text" cols="40" rows="10" placeholder="Ваше сообщение" required="" rezine="none" id="id_text"></textarea>
 			<button class="btn__user__comment" type="submit">Отправить</button>
-</form>
+	</form>
 	{% else %}
 	<!-- Сообщение для неавторизованных пользователей -->
-	<p>Зарегистрируйтесь, чтобы оставить комментарий.</p>
+	<p class="comment__p">Зарегистрируйтесь, чтобы оставить комментарий.</p>
 	
-	<div class="btn__box__log">
-		<button class="bth__log__reg" id="login"><a href="{% url "user:login" %}">Войти</a></button>
-		<button class="bth__log__reg btn__two__log" id="register">Регистрация</button>
+	<div class="btn__box__log log__reg__top__buttom">
+		<button class="bth__log__reg"><a href="{% url "user:login" %}">Войти</a></button>
+		<button class="bth__log__reg btn__two__log"><a href="{% url "user:registration" %}">Регистрация</a></button>
 	</div>
 	{% endif %} 
 
 	<!-- Отображение комментариев -->
-	<h2>Комментарии:</h2>
+	<h2 class="comment__titl2">Комментарии:</h2>
 	{% endif %}
 
 	<div class="comment-list">
-			{% for comment in post.comments.all %}
+			{% for comment in comments %}
 			<li>
 					<div class="comment-card">
 							<blockquote class="card-text">
@@ -103,12 +110,13 @@
 	</div>
 
 
+
 	<br>
 
 
 
-		<h2 class="h2_posts_detail"><a href="{% url 'blog:post_list' %}#recent"> Recent Posts</a></h2>
-		<ul class="tags__detail">
+		<h2 class="h2_posts_detail"><a href="{% url 'blog:post_list' %}#recent">Game Ton</a></h2>
+		{% comment %} <ul class="tags__detail">
 			{% for recent_post, recent_tags in recent_posts_with_tags %}
 				<li>
 					<a href="{% url 'blog:post_detail' recent_post.slug %}">
@@ -116,17 +124,17 @@
 					</a>
 				</li>
 			{% endfor %}
-		</ul>
+		</ul> {% endcomment %}
 
 		<div class="a_posts_return">
 				<a href="{% url 'blog:post_list' %}">Назад к списку постов</a>
 		</div>
 
-<!-- Модальное окно для увеличенных изображений -->
-<div id="imageModal" class="modal" style="display:none">
-	<span class="close">&times;</span>
-	<img class="modal-content" id="modalImg">
-</div>
+		<!-- Модальное окно для увеличенных изображений -->
+		<div id="imageModal" class="modal" style="display:none">
+			<span class="close">&times;</span>
+			<img class="modal-content" id="modalImg">
+		</div>
 
 </div>
 
@@ -138,178 +146,213 @@
 	- #FOOTER
 -->
 
-<footer>
-		<div class="container">
+<footer id="contact">
+	<div class="container">
 
-				<div class="card footer">
+			<div class="card footer">
 
-						<div class="section footer-top">
+					<div class="section footer-top">
 
-								<div class="footer-brand">
+							<div class="footer-brand">
 
-										<a href="#" class="logo">
-												<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
-										</a>
+									<a href="https://blog.ston.fi/" target="_blank" class="logo">
+											<img src="{% static "deps/images/8__ston_logo_light.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
+									</a>
+
+									<p class="footer-text">
+										STON.fi — это децентрализованный автоматизированный маркет-мейкер (AMM), созданный на основе блокчейна TON, обеспечивающий практически нулевые комиссии, низкое проскальзывание, чрезвычайно простой интерфейс и прямую интеграцию с кошельками TON.
+									</p>
+
+									<p class="footer-list-title">STON.fi</p>
+
+									<address class="footer-text address">
+										это AMM DEX для блокчейна TON
+									</address>
+
+							</div>
+
+							<div class="footer-list">
+
+								<img class="ton__img__list" src="{% static "deps/images/list_icon.png" %}" loading="lazy" alt="Wren logo">
+
+									<ul>
+
+											<li>
+												<a href="https://1inch.io/" target="_blank" class="footer-link hover-2 img__color__ton" >
+													<img class="ton__img__list__two" src="{% static "deps/images/ston-logo-linch.svg" %}" loading="lazy" alt="ston-logo-linch">
+												</a>
+											</li>
+
+											<li>
+												<a href="https://wallet.ton.org/" target="_blank" class="footer-link hover-2">
+													<img class="ton__img__list__two img__color__ton" src="{% static "deps/images/ston-logo-tonwallet.svg" %}" loading="lazy" alt="wallet">
+												</a>
+											</li>
+
+											<li>
+												<a href="https://tonkeeper.com/" target="_blank" class="footer-link hover-2">
+													<img class="ton__img__list__two img__color__ton" src="{% static "deps/images/ston-logo-tonkeeper.svg" %}" loading="lazy" alt="tonkeeper">
+												</a>
+											</li>
+
+											<li>
+												<a href="https://tonstarter.com/" target="_blank" class="footer-link hover-2">
+													<img class="ton__img__list__two img__color__ton" src="{% static "deps/images/ston-logo-tonstarter.svg" %}" loading="lazy" alt="tonstarter">
+												</a>
+											</li>
+
+											<li class="whale_ton">
+												<a href="https://tonwhales.com/" target="_blank" class="footer-link hover-2">
+													<img class="ton__img__list__two img__color__ton" src="{% static "deps/images/ston-logo-tonwhales.png" %}" loading="lazy" alt="tonwhales">
+												</a>
+											</li>
+
+											<li>
+												<a href="https://getgems.io/" target="_blank" class="footer-link hover-2">
+													<img class="ton__img__list__two img__color__ton" src="{% static "deps/images/ston-logo-getgems.svg" %}" loading="lazy" alt="getgems">
+												</a>
+											</li>
+
+											<li>
+												<a href="https://tonplay.io/" target="_blank" class="footer-link hover-2">
+													<img class="ton__img__list__two img__color__ton" src="{% static "deps/images/ston-logo-tonplay.svg" %}" loading="lazy" alt="tonplay">
+												</a>
+											</li>
+
+											<li>
+												<a href="https://fanz.ee/" target="_blank" class="footer-link hover-2">
+													<img class="ton__img__list__two img__color__ton" src="{% static "deps/images/ston-logo-fanzee.svg" %}" loading="lazy" alt="fanz">
+												</a>
+											</li>
+
+											<li>
+												<a href="https://tonpunks.org/" target="_blank" class="footer-link hover-2">
+													<img class="ton__img__list__two img__color__ton" src="{% static "deps/images/ston-logo-tonpunks.svg" %}" loading="lazy" alt="Wren logo">
+												</a>
+											</li>
+
+											<li>
+												<a href="https://gagarin.world/" target="_blank" class="footer-link hover-2">
+													<img class="ton__img__list__two img__color__ton" src="{% static "deps/images/ston-logo-gagarin.svg" %}" loading="lazy" alt="Wren logo">
+												</a>
+											</li>
+
+									</ul>
+
+							</div>
+
+							<div class="footer-list">
+
+								<form action="" id="contact-form">
+									{% csrf_token %}
+										<p class="footer-list-title">Контакт</p>
 
 										<p class="footer-text">
-												When an unknown prnoto sans took a galley and scrambled it to make specimen book not only five When an unknown prnoto sans took a galley and scrambled it to five centurie.
+												У вас есть вопросы? Напишите нам.
 										</p>
 
-										<p class="footer-list-title">Address</p>
+										<div class="input-wrapper">
+												<input type="text" name="user_name" placeholder="You name" required id="" class="input-field" autocomplete="off">
 
-										<address class="footer-text address">
-											123 Main Street <br>
-											New York, NY 10001
-										</address>
+												<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+										</div>
 
-								</div>
+										<div class="input-wrapper">
+												<input type="email" name="user_email" placeholder="Email address" required id="" class="input-field" autocomplete="off">
 
-								<div class="footer-list">
+												<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+										</div>
 
-										<p class="footer-list-title">Categories</p>
+										<div class="input-wrapper">
+												<input type="tel" name="email_phone" placeholder="You nomber" required id="" class="input-field" autocomplete="off">
 
-										<ul>
+												<ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
+										</div>
 
-												<li>
-													<a href="#" class="footer-link hover-2">Action</a>
-												</li>
-
-												<li>
-													<a href="#" class="footer-link hover-2">Bisiness</a>
-												</li>
-
-												<li>
-													<a href="#" class="footer-link hover-2">Adventure</a>
-												</li>
-
-												<li>
-													<a href="#" class="footer-link hover-2">Canada</a>
-												</li>
-
-												<li>
-													<a href="#" class="footer-link hover-2">America</a>
-												</li>
-
-												<li>
-													<a href="#" class="footer-link hover-2">Curiosity</a>
-												</li>
-
-												<li>
-													<a href="#" class="footer-link hover-2">Animal</a>
-												</li>
-
-												<li>
-													<a href="#" class="footer-link hover-2">Dental</a>
-												</li>
-
-												<li>
-													<a href="#" class="footer-link hover-2">Biology</a>
-												</li>
-
-												<li>
-													<a href="#" class="footer-link hover-2">Design</a>
-												</li>
-
-												<li>
-													<a href="#" class="footer-link hover-2">Breakfast</a>
-												</li>
-
-												<li>
-													<a href="#" class="footer-link hover-2">Dessert</a>
-												</li>
-
-										</ul>
-
-								</div>
-
-								<div class="footer-list">
-
-									<form action="" id="contact-form">
-										{% csrf_token %}
-											<p class="footer-list-title">Contact me</p>
-
-											<p class="footer-text">
-													У вас есть вопросы? Напишите мне.
-											</p>
-
-											<div class="input-wrapper">
-													<input type="text" name="user_name" placeholder="You name" required id="" class="input-field" autocomplete="off">
-
-													<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+										<div class="input-wrapper">
+											<textarea name="user_message" class="input-field" cols="30" rows="6" placeholder="Сообщение" required ></textarea>
+											<div class="ion_mess">
+													<ion-icon name="send-outline"></ion-icon>
 											</div>
-
-											<div class="input-wrapper">
-													<input type="email" name="user_email" placeholder="Email address" required id="" class="input-field" autocomplete="off">
-
-													<ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
-											</div>
-
-											<div class="input-wrapper">
-													<input type="tel" name="email_phone" placeholder="You nomber" required id="" class="input-field" autocomplete="off">
-
-													<ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
-											</div>
-
-											<div class="input-wrapper">
-												<textarea name="user_message" class="input-field" cols="30" rows="6" placeholder="Сообщение" required ></textarea>
-												<div class="ion_mess">
-														<ion-icon name="send-outline"></ion-icon>
-												</div>
-											</div>
+										</div>
 
 
-											<button type="submit" class="btn btn-primary">
-													<span class="span">Отправить</span>
+										<button type="submit" class="btn btn-primary">
+												<span class="span">Отправить</span>
 
-													<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
-											</button>
+												<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+										</button>
 
-										</br>
+									</br>
 
-											<p class="contact__message" id="contact-message">Статус отправки</p>
-									</form>
+										<p class="contact__message" id="contact-message">Статус отправки</p>
+								</form>
 
-								</div>
+							</div>
 
-						</div>
+					</div>
 
-						<div class="footer-bottom">
-								<p class="copyright">
-										Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a> <span class="time"></span>
-								</p>
+					<div class="footer-bottom">
+							<p class="copyright">
+									Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a></br><span class="time"></span>
+							</p>
 
-								<ul class="social-list">
+							<ul class="social-list">
 
 										<li>
-												<a href="#" class="social-link">
-													<ion-icon name="logo-twitter"></ion-icon>
+											<a href="https://www.linkedin.com/company/ton-blockchain/" target="_blank" class="social-link">
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 3a8.97 8.97 0 0 0-6.364 2.636A8.97 8.97 0 0 0 3 12a8.97 8.97 0 0 0 2.636 6.364A8.97 8.97 0 0 0 12 21a8.97 8.97 0 0 0 6.364-2.636A8.97 8.97 0 0 0 21 12a8.97 8.97 0 0 0-2.636-6.364A8.97 8.97 0 0 0 12 3M9.543 15.852v-5.804H7.614v5.804zM8.58 9.255c.672 0 1.091-.445 1.091-1.002-.013-.57-.419-1.003-1.079-1.003S7.5 7.683 7.5 8.253c0 .557.419 1.002 1.066 1.002zm2.03 6.597h1.93V12.61c0-.174.012-.347.063-.471.14-.347.457-.706.99-.706.698 0 .977.533.977 1.313v3.105h1.929v-3.328c0-1.783-.952-2.612-2.221-2.612-1.04 0-1.497.581-1.751.978h.013v-.842h-1.93c.026.544 0 5.804 0 5.804" clip-rule="evenodd"></path></svg>
 
-													<span class="span">Twitter</span>
-												</a>
-										</li>
+												{% comment %} <span class="span">Linkedin</span> {% endcomment %}
+											</a>
+									</li>
 
-										<li>
-												<a href="#" class="social-link">
-													<ion-icon name="logo-linkedin"></ion-icon>
+									<li>
+										<a href="https://t.me/toncoin" target="_blank" class="social-link">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.636 5.636A8.97 8.97 0 0 1 12 3a8.97 8.97 0 0 1 6.364 2.636A8.97 8.97 0 0 1 21 12a8.97 8.97 0 0 1-2.636 6.364A8.97 8.97 0 0 1 12 21a8.97 8.97 0 0 1-6.364-2.636A8.97 8.97 0 0 1 3 12a8.97 8.97 0 0 1 2.636-6.364m6.421 3.645a434 434 0 0 0-5.37 2.362q-.653.265-.685.52c-.035.285.316.398.794.551l.201.066c.47.156 1.103.338 1.432.346q.447.009.998-.377 3.762-2.593 3.885-2.621c.057-.014.136-.03.19.019.054.048.049.141.043.166-.035.151-1.412 1.459-2.125 2.135-.222.211-.38.361-.412.395a8 8 0 0 1-.217.219c-.437.43-.764.752.018 1.279.376.253.677.462.978.67.327.228.654.456 1.077.739q.162.11.311.22c.382.278.725.527 1.148.487.246-.023.5-.259.63-.964.304-1.665.904-5.272 1.043-6.759a1.7 1.7 0 0 0-.016-.37.4.4 0 0 0-.13-.255.6.6 0 0 0-.358-.109c-.346.006-.877.195-3.435 1.281" clip-rule="evenodd"></path></svg>
 
-													<span class="span">Linkedin</span>
-												</a>
-										</li>
+											{% comment %} <span class="span">Twitter</span> {% endcomment %}
+										</a>
+									</li>
 
-										<li>
-												<a href="#" class="social-link">
-													<ion-icon name="logo-instagram"></ion-icon>
+									<li>
+											<a href="https://github.com/ton-blockchain" target="_blank" class="social-link">
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.298 20.704A9 9 0 1 0 3 12a9 9 0 0 0 6.97 8.77.43.43 0 0 0 .115-.302l-.004-.472-.008-.952c-2.329.506-2.82-1.123-2.82-1.123-.38-.968-.93-1.226-.93-1.226-.76-.52.058-.51.058-.51.84.06 1.282.864 1.282.864.747 1.28 1.96.911 2.437.696.076-.541.293-.91.532-1.12-1.86-.211-3.814-.93-3.814-4.14 0-.915.326-1.663.862-2.249-.086-.212-.374-1.063.082-2.217 0 0 .703-.225 2.302.86a8 8 0 0 1 2.096-.283 8 8 0 0 1 2.096.282c1.598-1.084 2.3-.859 2.3-.859.457 1.154.17 2.005.083 2.217.537.586.861 1.334.861 2.249 0 3.218-1.957 3.927-3.822 4.134.3.259.568.77.568 1.551 0 .75-.005 1.401-.008 1.833l-.003.466c0 .08.02.163.063.235" clip-rule="evenodd"></path></svg>
 
-													<span class="span">Instagram</span>
-												</a>
-										</li>
+												{% comment %} <span class="span">Instagram</span> {% endcomment %}
+											</a>
+									</li>
 
-								</ul>
-						</div>
+									<li>
+											<a href="https://x.com/ton_blockchain?mx=2" target="_blank" class="social-link">
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.636 5.636A8.97 8.97 0 0 1 12 3a8.97 8.97 0 0 1 6.364 2.636A8.97 8.97 0 0 1 21 12a8.97 8.97 0 0 1-2.636 6.364A8.97 8.97 0 0 1 12 21a8.97 8.97 0 0 1-6.364-2.636A8.97 8.97 0 0 1 3 12a8.97 8.97 0 0 1 2.636-6.364m10.356 4.655v-.262A3.8 3.8 0 0 0 17 8.956c-.366.17-.76.274-1.178.327.419-.262.746-.655.903-1.139a4.2 4.2 0 0 1-1.309.497A2.04 2.04 0 0 0 13.924 8a2.05 2.05 0 0 0-2.055 2.055c0 .157.013.327.053.471A5.84 5.84 0 0 1 7.694 8.38a2.1 2.1 0 0 0-.275 1.034c0 .72.366 1.348.916 1.714a2 2 0 0 1-.93-.261v.026c0 .994.708 1.819 1.65 2.002a1.908 1.908 0 0 1-.93.04 2.03 2.03 0 0 0 1.912 1.426A4.15 4.15 0 0 1 7 15.212c.916.576 1.99.916 3.155.916 3.77 0 5.837-3.128 5.837-5.837" clip-rule="evenodd"></path></svg>
 
-				</div>
+												{% comment %} <span class="span">Twitter</span> {% endcomment %}
+											</a>
+									</li>
 
-		</div>
+									
+									<li>
+										<a href="mailto:partnership@ton.org" class="social-link">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 3a8.97 8.97 0 0 0-6.364 2.636A8.97 8.97 0 0 0 3 12a8.97 8.97 0 0 0 2.636 6.364A8.97 8.97 0 0 0 12 21a8.97 8.97 0 0 0 6.364-2.636A8.97 8.97 0 0 0 21 12a8.97 8.97 0 0 0-2.636-6.364A8.97 8.97 0 0 0 12 3m0 8.435 4.73-2.775A1.5 1.5 0 0 0 15.5 8h-7a1.5 1.5 0 0 0-1.24.655zm0 .995a1 1 0 0 0 .5-.135l4.5-2.63V14.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 14.5V9.665l4.5 2.635a1 1 0 0 0 .5.13" clip-rule="evenodd"></path></svg>
+											
+											{% comment %} <span class="span">Instagram</span> {% endcomment %}
+										</a>
+									</li>
+									
+									<li>
+										<a href="https://coinmarketcap.com/currencies/toncoin/" target="_blank" class="social-link">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18m3.782-7.786c.19.105.44.089.652-.043.327-.203.5-.62.474-1.144v-.019L16.907 12a4.914 4.914 0 0 0-4.908-4.91A4.914 4.914 0 0 0 7.09 12a4.9 4.9 0 0 0 .577 2.307l2.84-4.494c.344-.517.696-.544.932-.476.357.103.545.444.559 1.013v2.476l1.268-2.026c.204-.326.744-1.192 1.463-.985.424.121.677.57.677 1.203v1.31c0 .437.133.751.375.886m2.215-1.228V12c.038.92-.32 1.683-.986 2.097-.55.341-1.223.368-1.759.07-.594-.33-.935-1-.935-1.84V11.19a4 4 0 0 0-.125.19l-1.41 2.25c-.475.761-.928.819-1.224.734s-.65-.375-.65-1.272v-1.868l-2.561 4.052a4.9 4.9 0 0 0 3.652 1.634 4.9 4.9 0 0 0 3.337-1.309.544.544 0 1 1 .741.8 5.98 5.98 0 0 1-4.078 1.6A6.006 6.006 0 0 1 6 12c0-3.308 2.691-6 5.999-6a6.006 6.006 0 0 1 5.998 5.973z" clip-rule="evenodd"></path></svg>
+
+											{% comment %} <span class="span">Instagram</span> {% endcomment %}
+										</a>
+								</li>
+							</ul>
+					</div>
+
+			</div>
+
+	</div>
 </footer>
 
 {% endblock footer %}
