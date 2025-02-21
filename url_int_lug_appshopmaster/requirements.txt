@@ -6,7 +6,9 @@ charset-normalizer==3.4.0
 colorama==0.4.6
 decorator==5.1.1
 Django==5.1.2
+django-ckeditor-5==0.2.17
 django-debug-toolbar==4.4.6
+django-js-asset==3.0.1
 executing==2.1.0
 gunicorn==23.0.0
 idna==3.10
