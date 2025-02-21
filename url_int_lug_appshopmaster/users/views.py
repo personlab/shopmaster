@@ -23,7 +23,8 @@ class LoginViews(View):
 		def get(self, request):
 				form = UserLoginForm()
 				context = {
-						'title': 'TonGameApp - Авторизация|Регистрация',
+						'title': 'GameTonApp - Авторизация',
+						'description': 'Авторизация в приложении GameTonApp',
 						'form': form
 				}
 				return render(request, 'users/login.html', context=context)
@@ -39,7 +40,8 @@ class LoginViews(View):
 								messages.success(request, f"{username}, Вы вошли в аккаунт")
 								return HttpResponseRedirect(reverse('blog:post_list'))
 				context = {
-						'title': 'TonGameApp - Авторизация|Регистрация',
+						'title': 'TonGameApp - Авторизация',
+						'description': 'Авторизация в приложении GameTonApp',
 						'form': form
 				}
 				return render(request, 'users/login.html', context=context)
@@ -51,7 +53,8 @@ class RegistrationView(View):
 		def get(self, request):
 				form = UserRegistrationForm()
 				context = {
-						'title': 'TonGameApp - Авторизация|Регистрация',
+						'title': 'GameTonApp - Регистрация',
+						'description': 'Регистрация в приложении GameTonApp',
 						'form': form
 				}
 				return render(request, 'users/registration.html', context=context)
@@ -66,7 +69,8 @@ class RegistrationView(View):
 						return HttpResponseRedirect(reverse('main:index'))
 				
 				context = {
-						'title': 'TonGameApp - Авторизация|Регистрация',
+						'title': 'GameTonApp - Регистрация',
+						'description': 'Регистрация в приложении GameTonApp',
 						'form': form
 				}
 				return render(request, 'users/registration.html', context=context)
@@ -89,7 +93,7 @@ class ProfileView(View):
 		def get(self, request):
 				form = ProfileForm(instance=request.user)
 				context = {
-					'title': 'TonGameApp - Профиль',
+					'title': 'GameTonApp - Профиль',
 					'form': form
 				}
 
@@ -103,7 +107,7 @@ class ProfileView(View):
 						return HttpResponseRedirect(reverse('user:profile'))
 				
 				context = {
-					'title': 'TonGameApp - Профиль',
+					'title': 'GameTonApp - Профиль',
 					'form': form
 				}
 

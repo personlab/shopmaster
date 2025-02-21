@@ -316,6 +316,7 @@ body.nav-active {
 	display: inline-block;
 	-webkit-text-fill-color: transparent;
 	-webkit-background-clip: text;
+	font-size: smaller;
 }
 
 .btn {
@@ -2111,6 +2112,10 @@ input[type="file"] {
 		display: none;
 	}
 
+	.headline .span {
+		font-size: larger;
+	}
+
 	.pagination {
 		justify-content: center;
 	}
@@ -2481,7 +2486,10 @@ input[type="file"] {
 			grid-template-columns: 1fr 1fr;
 			align-items: center;
 		}
-
+		
+		.headline .span {
+			font-size: smaller;
+		}
 
 		/**
 		* TOPICS

@@ -111,9 +111,12 @@ class PostsView(View):
 				# Взять топ 5 популярных постов
 				top_5_posts = all_posts[:5]
 
-				# Пагинация для RecentPost
-				recent_posts = RecentPost.objects.all()
-				paginator = Paginator(recent_posts, 1) # количество постов на странице
+				# # Пагинация для RecentPost
+				# recent_posts = RecentPost.objects.all()
+				# paginator = Paginator(recent_posts, 1) # количество постов на странице
+
+				recent_posts = RecentPost.objects.all().order_by('-created_at')  # Сортировка по дате создания
+				paginator = Paginator(recent_posts, 1)  # количество постов на странице
 
 				# Получение номера страницы из GET-параметров
 				page_number = request.GET.get('page', 1)
@@ -250,19 +253,7 @@ class PostDetailView(View):
 						else:
 								raise Http404("No post matches the given query.")
 
-				# # Получить посты из таблицы Post
-				# post_posts = Post.objects.annotate(
-				# 		model_type=Value('Post', output_field=CharField())
-				# ).values(
-				# 		'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
-				# )
 
-				# # Получить посты из таблицы RecentPost
-				# recent_posts_one = RecentPost.objects.annotate(
-				# 		model_type=Value('RecentPost', output_field=CharField())
-				# ).values(
-				# 		'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
-				# )
 
 				# Получить посты из таблицы Post
 				post_posts = cache.get('post_posts')
@@ -353,7 +344,7 @@ class PostDetailView(View):
 								if request.user.is_authenticated:
 										comment.author_image = request.user.image.url  # Предполагается, что у пользователя есть поле `image`
 								else:
-										comment.author_image = "{% static 'deps/images/default-avatar.png' %}"  # Используем аватарку по умолчанию для анонимных пользователей
+										comment.author_image = "{% static 'deps/images/baseavatar.jpg' %}"  # Используем аватарку по умолчанию для анонимных пользователей
 
 								try:
 										comment.save()

@@ -33,7 +33,6 @@
 	-->
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 	<link rel="stylesheet" href="{% static "deps/css/style.css" %}">
-	{% comment %} <link rel="stylesheet" href="{% static "deps/css/commerce_style.css" %}"> {% endcomment %}
 
 	<!--
 			- preload images
@@ -119,7 +118,7 @@
 										<ul class="subs__menu lists__blocks">
 													<li>
 														{% if user.is_admin or user.is_staff %}
-																<a href="http://127.0.0.1:8000/admin/">Админ панель</a>
+																<a href="https://gameton.app/admin/">Админ панель</a>
 														{% endif %}
 													</li>
 													{% comment %} <li><a href="{% url "user:profile" %}">Аккаунт</a></li> {% endcomment %}
@@ -367,18 +366,20 @@
 			</article>
 	</main>
 
-		<!-- Модальное окно для уведомления о cookies -->
-		<div id="cookieModal" class="modals__one">
-			<div class="modal__content__one">
-					<h2>Мы используем файлы cookie</h2>
-					<p>
-							Мы используем файлы cookie для улучшения вашего опыта на нашем сайте. 
-							Продолжая использовать сайт, вы соглашаетесь с нашей 
-							{% comment %} <a href="{% url 'privacy_policy' %}">Политикой конфиденциальности</a>. {% endcomment %}
-					</p>
-					<button class="btn btn-primary" id="acceptCookies">Принять</button>
-			</div>
+	<!-- Модальное окно для уведомления о cookies -->
+	<div id="cookieModal" class="modals__one">
+		<div class="modal__content__one">
+				<h2>Мы используем файлы cookie</h2>
+				<p>
+						для улучшения вашего опыта на нашем сайте. 
+						{% comment %} Продолжая использовать сайт, вы соглашаетесь с нашей  {% endcomment %}
+						{% comment %} <a href="{% url 'privacy_policy' %}">Политикой конфиденциальности</a>. {% endcomment %}
+				</p>
+				<div class="button_cookie">
+						<button class="btn btn-primary" id="acceptCookies">Принять</button>
+				</div>
 		</div>
+	</div>
 
 
 	<!--

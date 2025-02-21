@@ -12,7 +12,7 @@
 	-->
 	<title>{{ title }}</title>
 	<meta name="title" content="{{ title }}">
-	<meta name="description" content="{{ title }}">
+	<meta name="description" content="{{ description }}">
 	<!-- Favicons for different platforms -->
 	<link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
 	<link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
@@ -184,11 +184,13 @@
 		<div class="modal__content__one">
 				<h2>Мы используем файлы cookie</h2>
 				<p>
-						Мы используем файлы cookie для улучшения вашего опыта на нашем сайте. 
-						Продолжая использовать сайт, вы соглашаетесь с нашей 
+						для улучшения вашего опыта на нашем сайте. 
+						{% comment %} Продолжая использовать сайт, вы соглашаетесь с нашей  {% endcomment %}
 						{% comment %} <a href="{% url 'privacy_policy' %}">Политикой конфиденциальности</a>. {% endcomment %}
 				</p>
-				<button class="btn btn-primary" id="acceptCookies">Принять</button>
+				<div class="button_cookie">
+						<button class="btn btn-primary" id="acceptCookies">Принять</button>
+				</div>
 		</div>
 	</div>
 

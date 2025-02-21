@@ -311,6 +311,10 @@ body.nav-active {
 	margin-block-end: 10px;
 }
 
+.section__title__cont {
+	margin-top: 100px;
+}
+
 .headline .span {
 	background-image: var(--gradient-1);
 	display: inline-block;

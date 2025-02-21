@@ -2,20 +2,55 @@ from django.contrib import admin
 
 from django.contrib import admin
 from .models import Post, Hero, Featured, Tag, RecentPost, Comment
+from django_ckeditor_5.widgets import CKEditor5Widget
+from django import forms
+
+from django import forms
+from .models import RecentPost
+
+
+class PostAdminForm(forms.ModelForm):
+		class Meta:
+				model = Post
+				fields = '__all__'
+				widgets = {
+						'content': CKEditor5Widget(config_name='default'),
+				}
+
+		def clean_content(self):
+				content = self.cleaned_data.get('content')
+				if not content or content.strip() == '':
+						raise forms.ValidationError("Поле 'Текст' не может быть пустым.")
+				return content
 
 
 class PostAdmin(admin.ModelAdmin):
 		list_display = ('title', 'created_at')
-		search_fields = ('title',)
+		search_fields = ('title', 'content')
 		prepopulated_fields = {'slug': ('title',)}
 		list_filter = ('created_at',)
 
 admin.site.register(Post, PostAdmin)
 
 
+class RecentPostAdminForm(forms.ModelForm):
+		class Meta:
+				model = RecentPost
+				fields = '__all__'
+				widgets = {
+						'content': CKEditor5Widget(config_name='default'),
+				}
+
+		def clean_content(self):
+				content = self.cleaned_data.get('content')
+				if not content or content.strip() == '':
+						raise forms.ValidationError("Поле 'Текст' не может быть пустым.")
+				return content
+
+
 class RecentPostAdmin(admin.ModelAdmin):
 		list_display = ('title', 'created_at')
-		search_fields = ('title',)
+		search_fields = ('title', 'content')
 		prepopulated_fields = {'slug': ('title',)}
 		list_filter = ('created_at',)
 

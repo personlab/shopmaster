@@ -7,6 +7,7 @@ from users.models import User
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 
@@ -29,13 +30,13 @@ class Tag(models.Model):
 class Post(models.Model):
 		title = models.CharField(max_length=200, verbose_name='Заголовок')
 		slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
-		content = models.TextField(verbose_name='Текст')
+		content = CKEditor5Field('Текст', config_name='default')
 		image = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Картинка')
-		content_1 = models.TextField(verbose_name='Текст 1')
+		content_1 = CKEditor5Field('Текст', config_name='default')
 		image_1 = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Изображение 1')
-		content_2 = models.TextField(verbose_name='Текст 2')
+		content_2 = CKEditor5Field('Текст', config_name='default')
 		image_2 = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Изображение 2')
-		content_3 = models.TextField(verbose_name='Текст 3')
+		content_3 = CKEditor5Field('Текст', config_name='default')
 		image_3 = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Изображение 3')
 		link = models.URLField(max_length=200, blank=True, null=True, verbose_name='Ссылка для кнопки')
 		tags = models.ManyToManyField(Tag, related_name='post', verbose_name='Теги')
@@ -77,7 +78,7 @@ class RecentPost(models.Model):
 		subtitle = models.CharField(max_length=200, blank=True, null=True, verbose_name='Значок')
 		title = models.CharField(max_length=200, verbose_name='Заголовок')
 		slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
-		content = models.TextField(verbose_name='Текст')
+		content = CKEditor5Field('Текст', config_name='default') # CKEditor5Field возможность формотировать текст
 		image = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Картинка')
 		link = models.URLField(max_length=200, blank=True, null=True, verbose_name='Ссылка для кнопки')
 		tags = models.ManyToManyField(Tag, related_name='recentpost', verbose_name='Теги')  # Добавлено это поле

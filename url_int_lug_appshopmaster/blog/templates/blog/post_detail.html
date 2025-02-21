@@ -14,7 +14,7 @@
 			<p class="post-subtitle">{{ post.subtitle|default:'' }}</p> <!-- subtitle только для RecentPost -->
 			<p class="post-author">Автор: {{ post.author_name }}</p>
 			<p class="post-time">Время чтения: {{ post.reading_time }} мин.</p>
-			<p>{{ post.content }}</p>
+			<p>{{ post.content|safe }}</p>
 				
 				<!-- Для модели Post выводим дополнительные блоки -->
 		{% if post.content_1 or post.image_1 %}
@@ -22,7 +22,7 @@
 		{% if post.image_1 %}
 			<img src="{{ post.image_1.url }}" alt="Изображение 1" class="zoomable-img img-100">
 		{% endif %}
-			<p>{{ post.content_1 }}</p>
+			<p>{{ post.content_1|safe }}</p>
 			</div>
 		{% endif %}
 
@@ -31,7 +31,7 @@
 		{% if post.image_2 %}
 				<img src="{{ post.image_2.url }}" alt="Изображение 2" class="zoomable-img img-100">
 		{% endif %}
-			<p>{{ post.content_2 }}</p>
+			<p>{{ post.content_2|safe }}</p>
 			</div>
 		{% endif %}
 
@@ -40,7 +40,7 @@
 		{% if post.image_3 %}
 					<img src="{{ post.image_3.url }}" alt="Изображение 3" class="zoomable-img img-100">
 		{% endif %}
-			<p>{{ post.content_3 }}</p>
+			<p>{{ post.content_3|safe }}</p>
 			</div>
 		{% endif %}
 
@@ -63,30 +63,83 @@
 	<!-- Отображение формы для комментариев -->
 	{% if form %}
 	{% if user.is_authenticated %}
+			<!-- Отображение имени пользователя -->
+			<div class="comments_user">
+					<p>Вы как:</p>
+					<img class="comments_user_banner" 
+							 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'deps/images/baseavatar.jpg' %}{% endif %}" 
+							 loading="lazy" 
+							 alt="{{ user.username }}">
+					<strong class="h2_posts_detail">{{ user.username }}</strong>
+			</div>
+
+			<!-- Проверка на аватарку по умолчанию -->
+			{% if not user.image %}
+					<div class="alert alert-warning" role="alert">
+							Пожалуйста, <a href="{% url 'user:profile' %}">установите аватарку</a> для отправики сообщения.
+					</div>
+			{% endif %}
+
+			<!-- Форма для комментария -->
+			<form id="users__commentss" 
+						method="POST" 
+						action="{% url 'blog:post_detail' slug=post.slug %}" 
+						data-user-image="{% if user.is_authenticated %}{% if user.image %}{{ user.image.url }}{% else %}{% static 'deps/images/baseavatar.jpg' %}{% endif %}{% endif %}">
+					{% csrf_token %}
+					<textarea class="form__user__comment" name="text" cols="40" rows="10" placeholder="Ваше сообщение" required="" rezine="none" id="id_text"></textarea>
+					<button class="btn__user__comment" type="submit">Отправить</button>
+			</form>
+	{% else %}
+			<!-- Сообщение для неавторизованных пользователей -->
+			<p class="comment__p">Зарегистрируйтесь, чтобы оставить комментарий.</p>
+			
+			<div class="btn__box__log log__reg__top__buttom">
+					<button class="bth__log__reg"><a href="{% url 'user:login' %}">Войти</a></button>
+					<button class="bth__log__reg btn__two__log"><a href="{% url 'user:registration' %}">Регистрация</a></button>
+			</div>
+	{% endif %}
+
+<!-- Отображение комментариев -->
+<h2 class="comment__titl2">Комментарии:</h2>
+{% endif %}
+	{% comment %} {% if form %}
+	{% if user.is_authenticated %} {% endcomment %}
 	<!-- Отображение имени пользователя -->
-	<div class="comments_user">
+	{% comment %} <div class="comments_user">
 			<p>Вы как:</p> <img class="comments_user_banner" src="{{ user.image.url }}" loading="lazy" alt="{{ user.username }}"><strong class="h2_posts_detail">{{ user.username }}</strong>
-	</div>
+	</div> {% endcomment %}
+
+	{% comment %} <div class="comments_user">
+			<p>Вы как:</p>
+			<img class="comments_user_banner" 
+					src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'deps/images/baseavatar.jpg' %}{% endif %}" 
+					loading="lazy" 
+					alt="{{ user.username }}">
+			<strong class="h2_posts_detail">{{ user.username }}</strong>
+	</div> {% endcomment %}
 
 	<!-- Форма для комментария -->
-	<form id="users__commentss" method="POST" action="{% url 'blog:post_detail' slug=post.slug %}" data-user-image="{% if user.is_authenticated %}{{ user.image.url }}{% endif %}">
-			{% csrf_token %}
-			<textarea class="form__user__comment" name="text" cols="40" rows="10" placeholder="Ваше сообщение" required="" rezine="none" id="id_text"></textarea>
-			<button class="btn__user__comment" type="submit">Отправить</button>
+	{% comment %} <form id="users__commentss" 
+			method="POST" 
+			action="{% url 'blog:post_detail' slug=post.slug %}" 
+			data-user-image="{% if user.is_authenticated %}{% if user.image %}{{ user.image.url }}{% else %}{% static 'deps/images/baseavatar.jpg' %}{% endif %}{% endif %}">
+		{% csrf_token %}
+		<textarea class="form__user__comment" name="text" cols="40" rows="10" placeholder="Ваше сообщение" required="" rezine="none" id="id_text"></textarea>
+		<button class="btn__user__comment" type="submit">Отправить</button>
 	</form>
-	{% else %}
+	{% else %} {% endcomment %}
 	<!-- Сообщение для неавторизованных пользователей -->
-	<p class="comment__p">Зарегистрируйтесь, чтобы оставить комментарий.</p>
+	{% comment %} <p class="comment__p">Зарегистрируйтесь, чтобы оставить комментарий.</p>
 	
 	<div class="btn__box__log log__reg__top__buttom">
 		<button class="bth__log__reg"><a href="{% url "user:login" %}">Войти</a></button>
 		<button class="bth__log__reg btn__two__log"><a href="{% url "user:registration" %}">Регистрация</a></button>
 	</div>
-	{% endif %} 
+	{% endif %}  {% endcomment %}
 
 	<!-- Отображение комментариев -->
-	<h2 class="comment__titl2">Комментарии:</h2>
-	{% endif %}
+	{% comment %} <h2 class="comment__titl2">Комментарии:</h2>
+	{% endif %} {% endcomment %}
 
 	<div class="comment-list">
 			{% for comment in comments %}
@@ -294,7 +347,7 @@
 
 					<div class="footer-bottom">
 							<p class="copyright">
-									Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a></br><span class="time"></span>
+									Copyright &copy; <a href="#" class="copyright-link">GameTonApp</a></br><span class="time"></span></br>v3.21.1
 							</p>
 
 							<ul class="social-list">

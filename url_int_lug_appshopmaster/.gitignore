@@ -16,3 +16,4 @@ media/
 static/deps/videos/
 database_tongameapp/
 .env
+staticfiles/deps/videos/

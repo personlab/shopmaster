@@ -6,6 +6,9 @@
 <head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{{ title }}</title>
+		<meta name="description" content="игры web3 на ton, ton game, майнинг в телеграм">
+		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="{% static "deps/css/bootstrap/bootstrap.min.css" %}">
 		<link rel="stylesheet" href="{% static "deps/css/my_css.css" %}">
@@ -20,7 +23,6 @@
 		<link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
 		<link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css">
-		<title>{{ title }}</title>
 </head>
 
 <header>
@@ -145,8 +147,8 @@
 				<div class="modal__content__one">
 						<h2>Мы используем файлы cookie</h2>
 						<p>
-								Мы используем файлы cookie для улучшения вашего опыта на нашем сайте. 
-								Продолжая использовать сайт, вы соглашаетесь с нашей 
+								для улучшения вашего опыта на нашем сайте. 
+								{% comment %} Продолжая использовать сайт, вы соглашаетесь с нашей  {% endcomment %}
 								{% comment %} <a href="{% url 'privacy_policy' %}">Политикой конфиденциальности</a>. {% endcomment %}
 						</p>
 						<button class="btn btn-primary" id="acceptCookies">Принять</button>

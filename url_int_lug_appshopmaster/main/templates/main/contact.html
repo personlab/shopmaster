@@ -13,16 +13,16 @@
 
 {% block content %}
 
-<p class="hero-subtitle">Hello Everyone!</p>
+{% comment %} <p class="hero-subtitle">Hello Everyone!</p> {% endcomment %}
 
 
-<h1 class="headline headline-1 section-title">
+<h1 class="headline headline-1 section-title section__title__cont">
 		<span class="span">{{ content }}</span>
 </h1>
 
-<p class="hero-text">
+{% comment %} <p class="hero-text">
 	{{ content }}
-</p>
+</p> {% endcomment %}
 
 <p class="hero-text"><a href="mailto:{{ e_mail }}">{{ e_mail }}</a> </br> <a href="tel:{{ phone }}">{{ phone }}</a></p>
 
@@ -182,7 +182,7 @@
 
 					<div class="footer-bottom">
 							<p class="copyright">
-									Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a></br><span class="time"></span>
+									Copyright &copy; <a href="#" class="copyright-link">GameTonApp</a></br><span class="time"></span></br>v3.21.1
 							</p>
 
 							<ul class="social-list">

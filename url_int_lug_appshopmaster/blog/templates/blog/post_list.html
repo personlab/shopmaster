@@ -1,5 +1,4 @@
 {% load static %}
-{% load cache %}
 {% load tz %}
 
 <!DOCTYPE html>
@@ -12,8 +11,8 @@
 		- primary meta tags
 	-->
 	<title>{{ title }}</title>
-	<meta name="title" content="TonGameApp - Блог>">
-	<meta name="description" content="Telegram Tap-to-Earn Crypto Games">
+	<meta name="title" content="GameTonApp - Блог>">
+	<meta name="description" content="Telegram Tap-to-Earn Crypto Games, игры на blockchain ton, майнинг в телеграм">
 	<!-- Favicons for different platforms -->
 	<link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
 	<link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
@@ -98,7 +97,7 @@
 									<ul class="subs__menu lists__blocks">
 												<li>
 													{% if user.is_admin or user.is_staff %}
-															<a href="http://127.0.0.1:8000/admin/">Админ панель</a>
+															<a href="https://gameton.app/admin/">Админ панель</a>
 													{% endif %}
 												</li>
 												{% comment %} <li><a href="{% url "user:profile" %}">Аккаунт</a></li> {% endcomment %}
@@ -198,7 +197,7 @@
 				{% endif %}
 				</div>
 
-				<p class="copyright-text">Copyright &copy; TonGameApp</br><span class="time"></span></p>
+				<p class="copyright-text">Copyright &copy; GameTonApp</br><span class="time"></span></p>
 			</nav>
 
 			<a href="https://t.me/GameAppTon_bot" target="_blank" class="btn btn-primary">Subscribe</a>
@@ -223,7 +222,7 @@
 											<p class="hero-subtitle">{{ hero.subtitle }}</p>
 											{% if hero %}
 												<h1 class="headline headline-1 section-title">
-														<a href="https://t.me/GameAppTon_bot" target="_blank">TonGameApp</a> <span class="span">{{ hero.title }}</span>
+														<a href="https://t.me/GameAppTon_bot" target="_blank"> <span class="span">{{ hero.title }}</a></span>
 												</h1>
 											{% else %}
 												<h1 class="headline headline-1 section-title">
@@ -250,7 +249,6 @@
 									</div>
 
 									<div class="hero-banner">
-										{% cache 500 "hero-banner" %}
 										{% if hero and hero.image %}
 											<img src="{{ hero.image.url }}" width="327" height="490" alt="" class="w-100">
 										{% else %}
@@ -259,7 +257,6 @@
 											<img src="{% static "deps/images/pattern-2.svg" %}" width="27" height="26" alt="shape" class="shape shape-1">
 
 											<img src="{% static "deps/images/pattern-3.svg" %}" width="27" height="26" alt="shape" class="shape shape-2">
-											{% endcache %}
 									</div>
 
 									<img src="{% static "deps/images/shadow-1.svg" %}" width="500" height="800" alt="" class="hero-bg hero-bg-1">
@@ -301,7 +298,6 @@
 
 											<div class="slider" data-slider>
 												<ul class="slider-list" data-slider-container>
-													{% cache 60 "slider-list" %}
 
 													{% for post in posts %}
 
@@ -324,7 +320,6 @@
 													{% empty %}
 														<li>Нет записей</li>
 													{% endfor %}
-													{% endcache %}
 												</ul>
 										</div>
 
@@ -348,7 +343,6 @@
 									</p>
 
 									<ul class="feature-list">
-										{% cache 60 "feature-list" %}
 										{% for item, tags in featured_items_with_tags %}
 												<li>
 														<div class="card feature-card">
@@ -392,7 +386,6 @@
 													</div>
 											</li>
 										{% endfor %}
-										{% endcache %}
 
 									</ul>
 
@@ -562,7 +555,6 @@
 												</h3>
 
 												<ul class="popular-list">
-													{% cache 60 "popular-list" %}
 													{% for post in top_5_posts %}
 													<li>
 															<div class="popular-card">
@@ -588,7 +580,6 @@
 															</div>
 													</li>
 													{% endfor %}
-													{% endcache %}
 
 												</ul>
 
@@ -602,7 +593,6 @@
 											</h3>
 									
 											<ul class="comment-list">
-												{% cache 60 "comment-list" %}
 													{% if latest_comments %}
 															{% for comment in latest_comments %}
 																	<li>
@@ -629,7 +619,6 @@
 													{% else %}
 															<li>Нет комментариев для отображения.</li>
 													{% endif %}
-													{% endcache %}
 											</ul>
 									</div>
 
@@ -648,8 +637,8 @@
 		<div class="modal__content__one">
 				<h2>Мы используем файлы cookie</h2>
 				<p>
-						Мы используем файлы cookie для улучшения вашего опыта на нашем сайте. 
-						Продолжая использовать сайт, вы соглашаетесь с нашей 
+						для улучшения вашего опыта на нашем сайте. 
+						{% comment %} Продолжая использовать сайт, вы соглашаетесь с нашей  {% endcomment %}
 						{% comment %} <a href="{% url 'privacy_policy' %}">Политикой конфиденциальности</a>. {% endcomment %}
 				</p>
 				<div class="button_cookie">
@@ -813,11 +802,10 @@
 
 							<div class="footer-bottom">
 									<p class="copyright">
-											Copyright &copy; <a href="#" class="copyright-link">TonGameApp</a></br><span class="time"></span>
+											Copyright &copy; <a href="#" class="copyright-link">GameTonApp</a></br><span class="time"></span></br>v3.21.1
 									</p>
 
 									<ul class="social-list">
-										{% cache 1000 "social-list" %}
 
 												<li>
 													<a href="https://www.linkedin.com/company/ton-blockchain/" target="_blank" class="social-link">
@@ -867,7 +855,6 @@
 													{% comment %} <span class="span">Instagram</span> {% endcomment %}
 												</a>
 										</li>
-										{% endcache %}
 									</ul>
 							</div>
 

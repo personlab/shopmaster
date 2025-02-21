@@ -38,7 +38,7 @@ class IndexView(View):
 		def get(self, request):
 			slides = Slide.objects.all() # извлекаем все слайды из базы данных
 			context = {
-				'title': 'TonGameApp - Главная',
+				'title': 'GameTonApp - Главная',
 				'slides': slides
 			}
 			return render(request, 'index.html', context=context)
@@ -100,8 +100,8 @@ class ContactView(View):
 		context = {
 			'title': 'Home - Контакты',
 			'content': "Контакты",
-			'e_mail': "example@gmail.com",
-			'phone': '+79155040000',
+			'e_mail': "baragin@yahoo.com",
+			'phone': '+79155047791',
 			'hero': hero,
 			'top_5_posts': top_5_posts,
 		}

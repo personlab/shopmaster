@@ -28,7 +28,7 @@ $(document).ready(function() {
 														</blockquote>
 														<div class="profile-card">
 																<figure class="profile-banner img-holder">
-																		<img src="${response.comment.author_image}" width="32" height="32" loading="lazy" alt="${response.comment.author}">
+																		<img src="${response.comment.author_image}" width="32" height="32" loading="lazy" alt="${response.comment.author}">я
 																</figure>
 																<div>
 																		<p class="card-title">${response.comment.author}</p>

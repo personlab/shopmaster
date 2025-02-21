@@ -12,9 +12,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Загрузка переменных окружения из .env
 
 from django.conf.global_settings import AUTH_USER_MODEL, CACHES, MEDIA_ROOT, MEDIA_URL
 
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,9 +37,17 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-# ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+								'gameton.app',
+								'www.gameton.app',
+								'80.64.24.110',
+								'127.0.0.1',
+								'ai-neuro-box.ru',
+								]
 
 SITE_ID = 1
 # 'django.contrib.sites',
@@ -50,6 +62,7 @@ INSTALLED_APPS = [
 		'django.contrib.messages',
 		'django.contrib.staticfiles',
 		'django.contrib.postgres',
+		'django_ckeditor_5',
 
 		'django.contrib.sites',
 		
@@ -59,7 +72,9 @@ INSTALLED_APPS = [
 		'blog',
 		'users',
 ]
+
 		# 'debug_toolbar',
+
 
 MIDDLEWARE = [
 		'django.middleware.security.SecurityMiddleware',
@@ -71,7 +86,10 @@ MIDDLEWARE = [
 		'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
+
 		# "debug_toolbar.middleware.DebugToolbarMiddleware",
+
+
 
 ROOT_URLCONF = 'app_shopmaster.urls'
 
@@ -96,6 +114,33 @@ TEMPLATES = [
 WSGI_APPLICATION = 'app_shopmaster.wsgi.application'
 
 
+CKEDITOR_5_CONFIGS = {
+		'default': {
+				'toolbar': ['heading', '|', 'bold', 'italic', 'underline', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'],
+				'language': 'ru',
+				'htmlSupport': {
+						'allow': [
+								{'name': '/.*/', 'attributes': True, 'classes': True, 'styles': True}
+						]
+				},
+				'htmlEmbed': {
+						'showPreviews': True
+				},
+				'link': {
+						'decorators': {
+								'openInNewTab': {
+										'mode': 'manual',
+										'label': 'Open in a new tab',
+										'attributes': {
+												'target': '_blank',
+												'rel': 'noopener noreferrer'
+										}
+								}
+						}
+				},
+		}
+}
+
 # # Database
 # # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -106,13 +151,26 @@ WSGI_APPLICATION = 'app_shopmaster.wsgi.application'
 # 		}
 # }
 
+
+# DATABASES = {
+# 		'default': {
+# 				'ENGINE': 'django.db.backends.postgresql',
+# 				'NAME': 'TonGameApp',
+# 				'USER': 'admin',
+# 				'PASSWORD': 'admin',
+# 				'HOST': 'localhost',
+# 				'PORT': '5432',
+# 		}
+# }
+
+
 DATABASES = {
 		'default': {
 				'ENGINE': 'django.db.backends.postgresql',
 				'NAME': 'TonGameApp',
 				'USER': 'admin',
 				'PASSWORD': 'admin',
-				'HOST': 'localhost',
+				'HOST': '80.64.24.110',
 				'PORT': '5432',
 		}
 }
@@ -193,4 +251,7 @@ AUTH_USER_MODEL = 'users.User'
 
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024  # 20 МБ
+FILE_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024  # 20 МБ
 

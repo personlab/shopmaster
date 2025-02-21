@@ -20,8 +20,9 @@ from django.urls import include, path
 # from django.conf import settings # - переключаем на эти настройки, если в нашем файле настроек чего-то нет и он не работает должным образом.
 from app_shopmaster import settings
 from django.conf.urls.static import static
-from debug_toolbar.toolbar import debug_toolbar_urls
+# from debug_toolbar.toolbar import debug_toolbar_urls
 from main import views
+from django_ckeditor_5 import urls as ckeditor_5_urls
 
 
 from blog import urls
@@ -43,12 +44,19 @@ urlpatterns = [
 
 		# path('test-500/', views.test_500, name='test_500'),
 		
-if settings.DEBUG:
-	urlpatterns += [
-			path("__debug__/", include("debug_toolbar.urls")),
+# if settings.DEBUG:
+# 	urlpatterns += [
+# 			path("__debug__/", include("debug_toolbar.urls")),
+# 			path('ckeditor5/', include(ckeditor_5_urls)),
+# 		]
+# 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# 	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+			path('ckeditor5/', include(ckeditor_5_urls)),
 		]
-	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 """
