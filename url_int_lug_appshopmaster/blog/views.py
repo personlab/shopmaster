@@ -148,7 +148,7 @@ class PostsView(View):
 
 
 				context = {
-						'title': 'TonGameApp - Блог',
+						'title': 'GameTonApp - Блог',
 						'posts': posts,
 						'recent_posts_with_tags': recent_posts_with_tags,
 						'hero': hero,

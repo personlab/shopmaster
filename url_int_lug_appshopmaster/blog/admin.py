@@ -58,8 +58,24 @@ admin.site.register(RecentPost, RecentPostAdmin)
 
 
 
+class HeroAdminForm(forms.ModelForm):
+		class Meta:
+				model = Hero
+				fields = '__all__'
+				widgets = {
+						'content': CKEditor5Widget(config_name='default'),
+				}
+
+		def clean_content(self):
+				content = self.cleaned_data.get('content')
+				if not content or content.strip() == '':
+						raise forms.ValidationError("Поле 'Текст' не может быть пустым.")
+				return content
+		
+
 class HeroAdmin(admin.ModelAdmin):
 	list_display = ('id', 'image')
+	search_fields = ('title', 'content')
 
 
 admin.site.register(Hero, HeroAdmin)

@@ -60,7 +60,7 @@ class Post(models.Model):
 class Hero(models.Model):
 	subtitle = models.CharField(max_length=200, blank=True, null=True, verbose_name='Подзаголовок')
 	title = models.CharField(max_length=200, verbose_name='Приветствие')
-	content = models.TextField(verbose_name='Текст')
+	content = CKEditor5Field('Текст', config_name='default')
 	image = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Картинка героя')
 
 	class Meta:

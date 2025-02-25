@@ -231,7 +231,7 @@
 											{% endif %}
 
 											<p class="hero-text">
-												{{ hero.content }}
+												{{ hero.content|safe }}
 											</p>
 
 											{% comment %} <div class="input-wrapper">
@@ -281,7 +281,7 @@
 													</h2>
 
 													<p class="card-text">
-														Не пропустите последние новости о советах путешественникам, обзорах отелей, путеводителях по еде...
+														Не пропустите последние новости из мира цифровых технологий. Оставайтесь с нами, все интересное впереди...
 													</p>
 
 													<div class="btn-group">
@@ -305,13 +305,12 @@
 																<a href="{% url 'blog:post_detail' post.slug %}" class="slider-card">
 
 																		<figure class="slider-banner img-holder" style="--width: 507; --height: 618;">
-																				<img src="{{ post.image.url }}" width="507" height="618" loading="lazy" alt="Sport" class="img-cover">
+																				<img src="{{ post.image.url }}" width="507" height="618" loading="lazy" alt="{{ post.image }}" class="img-cover">
 																		</figure>
 
 																		<div class="slider-content">
 																				<span class="slider-title">{{ post.title }}</span>
 																				<p class="slider-subtitle">
-																					38 Articles
 																				</p>
 																		</div>
 
@@ -443,7 +442,7 @@
 								<div class="post-main">
 
 										<h2 class="headline headline-2 section-title">
-												<span class="span">Game Ton</span>
+												<span class="span section_title_span">Game Ton</span>
 										</h2>
 
 										<p class="section-text">
@@ -472,14 +471,14 @@
 																</h3>
 
 																<p class="card-text">
-																	{{ recent_post.content|slice:"200" }}... <!-- срез до 200 символов-->
+																	{{ recent_post.content|slice:"150"|safe }}... <!-- срез до 150 символов-->
 																</p>
 
 																<div class="card-wrapper">
 																	<!-- Теги RecentPost -->
 																		<div class="card-tag">
 																			{% for tag in recent_post.tags.all %}
-																			<a href="{% url 'blog:tag_posts' tag.id %}" class="span hover-2">#{{ tag.name }}</a>
+																			<a href="{% url 'blog:tag_posts' tag.id %}" class="span hover-2 tags__detail">#{{ tag.name }}</a>
 																			{% endfor %}
 																		</div>
 
@@ -760,7 +759,7 @@
 												</p>
 
 												<div class="input-wrapper">
-														<input type="text" name="user_name" placeholder="You name" required id="" class="input-field" autocomplete="off">
+														<input type="text" name="user_name" placeholder="Your name" required id="" class="input-field" autocomplete="off">
 
 														<ion-icon name="person-outline" aria-hidden="true"></ion-icon>
 												</div>
@@ -772,7 +771,7 @@
 												</div>
 
 												<div class="input-wrapper">
-														<input type="tel" name="email_phone" placeholder="You nomber" required id="" class="input-field" autocomplete="off">
+														<input type="tel" name="email_phone" placeholder="Your number" required id="" class="input-field" autocomplete="off">
 
 														<ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
 												</div>

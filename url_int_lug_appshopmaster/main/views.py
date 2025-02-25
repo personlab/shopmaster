@@ -98,7 +98,7 @@ class ContactView(View):
 
 		hero = Hero.objects.first()
 		context = {
-			'title': 'Home - Контакты',
+			'title': 'GameTonApp - Контакты',
 			'content': "Контакты",
 			'e_mail': "baragin@yahoo.com",
 			'phone': '+79155047791',
@@ -120,6 +120,27 @@ class DroppView(View):
 		return render(request, 'main/drop-shipping.html', context=context)
 	
 
+class YandexView(View):
+	def get(self, request):
+		content = """
+		<html>
+				<head>
+						<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+				</head>
+				<body>Verification: 889db48169eb8d68</body>
+		</html>
+		"""
+		return HttpResponse(content, content_type='text/html')
+	
+
+class GoogleView(View):
+	def get(self, request):
+		content = """
+		google-site-verification: googleed002019e2c6036a.html
+		"""
+		return HttpResponse(content, content_type='text/html')
+	
+
 
 
 def custom_404(request, exception=None):
@@ -128,7 +149,3 @@ def custom_404(request, exception=None):
 
 def custom_500(request):
 		return render(request, 'main/500.html', status=500)
-
-
-# def test_500(request):
-# 		raise Exception("Тестовая ошибка 500") # Тест страицы 500

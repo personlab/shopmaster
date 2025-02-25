@@ -17,4 +17,4 @@ static/deps/videos/
 database_tongameapp/
 .env
 staticfiles/deps/videos/
-staticfiles/
+settings.py
