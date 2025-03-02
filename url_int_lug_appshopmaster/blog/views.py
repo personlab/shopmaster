@@ -148,7 +148,7 @@ class PostsView(View):
 
 
 				context = {
-						'title': 'GameTonApp - Блог',
+						'title': 'GameTonApp - Блог: Telegram Tap-to-Earn игры в телеграм',
 						'posts': posts,
 						'recent_posts_with_tags': recent_posts_with_tags,
 						'hero': hero,
@@ -288,7 +288,7 @@ class PostDetailView(View):
 
 
 				context = {
-						'title': post.title,
+						'title': f'GameTonApp - {post.title}',
 						'post': post,
 						'tags': tags,
 						'hero': hero,
@@ -513,7 +513,7 @@ class PostSearchView(View):
 
 				context = {
 						'hero': hero,
-						'title': 'Результаты поиска',
+						'title': 'GameTonApp - Результаты поиска',
 						'posts': highlighted_posts,
 						'query': query,
 						'top_5_posts': top_5_posts

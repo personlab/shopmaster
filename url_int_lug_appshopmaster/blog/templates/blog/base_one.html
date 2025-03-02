@@ -3,16 +3,117 @@
 
 <!DOCTYPE html>
 <html lang="ru">
+
+
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<!--
-		- primary meta tags
-	-->
+	<!-- Primary meta tags -->
 	<title>{{ title }}</title>
 	<meta name="title" content="{{ title }}">
 	<meta name="description" content="{{ title }}">
+	<meta name="keywords" content="игры в Telegram, Tap-to-Earn, блокчейн TON, майнинг в Telegram, криптоигры, Telegram игры, заработок в Telegram">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://gameton.app/blog/">
+	<meta property="og:title" content="{{ title }}">
+	<meta property="og:description" content="{{ title }}">
+	<meta property="og:image" content="https://gameton.app/{% static 'deps/images/hero-banner.png' %}">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://gameton.app/blog/">
+	<meta property="twitter:title" content="{{ title }}">
+	<meta property="twitter:description" content="{{ title }}">
+	<meta property="twitter:image" content="https://gameton.app/{% static 'deps/images/hero-banner.png' %}">
+
+	<link rel="canonical" href="https://gameton.app/blog/" />
+
+	<!-- Favicons for different platforms -->
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'deps/favicon/apple-touch-icon.png' %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'deps/favicon/favicon-32x32.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'deps/favicon/favicon-16x16.png' %}">
+	<link rel="manifest" href="{% static 'deps/favicon/site.webmanifest' %}">
+
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+	<!-- remixicon -->
+	<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+
+	<!-- Custom CSS -->
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="{% static 'deps/css/style.css' %}">
+
+	<!-- Preload images -->
+	<link rel="preload" as="image" href="{% static 'deps/images/hero-banner.png' %}">
+	<link rel="preload" as="image" href="{% static 'deps/images/pattern-2.svg' %}">
+	<link rel="preload" as="image" href="{% static 'deps/images/pattern-3.svg' %}">
+
+	<!-- Yandex.Metrika counter -->
+	<script type="text/javascript" >
+		(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+		m[i].l=1*new Date();
+		for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+		k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+		(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+		ym(100071602, "init", {
+				clickmap:true,
+				trackLinks:true,
+				accurateTrackBounce:true
+		});
+	</script>
+	<noscript><div><img src="https://mc.yandex.ru/watch/100071602" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+	<!-- /Yandex.Metrika counter -->
+
+	<!-- Yandex.RTB -->
+	<script>window.yaContextCb=window.yaContextCb||[]</script>
+	<script src="https://yandex.ru/ads/system/context.js" async></script>
+
+	<!-- Structured Data (Schema.org) -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Article",
+		"headline": "{{ title }}",
+		"description": "{{ title }}",
+		"image": "https://gameton.app/{% static 'deps/images/hero-banner.png' %}",
+		"author": {
+			"@type": "Organization",
+			"name": "GameTonApp"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "GameTonApp",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://gameton.app/{% static 'deps/favicon/favicon-32x32.png' %}"
+			}
+		},
+		"datePublished": "2023-10-01",
+		"dateModified": "2023-10-01"
+	}
+	</script>
+</head>
+
+
+
+{% comment %} <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- primary meta tags-->
+	<title>{{ title }}</title>
+	<meta name="title" content="{{ title }}">
+	<meta name="description" content="{{ title }}">
+	<link rel="canonical" href="https://gameton.app/blog/" />
+
 	<!-- Favicons for different platforms -->
 	<link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
 	<link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
@@ -41,8 +142,32 @@
 	<link rel="preload" as="image" href="{% static "deps/images/pattern-2.svg" %}">
 	<link rel="preload" as="image" href="{% static "deps/images/pattern-3.svg" %}">
 
+	<!-- Yandex.Metrika counter -->
+	<script type="text/javascript" >
+		(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+		m[i].l=1*new Date();
+		for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+		k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+		(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-</head>
+		ym(100071602, "init", {
+				clickmap:true,
+				trackLinks:true,
+				accurateTrackBounce:true
+		});
+	</script>
+	<noscript><div><img src="https://mc.yandex.ru/watch/100071602" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+	<!-- /Yandex.Metrika counter -->
+
+	<!-- Yandex.RTB -->
+	<script>window.yaContextCb=window.yaContextCb||[]</script>
+	<script src="https://yandex.ru/ads/system/context.js" async></script>
+
+</head> {% endcomment %}
+
+
+
+
 <body id="top">
 
 			{% comment %} <!-- Форма фильтров -->
@@ -194,7 +319,7 @@
 				<p class="copyright-text">Copyright &copy; GameTonApp</br><span class="time"></span></p>
 			</nav>
 
-			<a href="https://t.me/GameAppTon_bot" class="btn btn-primary">Subscribe</a>
+			<a href="https://t.me/GameTonApp_bot" class="btn btn-primary">Subscribe</a>
 
 			<button class="nav-open-btn" area-label="open menu" data-nav-toggler>
 				<ion-icon name="menu-outline" aria-hidden="true"></ion-icon>

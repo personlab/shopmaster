@@ -25,6 +25,7 @@
 	--bg-prussian-blue: hsla(216, 33%, 20%, 1);
 	--bg-oxford-blue: hsla(222, 44%, 13%, 1);
 	--bg-oxford-blue-2: hsla(222, 47%, 11%, 1);
+	--bg-carolina-blue-3: rgb(2, 34, 179);
 
 	/** text color */
 	--text-white: hsla(0, 0%, 100%, 1);
@@ -896,6 +897,10 @@ form.d__flex_search button {
 	font-size: var(--fontSize-6);
 }
 
+.card-subtitle {
+	font-size: var(--fontSize-6);
+}
+
 .feature-card .card-wrapper:last-child {
 	font-size: var(--fontSize-4);
 	margin-block-end: 0;
@@ -1054,6 +1059,7 @@ form.d__flex_search button {
 .aside-title {
 	margin-block-end: 40px;
 }
+
 
 .aside-title .span {
 	position: relative;
@@ -1726,6 +1732,15 @@ form.d__flex_search button {
 	/* margin-top: 30px; */
 	margin-bottom: 30px;
 	border-radius: var(--radius-16);
+}
+.EntityProfile__nowrape {
+	display: ruby-text;
+	white-space: nowrap;
+}
+
+.EntityProfile__verified {
+	color: #03A9F4;
+	margin-bottom: -4px;
 }
 
 .positionss {

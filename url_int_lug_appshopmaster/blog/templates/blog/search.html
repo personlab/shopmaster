@@ -17,7 +17,7 @@
 											{% endautoescape %}
 											
 											{% autoescape off %}
-												<p class="search_content_detail">{{ post.content|truncatechars:100 }}...</p>
+												<p class="search_content_detail">{{ post.content|truncatechars:150|safe }}...</p>
 											{% endautoescape %}
 									</li>
 							{% endfor %}
@@ -29,7 +29,7 @@
 											{% endautoescape %}
 											
 											{% autoescape off %}
-												<p class="search_content_detail">{{ post.content|truncatechars:100 }}...</p>
+												<p class="search_content_detail">{{ post.content|truncatechars:150|safe }}...</p>
 											{% endautoescape %}
 									</li>
 							{% endfor %}
@@ -43,6 +43,22 @@
 <div class="a_posts_return">
 		<a href="{% url 'blog:post_list' %}">Назад к списку постов</a>
 </div>
+
+
+</br>
+</br>
+<!-- Yandex.RTB R-A-14304836-2 -->
+<div id="yandex_rtb_R-A-14304836-2"></div>
+<script>
+window.yaContextCb.push(() => {
+		Ya.Context.AdvManager.render({
+				"blockId": "R-A-14304836-2",
+				"renderTo": "yandex_rtb_R-A-14304836-2",
+				"type": "feed"
+		})
+})
+</script>
+</br>
 
 
 {% endblock content %}
