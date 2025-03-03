@@ -74,6 +74,31 @@
 	<!-- Yandex.RTB -->
 	<script>window.yaContextCb=window.yaContextCb||[]</script>
 	<script src="https://yandex.ru/ads/system/context.js" async></script>
+
+	<!-- Structured Data (Schema.org) -->
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "Article",
+			"headline": "GameTonApp - Блог",
+			"description": "Telegram Tap-to-Earn Crypto Games, игры на blockchain ton, майнинг в телеграм",
+			"image": "https://gameton.app/{% static 'deps/images/hero-banner.png' %}",
+			"author": {
+				"@type": "Organization",
+				"name": "GameTonApp"
+			},
+			"publisher": {
+				"@type": "Organization",
+				"name": "GameTonApp",
+				"logo": {
+					"@type": "ImageObject",
+					"url": "https://gameton.app/{% static 'deps/favicon/favicon-32x32.png' %}"
+				}
+			},
+			"datePublished": "2023-10-01",
+			"dateModified": "2023-10-01"
+		}
+		</script>
 </head>
 
 
@@ -162,13 +187,13 @@
 		<div class="container">
 
 			<a href="{% url "main:index" %}" class="logo">
-				<img src="{% static "deps\images\logo.svg" %}" width="119" height="37" alt="TonGameApp">
+				<img src="{% static "deps/favicon/apple-touch-icon.png" %}" width="40" height="40" alt="Игры в Telegram, Tap-to-Earn, блокчейн TON, майнинг в Telegram, криптоигры, Telegram игры">
 			</a>
 
 			<nav class="navbar" data-navbar>
 				<div class="navbar-top">
 					<a href="{% url "main:index" %}" class="logo">
-						<img src="{% static "deps\images\logo.svg" %}" width="119" height="37" alt="TonGameApp">
+						<img src="{% static "deps/favicon/apple-touch-icon.png" %}" width="40" height="40" alt="Игры в Telegram, Tap-to-Earn, блокчейн TON, майнинг в Telegram, криптоигры, Telegram игры">
 					</a>
 
 					<button class="nav-close-btn" aria-label="close menu" data-nav-toggler>
