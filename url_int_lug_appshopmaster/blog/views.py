@@ -148,7 +148,8 @@ class PostsView(View):
 
 
 				context = {
-						'title': 'GameTonApp - Блог: Telegram Tap-to-Earn игры в телеграм',
+						'title': 'GameTonApp - Игры в Telegram Tap-to-Earn',
+						'description': 'Игры в телеграм Tap-to-Earn Crypto Games, игры на blockchain ton, майнинг в телеграм',
 						'posts': posts,
 						'recent_posts_with_tags': recent_posts_with_tags,
 						'hero': hero,
@@ -425,8 +426,111 @@ class PostDetailView(View):
 
 
 
-class PostSearchView(View):
+# class PostSearchView(View):
 		
+# 		def post(self, request, slug=None):
+# 				user_name = request.POST.get('user_name')
+# 				user_email = request.POST.get('user_email')
+# 				user_phone = request.POST.get('email_phone')
+# 				user_message = request.POST.get('user_message')
+
+# 				message = f"Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
+
+# 				# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
+# 				telegram_sender = SendMessageTelegramView()
+# 				telegram_sender.send_message(message)
+
+# 				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
+
+# 		def get(self, request):
+# 				hero = Hero.objects.first()
+# 				query = request.GET.get('q', '')  # Получаем запрос из параметра GET
+# 				query = re.sub(r'[@#$%^&*()]', '', query)  # Очищаем запрос
+# 				# posts = Post.objects.all()
+
+
+# 				# Получить посты из таблицы Post
+# 				post_posts = Post.objects.annotate(
+# 						model_type=Value('Post', output_field=CharField())
+# 				).values(
+# 						'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+# 				)
+
+# 				# Получить посты из таблицы RecentPost
+# 				recent_posts_one = RecentPost.objects.annotate(
+# 						model_type=Value('RecentPost', output_field=CharField())
+# 				).values(
+# 						'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
+# 				)
+
+# 				# Объединение QuerySets
+# 				all_posts = sorted(
+# 						chain(post_posts, recent_posts_one),
+# 						key=lambda post: post['popularity_count'], 
+# 						reverse=True
+# 				)
+
+# 				# Взять топ 5 популярных постов
+# 				top_5_posts = all_posts[:5]
+
+# 				if query:  # Проверяем, что запрос не пуст
+# 						search_query = SearchQuery(query)
+
+# 						# Поиск в обеих моделях
+# 						posts_search = Post.objects.annotate(
+# 								search=SearchVector('title', 'content')  # Создаем вектор поиска для Post
+# 						).filter(search=search_query)
+
+# 						recent_posts_search = RecentPost.objects.annotate(
+# 								search=SearchVector('title', 'content')  # Создаем вектор поиска для RecentPost
+# 						).filter(search=search_query)
+
+# 						highlighted_posts = []
+
+# 						def highlight_text(text, query):
+# 								highlight_style = "<span>{}</span>"
+# 								pattern = re.compile(re.escape(query), re.IGNORECASE)  # Создаем регулярное выражение для поиска
+# 								return pattern.sub(lambda m: highlight_style.format(m.group(0)), text)  # Заменяем найденные слова на выделенные
+
+# 						for post in posts_search:
+# 								highlighted_title = highlight_text(post.title, query)  # Выделяем заголовок
+# 								highlighted_content = highlight_text(post.content, query)  # Выделяем контент
+# 								highlighted_posts.append({
+# 										'title': highlighted_title,
+# 										'content': highlighted_content,
+# 										'slug': post.slug,
+# 								})
+
+# 						for recent_post in recent_posts_search:
+# 								highlighted_title = highlight_text(recent_post.title, query)  # Выделяем заголовок
+# 								highlighted_content = highlight_text(recent_post.content, query)  # Выделяем контент
+# 								highlighted_posts.append({
+# 										'title': highlighted_title,
+# 										'content': highlighted_content,
+# 										'slug': recent_post.slug,
+# 								})
+
+# 				else:
+# 						highlighted_posts = []  # Пустой список, если запрос пуст
+
+# 				context = {
+# 						'hero': hero,
+# 						'title': 'GameTonApp - Результаты поиска',
+# 						'posts': highlighted_posts,
+# 						'query': query,
+# 						'top_5_posts': top_5_posts
+# 				}
+
+# 				return render(request, 'blog/search.html', context=context)
+		
+
+
+
+
+
+
+
+class PostSearchView(View):
 		def post(self, request, slug=None):
 				user_name = request.POST.get('user_name')
 				user_email = request.POST.get('user_email')
@@ -444,8 +548,7 @@ class PostSearchView(View):
 		def get(self, request):
 				hero = Hero.objects.first()
 				query = request.GET.get('q', '')  # Получаем запрос из параметра GET
-				# posts = Post.objects.all()
-
+				query = re.sub(r'[@#$%^&*()]', '', query)  # Очищаем запрос от специальных символов
 
 				# Получить посты из таблицы Post
 				post_posts = Post.objects.annotate(
@@ -464,12 +567,14 @@ class PostSearchView(View):
 				# Объединение QuerySets
 				all_posts = sorted(
 						chain(post_posts, recent_posts_one),
-						key=lambda post: post['popularity_count'], 
+						key=lambda post: post['popularity_count'],
 						reverse=True
 				)
 
 				# Взять топ 5 популярных постов
 				top_5_posts = all_posts[:5]
+
+				highlighted_posts = []
 
 				if query:  # Проверяем, что запрос не пуст
 						search_query = SearchQuery(query)
@@ -482,8 +587,6 @@ class PostSearchView(View):
 						recent_posts_search = RecentPost.objects.annotate(
 								search=SearchVector('title', 'content')  # Создаем вектор поиска для RecentPost
 						).filter(search=search_query)
-
-						highlighted_posts = []
 
 						def highlight_text(text, query):
 								highlight_style = "<span>{}</span>"
@@ -508,12 +611,9 @@ class PostSearchView(View):
 										'slug': recent_post.slug,
 								})
 
-				else:
-						highlighted_posts = []  # Пустой список, если запрос пуст
-
 				context = {
 						'hero': hero,
-						'title': 'GameTonApp - Результаты поиска',
+						'title': f'GameTonApp - Результаты поиска по запросу {query}',
 						'posts': highlighted_posts,
 						'query': query,
 						'top_5_posts': top_5_posts
