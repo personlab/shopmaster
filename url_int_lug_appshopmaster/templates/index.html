@@ -8,7 +8,24 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="yandex-verification" content="889db48169eb8d68" />
 		<title>{{ title }}</title>
-		<meta name="description" content="игры web3 на ton, ton game, майнинг в телеграм">
+		<meta name="description" content="{{ description }}">
+		<meta name="keywords" content="игры в Telegram, Tap-to-Earn, блокчейн TON, майнинг в Telegram, криптоигры, Telegram игры, заработок в Telegram">
+	
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://gameton.app/blog/">
+		<meta property="og:title" content="{{ title }}">
+		<meta property="og:description" content="{{ description }}">
+		<meta property="og:image" content="https://gameton.app/{% static 'deps/images/game-app.png' %}">
+	
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image">
+		<meta property="twitter:url" content="https://gameton.app/blog/">
+		<meta property="twitter:title" content="{{ title }}">
+		<meta property="twitter:description" content="{{ description }}">
+		<meta property="twitter:image" content="https://gameton.app/{% static 'deps/images/game-app.png' %}">
+	
+		<link rel="canonical" href="https://gameton.app/blog/" />
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="canonical" href="https://gameton.app/blog/" />
@@ -165,7 +182,7 @@
 			<!-- Модальное окно для уведомления о cookies -->
 			<div id="cookieModal" class="modals__one">
 				<div class="modal__content__one">
-						<h2>Мы используем файлы cookie</h2>
+						<h2>Файлы cookie</h2>
 						<p>
 								для улучшения вашего опыта на нашем сайте. 
 								{% comment %} Продолжая использовать сайт, вы соглашаетесь с нашей  {% endcomment %}

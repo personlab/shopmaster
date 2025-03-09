@@ -1,3 +1,4 @@
+from email import contentmanager
 from turtle import title
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -38,7 +39,8 @@ class IndexView(View):
 		def get(self, request):
 			slides = Slide.objects.all() # извлекаем все слайды из базы данных
 			context = {
-				'title': 'GameTonApp - Главная',
+				'title': 'GameTonApp - Игры в телеграм',
+				'description': 'игры в Telegram, Tap-to-Earn, блокчейн TON, майнинг в Telegram, криптоигры, Telegram игры, заработок в Telegram',
 				'slides': slides
 			}
 			return render(request, 'index.html', context=context)
@@ -140,6 +142,207 @@ class GoogleView(View):
 		"""
 		return HttpResponse(content, content_type='text/html')
 	
+
+class RobotsView(View):
+	def get(self, request):
+		content = """
+			User-agent: *
+			Disallow:
+			Sitemap: https://gameton.app/sitemap.xml
+		"""
+		return HttpResponse(content, content_type='text/txt')
+	
+
+
+class SitemapView(View):
+	def get(self, request):
+		content = """
+			<urlset
+			xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+						http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+						<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+							<url>
+								<loc>https://gameton.app/</loc>
+								<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+								<priority>1.00</priority>
+							</url>
+								<url>
+									<loc>https://gameton.app/blog/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.80</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/contact/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.80</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/city-holder/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.80</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/city-holder-game/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.80</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/bump/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.80</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/tiny-verse/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.80</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/igry-v-telegram/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.80</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/user/login/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/trumps-empire/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/tonkeeper/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/kitty-verse/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/welcome-to-whale/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/tags/1/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/tags/9/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/tags/7/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/tags/8/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/tags/6/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/tags/2/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/tags/5/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/tags/3/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/aqua-genesis-nfts/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/?page=1</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/?page=2</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/?page=7</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/user/registration/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.64</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/mmpro-group/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.51</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/tinyverse/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.51</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/trumpe/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.51</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/whale-casino/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.51</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/kittyverse/</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.51</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/?page=3</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.51</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/?page=6</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.51</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/?page=4</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.41</priority>
+								</url>
+								<url>
+									<loc>https://gameton.app/blog/?page=5</loc>
+									<lastmod>2025-03-09T17:41:52+00:00</lastmod>
+									<priority>0.41</priority>
+								</url>
+
+						</urlset>
+		"""
+		return HttpResponse(content, content_type='text/xml')
 
 
 

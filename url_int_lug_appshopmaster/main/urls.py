@@ -18,7 +18,7 @@ Including another URLconf
 from django.urls import path
 from django.views.decorators.cache import cache_page
 
-from main.views import IndexView, AboutView, ContactView, DroppView, YandexView, GoogleView
+from main.views import IndexView, AboutView, ContactView, DroppView, YandexView, GoogleView, RobotsView, SitemapView
 
 app_name = 'main'
 
@@ -30,4 +30,6 @@ urlpatterns = [
 		path('drop-shipping/', DroppView.as_view(), name='drop-shipping'),
 		path('yandex_889db48169eb8d68.html', YandexView.as_view(), name='yandex_889db48169eb8d68'),
 		path('googleed002019e2c6036a.html', GoogleView.as_view(), name='googleed002019e2c6036a.html'),
+		path('robots.txt', RobotsView.as_view(), name='robots'),
+		path('sitemap.xml', SitemapView.as_view(), name='sitemap'),
 ]
