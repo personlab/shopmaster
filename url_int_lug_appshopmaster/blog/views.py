@@ -50,16 +50,39 @@ class PostsView(View):
 		def post(self, request):
 				user_name = request.POST.get('user_name')
 				user_email = request.POST.get('user_email')
-				user_phone = request.POST.get('email_phone')
+				user_phone = request.POST.get('user_phone') # Обратите внимание на имя поля!
 				user_message = request.POST.get('user_message')
 
-				message = f"Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
+				# Валидация формата телефона
+				phone_regex = r'^(\+7|8)\d{10}$'
+				cleaned_phone = re.sub(r'[^\d]', '', user_phone)  # Удаляем все не-цифры
+				
+				if not re.fullmatch(phone_regex, user_phone) or len(cleaned_phone) != 11:
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Введите номер в формате +7XXX... или 8XXX... (11 цифр)"
+						}, status=400)
 
-				# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
-				telegram_sender = SendMessageTelegramView()
-				telegram_sender.send_message(message)
+				# Нормализация номера
+				if cleaned_phone.startswith('8'):
+						formatted_phone = '+7' + cleaned_phone[1:]
+				else:
+						formatted_phone = '+' + cleaned_phone
 
-				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
+				message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+
+				try:
+						telegram_sender = SendMessageTelegramView()
+						telegram_sender.send_message(message)
+						return JsonResponse({
+								"status": "success", 
+								"message": "✅ Сообщение отправлено"
+						})
+				except Exception as e:
+						return JsonResponse({
+								"status": "error",
+								"message": f"❌ Ошибка отправки: {str(e)}"
+						}, status=500)
 
 
 		def get(self, request):
@@ -148,8 +171,8 @@ class PostsView(View):
 
 
 				context = {
-						'title': 'GameTonApp - Игры в Telegram Tap-to-Earn',
-						'description': 'Игры в телеграм Tap-to-Earn Crypto Games, игры на blockchain ton, майнинг в телеграм',
+						'title': 'GameTonApp - Game TON Tap-to-Earn',
+						'description': 'Игры в телеграм, блокчейн TON, майнинг в телеграм, криптоигры, телеграм игры, заработок в телеграм',
 						'posts': posts,
 						'recent_posts_with_tags': recent_posts_with_tags,
 						'hero': hero,
@@ -169,16 +192,39 @@ class TagPostsView(View):
 		def post(self, request, tag_id=None):
 				user_name = request.POST.get('user_name')
 				user_email = request.POST.get('user_email')
-				user_phone = request.POST.get('email_phone')
+				user_phone = request.POST.get('user_phone') # Обратите внимание на имя поля!
 				user_message = request.POST.get('user_message')
 
-				message = f"Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
+				# Валидация формата телефона
+				phone_regex = r'^(\+7|8)\d{10}$'
+				cleaned_phone = re.sub(r'[^\d]', '', user_phone)  # Удаляем все не-цифры
+				
+				if not re.fullmatch(phone_regex, user_phone) or len(cleaned_phone) != 11:
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Введите номер в формате +7XXX... или 8XXX... (11 цифр)"
+						}, status=400)
 
-				# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
-				telegram_sender = SendMessageTelegramView()
-				telegram_sender.send_message(message)
+				# Нормализация номера
+				if cleaned_phone.startswith('8'):
+						formatted_phone = '+7' + cleaned_phone[1:]
+				else:
+						formatted_phone = '+' + cleaned_phone
 
-				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
+				message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+
+				try:
+						telegram_sender = SendMessageTelegramView()
+						telegram_sender.send_message(message)
+						return JsonResponse({
+								"status": "success", 
+								"message": "✅ Сообщение отправлено"
+						})
+				except Exception as e:
+						return JsonResponse({
+								"status": "error",
+								"message": f"❌ Ошибка отправки: {str(e)}"
+						}, status=500)
 		
 
 
@@ -290,6 +336,7 @@ class PostDetailView(View):
 
 				context = {
 						'title': f'GameTonApp - {post.title}',
+						'description': post.meta_description if post.meta_description else post.title,
 						'post': post,
 						'tags': tags,
 						'hero': hero,
@@ -308,16 +355,52 @@ class PostDetailView(View):
 				if 'user_name' in request.POST:
 						user_name = request.POST.get('user_name')
 						user_email = request.POST.get('user_email')
-						user_phone = request.POST.get('user_phone')
+						user_phone = request.POST.get('user_phone') # Обратите внимание на имя поля!
 						user_message = request.POST.get('user_message')
 
-						message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
+						# Валидация формата телефона
+						phone_regex = r'^(\+7|8)\d{10}$'
+						cleaned_phone = re.sub(r'[^\d]', '', user_phone)  # Удаляем все не-цифры
+						
+						if not re.fullmatch(phone_regex, user_phone) or len(cleaned_phone) != 11:
+								return JsonResponse({
+										"status": "error",
+										"message": "❌ Введите номер в формате +7XXX... или 8XXX... (11 цифр)"
+								}, status=400)
 
-						# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
-						telegram_sender = SendMessageTelegramView()
-						telegram_sender.send_message(message)
+						# Нормализация номера
+						if cleaned_phone.startswith('8'):
+								formatted_phone = '+7' + cleaned_phone[1:]
+						else:
+								formatted_phone = '+' + cleaned_phone
 
-						return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
+						message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+
+						try:
+								telegram_sender = SendMessageTelegramView()
+								telegram_sender.send_message(message)
+								return JsonResponse({
+										"status": "success", 
+										"message": "✅ Сообщение отправлено"
+								})
+						except Exception as e:
+								return JsonResponse({
+										"status": "error",
+										"message": f"❌ Ошибка отправки: {str(e)}"
+								}, status=500)
+				# if 'user_name' in request.POST:
+				# 		user_name = request.POST.get('user_name')
+				# 		user_email = request.POST.get('user_email')
+				# 		user_phone = request.POST.get('user_phone')
+				# 		user_message = request.POST.get('user_message')
+
+				# 		message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
+
+				# 		# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
+				# 		telegram_sender = SendMessageTelegramView()
+				# 		telegram_sender.send_message(message)
+
+				# 		return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
 				
 				hero = Hero.objects.first()
 
@@ -409,6 +492,7 @@ class PostDetailView(View):
 				context = {
 						'hero': hero,
 						'title': selected_post.title if selected_post else '',
+						'description': post.meta_description if post.meta_description else post.title,
 						'post': selected_post if selected_post else None,
 						'recent_post': None,
 						'tags': tags,
@@ -534,16 +618,39 @@ class PostSearchView(View):
 		def post(self, request, slug=None):
 				user_name = request.POST.get('user_name')
 				user_email = request.POST.get('user_email')
-				user_phone = request.POST.get('email_phone')
+				user_phone = request.POST.get('user_phone') # Обратите внимание на имя поля!
 				user_message = request.POST.get('user_message')
 
-				message = f"Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
+				# Валидация формата телефона
+				phone_regex = r'^(\+7|8)\d{10}$'
+				cleaned_phone = re.sub(r'[^\d]', '', user_phone)  # Удаляем все не-цифры
+				
+				if not re.fullmatch(phone_regex, user_phone) or len(cleaned_phone) != 11:
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Введите номер в формате +7XXX... или 8XXX... (11 цифр)"
+						}, status=400)
 
-				# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
-				telegram_sender = SendMessageTelegramView()
-				telegram_sender.send_message(message)
+				# Нормализация номера
+				if cleaned_phone.startswith('8'):
+						formatted_phone = '+7' + cleaned_phone[1:]
+				else:
+						formatted_phone = '+' + cleaned_phone
 
-				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
+				message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+
+				try:
+						telegram_sender = SendMessageTelegramView()
+						telegram_sender.send_message(message)
+						return JsonResponse({
+								"status": "success", 
+								"message": "✅ Сообщение отправлено"
+						})
+				except Exception as e:
+						return JsonResponse({
+								"status": "error",
+								"message": f"❌ Ошибка отправки: {str(e)}"
+						}, status=500)
 
 		def get(self, request):
 				hero = Hero.objects.first()

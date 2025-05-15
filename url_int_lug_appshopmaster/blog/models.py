@@ -28,16 +28,17 @@ class Tag(models.Model):
 
 # Модель добавление постов
 class Post(models.Model):
+		meta_description = models.CharField(max_length=160, blank=True, verbose_name='Meta Description (SEO)')
 		title = models.CharField(max_length=200, verbose_name='Заголовок')
 		slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
-		content = CKEditor5Field('Текст', config_name='default')
 		image = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Картинка')
-		content_1 = CKEditor5Field('Текст', config_name='default')
+		content = CKEditor5Field('Текст', config_name='default')
 		image_1 = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Изображение 1')
-		content_2 = CKEditor5Field('Текст', config_name='default')
+		content_1 = CKEditor5Field('Текст', config_name='default')
 		image_2 = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Изображение 2')
-		content_3 = CKEditor5Field('Текст', config_name='default')
+		content_2 = CKEditor5Field('Текст', config_name='default')
 		image_3 = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Изображение 3')
+		content_3 = CKEditor5Field('Текст', config_name='default')
 		link = models.URLField(max_length=200, blank=True, null=True, verbose_name='Ссылка для кнопки')
 		tags = models.ManyToManyField(Tag, related_name='post', verbose_name='Теги')
 		created_at = models.DateTimeField(auto_now_add=True)
@@ -75,11 +76,13 @@ class Hero(models.Model):
 		
 # Модель для добавления Recent Post
 class RecentPost(models.Model):
+		meta_description = models.CharField(max_length=160, blank=True, verbose_name="Meta Description (SEO)")
 		subtitle = models.CharField(max_length=200, blank=True, null=True, verbose_name='Значок')
 		title = models.CharField(max_length=200, verbose_name='Заголовок')
 		slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
-		content = CKEditor5Field('Текст', config_name='default') # CKEditor5Field возможность формотировать текст
 		image = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Картинка')
+		content = CKEditor5Field('Текст', config_name='default') # CKEditor5Field возможность формотировать текст
+		image_1 = models.ImageField(upload_to='image/', blank=True, null=True, verbose_name='Картинка')
 		link = models.URLField(max_length=200, blank=True, null=True, verbose_name='Ссылка для кнопки')
 		tags = models.ManyToManyField(Tag, related_name='recentpost', verbose_name='Теги')  # Добавлено это поле
 		created_at = models.DateTimeField(auto_now_add=True)

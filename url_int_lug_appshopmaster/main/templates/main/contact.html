@@ -28,17 +28,6 @@
 
 </br>
 </br>
-{% comment %} <!-- Yandex.RTB R-A-14304836-2 -->
-<div id="yandex_rtb_R-A-14304836-2"></div>
-<script>
-window.yaContextCb.push(() => {
-		Ya.Context.AdvManager.render({
-				"blockId": "R-A-14304836-2",
-				"renderTo": "yandex_rtb_R-A-14304836-2",
-				"type": "feed"
-		})
-})
-</script> {% endcomment %}
 </br>
 
 
@@ -167,7 +156,7 @@ window.yaContextCb.push(() => {
 										</div>
 
 										<div class="input-wrapper">
-												<input type="tel" name="email_phone" placeholder="Your number" required id="" class="input-field" autocomplete="off">
+											<input type="tel" name="user_phone" placeholder="Your number +7XXX или 8XXX" pattern="^(\+7|8)[\d\- ]{10,15}$" title="Формат: +79161234567 или 89161234567" required id="" class="input-field" autocomplete="tel">
 
 												<ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
 										</div>
@@ -197,7 +186,7 @@ window.yaContextCb.push(() => {
 
 					<div class="footer-bottom">
 							<p class="copyright">
-									Copyright &copy; <a href="#" class="copyright-link">GameTonApp</a></br><span class="time"></span></br>v3.21.1
+									Copyright &copy; <a href="#" class="copyright-link">GameTonApp</a></br><span class="time"></span></br>v{{ APP_VERSION }}
 							</p>
 
 							<ul class="social-list">

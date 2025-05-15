@@ -11,28 +11,29 @@
 
 	<!-- Primary meta tags -->
 	<title>{{ title }}</title>
-	<meta name="title" content="GameTonApp - Игры в Телеграм">
+	<meta name="title" content="Игры в телеграм на основе блокчейна TON">
 	<meta name="description" content="{{ description }}">
-	<meta name="keywords" content="игры в Telegram, Tap-to-Earn, блокчейн TON, майнинг в Telegram, криптоигры, Telegram игры, заработок в Telegram">
+	<meta name="keywords" content="Блог про игры в телеграм, узнай что такое TON и blockchain, майнинг в телеграм, криптоигры">
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://gameton.app/blog/">
 	<meta property="og:title" content="{{ title }}">
 	<meta property="og:description" content="{{ description }}">
-	<meta property="og:image" content="https://gameton.app/{% static 'deps/images/game-app.png' %}">
+	<meta property="og:image" content="https://gameton.app/{% static 'deps/images/ton-tokenomy.webp' %}">
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
 	<meta property="twitter:url" content="https://gameton.app/blog/">
 	<meta property="twitter:title" content="{{ title }}">
 	<meta property="twitter:description" content="{{ description }}">
-	<meta property="twitter:image" content="https://gameton.app/{% static 'deps/images/game-app.png' %}">
+	<meta property="twitter:image" content="https://gameton.app/{% static 'deps/images/ton-tokenomy.webp' %}">
 
 	<link rel="canonical" href="https://gameton.app/blog/" />
 
 	<!-- Favicons -->
-	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'deps/favicon/apple-touch-icon.png' %}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'deps/favicon/logo-120x120.svg' %}">
+	<link rel="icon" type="image/svg+xml" sizes="120x120" href="{% static 'deps/favicon/logo-120x120.svg' %}">
 	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'deps/favicon/favicon-32x32.png' %}">
 	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'deps/favicon/favicon-16x16.png' %}">
 	<link rel="manifest" href="{% static 'deps/favicon/site.webmanifest' %}">
@@ -50,9 +51,9 @@
 	<link rel="stylesheet" href="{% static 'deps/css/style.css' %}">
 
 	<!-- Preload images -->
-	<link rel="preload" as="image" href="{% static 'deps/images/hero-banner.png' %}">
+	{% comment %} <link rel="preload" as="image" href="{% static 'deps/images/TON2025.png' %}">
 	<link rel="preload" as="image" href="{% static 'deps/images/pattern-2.svg' %}">
-	<link rel="preload" as="image" href="{% static 'deps/images/pattern-3.svg' %}">
+	<link rel="preload" as="image" href="{% static 'deps/images/pattern-3.svg' %}"> {% endcomment %}
 
 	<!-- Yandex.Metrika counter -->
 	<script type="text/javascript" >
@@ -82,7 +83,7 @@
 			"@type": "Article",
 			"headline": "GameTonApp - Игры в Телеграм",
 			"description": "Игры в Telegram Tap-to-Earn Crypto Games, игры на blockchain ton, майнинг в телеграм",
-			"image": "https://gameton.app/{% static 'deps/images/game-app.png' %}",
+			"image": "https://gameton.app/{% static 'deps/images/ton-tokenomy.webp' %}",
 			"author": {
 				"@type": "Organization",
 				"name": "GameTonApp"
@@ -92,7 +93,7 @@
 				"name": "GameTonApp",
 				"logo": {
 					"@type": "ImageObject",
-					"url": "https://gameton.app/{% static 'deps/favicon/favicon-32x32.png' %}"
+					"url": "https://gameton.app/{% static 'deps/favicon/logo-120x120.svg' %}"
 				}
 			},
 			"datePublished": "2023-10-01",
@@ -100,82 +101,6 @@
 		}
 		</script>
 </head>
-
-
-
-
-
-
-
-
-
-{% comment %} <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<!--- primary meta tags	-->
-	<title>{{ title }}</title>
-	<meta name="title" content="GameTonApp - Блог">
-	<meta name="description" content="Telegram Tap-to-Earn Crypto Games, игры на blockchain ton, майнинг в телеграм">
-	<link rel="canonical" href="https://gameton.app/blog/" />
-
-	<!-- Favicons for different platforms -->
-	<link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
-	<link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
-	<link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
-	<link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
-	<!--
-		- google font link
-	-->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap"
-	rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
-	<!--
-		- custom css link
-	-->
-	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-	<link rel="stylesheet" href="{% static "deps/css/style.css" %}">
-	<!--
-			- preload images
-	-->
-	<link rel="preload" as="image" href="{% static "deps/images/hero-banner.png" %}">
-	<link rel="preload" as="image" href="{% static "deps/images/pattern-2.svg" %}">
-	<link rel="preload" as="image" href="{% static "deps/images/pattern-3.svg" %}">
-
-	<!-- Yandex.Metrika counter -->
-	<script type="text/javascript" >
-		(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-		m[i].l=1*new Date();
-		for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-		k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-		(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-		ym(100071602, "init", {
-				clickmap:true,
-				trackLinks:true,
-				accurateTrackBounce:true
-		});
-	</script>
-	<noscript><div><img src="https://mc.yandex.ru/watch/100071602" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-	<!-- /Yandex.Metrika counter -->
-
-	<!-- Yandex.RTB -->
-	<script>window.yaContextCb=window.yaContextCb||[]</script>
-	<script src="https://yandex.ru/ads/system/context.js" async></script>
-</head> {% endcomment %}
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -187,17 +112,19 @@
 		<div class="container">
 
 			<a href="{% url "main:index" %}" class="logo">
-				<img src="{% static "deps/favicon/apple-touch-icon.png" %}" width="40" height="40" alt="Игры в Telegram, Tap-to-Earn, блокчейн TON, майнинг в Telegram, криптоигры, Telegram игры">
+				<img src="{% static "deps/favicon/apple-touch-icon.png" %}" width="40" height="40" alt="{{ description }}">
 			</a>
 
 			<nav class="navbar" data-navbar>
 				<div class="navbar-top">
 					<a href="{% url "main:index" %}" class="logo">
-						<img src="{% static "deps/favicon/apple-touch-icon.png" %}" width="40" height="40" alt="Игры в Telegram, Tap-to-Earn, блокчейн TON, майнинг в Telegram, криптоигры, Telegram игры">
+						<img src="{% static "deps/favicon/apple-touch-icon.png" %}" width="40" height="40" alt="{{ description }}">
 					</a>
 
 					<button class="nav-close-btn" aria-label="close menu" data-nav-toggler>
-						<ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+						{% comment %} <ion-icon name="close-outline" aria-hidden="true"></ion-icon> {% endcomment %}
+						{% comment %} <img src="{% static "deps/images/close-large-line.png" %}"> {% endcomment %}
+						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 15" style="fill: hsla(216, 33%, 20%, 1);transform: ;msFilter:;"><path d="M21.063 15H13v2h9v-2zM4 7h11v2H4zm0 4h11v2H4zm0 4h7v2H4z"></path></svg>
 					</button>
 				</div>
 					<ul class="navbar-list-top">
@@ -232,7 +159,7 @@
 									<ul class="subs__menu lists__blocks">
 												<li>
 													{% if user.is_admin or user.is_staff %}
-															<a href="https://gameton.app/admin/">Админ панель</a>
+															<a href="https://gameton.app/admin/" target="_blank">Админ панель</a>
 													{% endif %}
 												</li>
 												{% comment %} <li><a href="{% url "user:profile" %}">Аккаунт</a></li> {% endcomment %}
@@ -245,7 +172,8 @@
 							<form class="d__flex_search" role="search" action="{% url "blog:search" %}" method="get">
 								<input class="form-control me-2" type="search" name="q" placeholder="Поиск" value="{{ query }}" aria-label="Search">
 								<button class="btn btn-primary" type="submit">
-									<ion-icon name="search-outline"></ion-icon>
+									{% comment %} <ion-icon name="search-outline"></ion-icon> {% endcomment %}
+									<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 15" style="fill: hsla(216, 33%, 20%, 1);transform: ;msFilter:;"><path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"></path></svg>
 								</button>
 							</form>
 						</li>
@@ -307,13 +235,30 @@
 								<img src="{% static "deps\images\Not found image.png" %}" width="48" height="48" alt="" class="profile-banner image_banner">
 						{% endif %}
 
-						<div>
-							<p class="card-title">Привет, {{ user.first_name }} {{ user.last_name }}</p>
-
-							<p class="card-subtitile">
-								{% comment %} You have 3 new message {% endcomment %}
-							</p>
-						</div>
+							<div>
+								<p class="card-title">Привет, {{ user.first_name }} {{ user.last_name }}</p>
+										<div class="coin__price__menu">
+												<div class="price__coin_binance">
+														<p class="card-subtitile-menu" id="ton-price">
+																Загружается цена TON...
+															{% comment %} You have 3 new message {% endcomment %}
+														</p>
+														<span class="price-change" id="ton-menu-change"></span>
+												</div>
+												<div class="price__coin_binance">
+														<p class="card-subtitile-menu" id="bitcoin-price">
+															Загружается цена BITCOIN...
+														</p>
+														<span class="price-change" id="bitcoin-menu-change"></span>
+												</div>
+												<div class="price__coin_binance">
+														<p class="card-subtitile-menu" id="ethereum-price">
+															Загружается цена ETHEREUM...
+														</p>
+														<span class="price-change" id="ethereum-menu-change"></span>
+												</div>
+										</div>
+							</div>
 					</div>
 
 					<ul class="link-list">
@@ -338,7 +283,9 @@
 			<a href="https://t.me/+N0QgXuwRb-RhYjYy" target="_blank" class="btn btn-primary">Subscribe</a>
 
 			<button class="nav-open-btn" area-label="open menu" data-nav-toggler>
-				<ion-icon name="menu-outline" aria-hidden="true"></ion-icon>
+				{% comment %} <ion-icon name="menu-outline" aria-hidden="true"></ion-icon> {% endcomment %}
+				{% comment %} <img src="{% static "deps/images/menu-add-fill.png" %}"> {% endcomment %}
+				<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 15" style="fill: hsla(216, 33%, 20%, 1);transform: ;msFilter:;"><path d="M19 15v-3h-2v3h-3v2h3v3h2v-3h3v-2h-.937zM4 7h11v2H4zm0 4h11v2H4zm0 4h8v2H4z"></path></svg>
 			</button>
 		</div>
 	</header>
@@ -353,11 +300,35 @@
 						<div class="container">
 							
 							<div class="hero-content">
+									<div class="coin__price">
+											<div class="price__coin_binance">
+												<img alt="image" class="bn-lazy-img" src="https://gameton.app/media/images/ton-coin.png">
+												<p class="card-subtitile" id="ton-price-home">
+													Загружается цена TON...
+												</p>
+												<span class="price-change" id="ton-change-home"></span>
+											</div>
+											<div class="price__coin_binance">
+												<img alt="image" class="bn-lazy-img" src="https://gameton.app/media/images/bitcoin-coin.png">
+												<p class="card-subtitile" id="bitcoin-price-home">
+													Загружается цена BITCOIN...
+												</p>
+												<span class="price-change" id="bitcoin-change-home"></span>
+											</div>
+											<div class="price__coin_binance">
+												<img alt="image" class="bn-lazy-img" src="https://gameton.app/media/images/ethereum.png">
+												<p class="card-subtitile" id="ethereum-price-home">
+													Загружается цена ETHEREUM...
+												</p>
+												<span class="price-change" id="ethereum-change-home"></span>
+											</div>
+									</div>
+
 										{% include "includes/notifications.html" %}
 											<p class="hero-subtitle">{{ hero.subtitle }}</p>
 											{% if hero %}
 												<h1 class="headline headline-1 section-title">
-														<a href="https://t.me/GameAppTon_bot" target="_blank"> <span class="span">{{ hero.title }}</a></span>
+														<a href="https://t.me/+N0QgXuwRb-RhYjYy" target="_blank"> <span class="span">{{ hero.title }}</a></span>
 												</h1>
 											{% else %}
 												<h1 class="headline headline-1 section-title">
@@ -421,41 +392,49 @@
 
 													<div class="btn-group">
 														<button class="btn-icon" area-label="previos" data-slider-prev>
-																<ion-icon name="arrow-back" aria-hidden="true"></ion-icon>
+																{% comment %} <ion-icon name="arrow-back" aria-hidden="true"></ion-icon> {% endcomment %}
+																<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #ffffff;transform: ;msFilter:;"><path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z"></path></svg>
 														</button>
 
 														<button class="btn-icon" area-label="next" data-slider-next>
-																<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+																{% comment %} <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon> {% endcomment %}
+																<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #ffffff;transform: ;msFilter:;"><path d="M10.061 19.061 17.121 12l-7.06-7.061-2.122 2.122L12.879 12l-4.94 4.939z"></path></svg>
 														</button>
 													</div>
 
 											</div>
 
 											<div class="slider" data-slider>
-												<ul class="slider-list" data-slider-container>
+													<ul class="slider-list" data-slider-container>
 
-													{% for post in posts %}
+														{% for post in posts %}
 
-														<li class="slider-item">
-																<a href="{% url 'blog:post_detail' post.slug %}" class="slider-card">
+															<li class="slider-item">
+																	<a href="{% url 'blog:post_detail' post.slug %}" class="slider-card">
 
-																		<figure class="slider-banner img-holder" style="--width: 507; --height: 618;">
-																				<img src="{{ post.image.url }}" width="507" height="618" loading="lazy" alt="{{ post.image }}" class="img-cover">
-																		</figure>
+																			<figure class="slider-banner img-holder" style="--width: 507; --height: 618;">
+																					<img src="{{ post.image.url }}" width="507" height="618" loading="lazy" alt="{{ post.image }}" class="img-cover">
+																			</figure>
 
-																		<div class="slider-content">
-																				<span class="slider-title">{{ post.title }}</span>
-																				<p class="slider-subtitle">
-																				</p>
-																		</div>
+																			<div class="slider-content">
+																					<span class="slider-title">{{ post.title }}</span>
+																					<p class="slider-subtitle">
+																					</p>
+																			</div>
 
-																</a>
-														</li>
-													{% empty %}
-														<li>Нет записей</li>
-													{% endfor %}
-												</ul>
-										</div>
+																	</a>
+															</li>
+														{% empty %}
+															<li>Нет записей</li>
+														{% endfor %}
+													</ul>
+											</div>
+											<!-- Добавляем точки навигации -->
+											{% comment %} <div class="slider-dots">
+												{% for post in posts %}
+												<button class="slider-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}"></button>
+												{% endfor %}
+											</div> {% endcomment %}
 
 									</div>
 
@@ -510,7 +489,10 @@
 																							<img src="{% static "deps\images\Not found image.png" %}" width="48" height="48" alt="" class="profile-banner image_banner">
 																					{% endif %}
 																						<div>
-																							<p class="card-title">{{ item.author_name }}</p>
+																							<p class="card-title">
+																									{{ item.author_name }}
+																									<span class="EntityProfile__verified__two"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.96 3.287c.68-.618 1.02-.927 1.401-1.058a1.959 1.959 0 0 1 1.276 0c.38.131.72.44 1.402 1.058.32.29.48.436.662.541.198.114.414.193.64.233.206.036.422.028.855.011.918-.035 1.378-.053 1.753.09.409.158.752.446.978.821.207.345.269.8.393 1.711.06.43.088.644.16.84.078.215.193.415.34.59.135.16.306.293.648.558.727.563 1.09.845 1.285 1.197.212.382.29.825.222 1.256-.063.398-.308.787-.798 1.564-.231.367-.347.55-.418.747a1.959 1.959 0 0 0-.118.67c0 .21.045.42.137.844.195.899.292 1.348.215 1.743-.083.429-.308.818-.638 1.105-.303.264-.741.404-1.617.685-.412.132-.618.198-.8.303a1.96 1.96 0 0 0-.52.437c-.135.16-.236.352-.438.735-.429.814-.643 1.22-.955 1.474-.34.275-.762.428-1.2.436-.401.007-.827-.167-1.678-.515-.401-.163-.601-.245-.808-.282a1.958 1.958 0 0 0-.68 0c-.207.037-.407.119-.808.282-.85.348-1.276.522-1.679.515a1.959 1.959 0 0 1-1.199-.436c-.312-.254-.526-.66-.955-1.474-.202-.383-.303-.574-.437-.735a1.96 1.96 0 0 0-.522-.437c-.181-.105-.387-.171-.8-.303-.875-.281-1.313-.421-1.616-.685a1.959 1.959 0 0 1-.638-1.105c-.077-.395.02-.844.215-1.743.092-.423.137-.635.137-.844 0-.229-.04-.455-.118-.67-.071-.197-.187-.38-.418-.747-.49-.777-.735-1.166-.798-1.564-.068-.431.01-.874.222-1.256.195-.352.558-.634 1.285-1.197.342-.265.513-.398.648-.558.147-.175.262-.375.34-.59.072-.196.1-.41.16-.84.124-.91.186-1.366.393-1.711.226-.375.57-.663.978-.82.375-.144.835-.126 1.753-.09.433.016.65.024.856-.012.225-.04.441-.119.639-.233.181-.105.342-.25.662-.54z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M16.013 9.583a.9.9 0 0 1 0 1.273l-4.73 4.73a.9.9 0 0 1-1.272 0L7.646 13.22a.9.9 0 0 1 1.273-1.272l1.728 1.728 4.093-4.093a.9.9 0 0 1 1.273 0z" fill="#fff"></path></svg></span>
+																							</p>
 																							<p class="card-subtitle">{{ item.created_at }}</p>
 																					</div>
 																			</div>
@@ -599,7 +581,7 @@
 													{% endif %}
 														<div class="card-content">
 
-																<a href="#" class="card-badge">{{ recent_post.subtitle }}</a>
+																<a href="https://gameton.app/blog/#recent" class="card-badge">{{ recent_post.subtitle }}</a>
 
 																<h3 class="headline headline-3 card-title">
 																		<a href="{% url 'blog:post_detail' recent_post.slug %}" class="link hover-2">{{ recent_post.title }}</a>
@@ -642,7 +624,8 @@
 													{% else %}
 															#recent
 													{% endif %}" class="pagination-btn {% if not recent_posts.has_previous %}disabled{% endif %}" aria-label="previous page">
-													<ion-icon name="arrow-back" aria-hidden="true"></ion-icon>
+													{% comment %} <ion-icon name="arrow-back" aria-hidden="true"></ion-icon> {% endcomment %}
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #ffffff;transform: ;msFilter:;"><path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z"></path></svg>
 												</a>
 
 													<!-- Логика для 5 кнопок с центральной позицией -->
@@ -669,7 +652,8 @@
 															#recent
 													{% endif %}" 
 													class="pagination-btn {% if not recent_posts.has_next %}disabled{% endif %}" aria-label="next page">
-														<ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+														{% comment %} <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon> {% endcomment %}
+														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #ffffff;transform: ;msFilter:;"><path d="M10.061 19.061 17.121 12l-7.06-7.061-2.122 2.122L12.879 12l-4.94 4.939z"></path></svg>
 												</a>
 
 									</nav>
@@ -768,20 +752,28 @@
 					-->
 					<section class="tag" aria-labelledby="tag-label">
 						<div class="container">
-										<!-- Yandex.RTB R-A-14304836-1 -->
-										<div id="yandex_rtb_R-A-14304836-1"></div>
-										<script>
+									<!-- Yandex.RTB R-A-14304836-3 Floor Ad закрепленный в нижней части сайта-->
+									<script>
 										window.yaContextCb.push(() => {
 												Ya.Context.AdvManager.render({
-														"blockId": "R-A-14304836-1",
-														"renderTo": "yandex_rtb_R-A-14304836-1"
+														"blockId": "R-A-14304836-3",
+														"type": "floorAd",
+														"platform": "touch"
 												})
 										})
-										</script>
-									</br>
-									</br>
+									</script>
+									<!-- Yandex.RTB R-A-14304836-5 Floor Ad закрепленный в нижней части сайта десктопная версия -->
+									<script>
+										window.yaContextCb.push(() => {
+												Ya.Context.AdvManager.render({
+														"blockId": "R-A-14304836-5",
+														"type": "floorAd",
+														"platform": "desktop"
+												})
+										})
+									</script>
 						</div>
-				</section>
+					</section>
 
 
 			</article>
@@ -927,7 +919,7 @@
 												</div>
 
 												<div class="input-wrapper">
-														<input type="tel" name="email_phone" placeholder="Your number" required id="" class="input-field" autocomplete="off">
+														<input type="tel" name="user_phone" placeholder="Your number +7XXX или 8XXX" pattern="^(\+7|8)[\d\- ]{10,15}$" title="Формат: +79161234567 или 89161234567" required id="" class="input-field" autocomplete="tel">
 
 														<ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
 												</div>
@@ -957,7 +949,7 @@
 
 							<div class="footer-bottom">
 									<p class="copyright">
-											Copyright &copy; <a href="#" class="copyright-link">GameTonApp</a></br><span class="time"></span></br>v3.21.1
+											Copyright &copy; <a href="#" class="copyright-link">GameTonApp</a></br><span class="time"></span></br>v{{ APP_VERSION }}
 									</p>
 
 									<ul class="social-list">
@@ -1033,7 +1025,7 @@
 		-->
 		
 		<a href="#top" class="back-top-btn" aria-label="back to top" data-back-top-btn>
-			<ion-icon name="arrow-up-outline" aria-hidden="true"></ion-icon>
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #7c7e8a;transform: ;msFilter:;"><path d="M6 4h12v2H6zm5 10v6h2v-6h5l-6-6-6 6z"></path></svg>
 		</a>
 		
 		
@@ -1044,6 +1036,13 @@
 			<script src="{% static "deps/js/script/script-blog.js" %}"></script>
 			<script src="{% static "deps/js/script/script-mains.js" %}"></script>
 			<script src="{% static "deps/js/script/modal.js" %}"></script>
+			<script src="{% static "deps/js/script/tonprice.js" %}"></script>
+			<script src="{% static "deps/js/script/tonprice-home.js" %}"></script>
+			<script src="{% static "deps/js/script/bitcoinprice.js" %}"></script>
+			<script src="{% static "deps/js/script/bitcoinprice-home.js" %}"></script>
+			<script src="{% static "deps/js/script/ethereumprice.js" %}"></script>
+			<script src="{% static "deps/js/script/ethereumprice-home.js" %}"></script>
+			<script src="{% static "deps/js/script/validate_phone.js" %}"></script>
 	<!-- email js -->
 
 	<!--

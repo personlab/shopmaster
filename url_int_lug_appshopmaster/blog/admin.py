@@ -25,8 +25,8 @@ class PostAdminForm(forms.ModelForm):
 
 
 class PostAdmin(admin.ModelAdmin):
-		list_display = ('title', 'created_at')
-		search_fields = ('title', 'content')
+		list_display = ('title', 'created_at', 'meta_description')
+		search_fields = ('title', 'content', 'meta_description')
 		prepopulated_fields = {'slug': ('title',)}
 		list_filter = ('created_at',)
 
@@ -49,8 +49,8 @@ class RecentPostAdminForm(forms.ModelForm):
 
 
 class RecentPostAdmin(admin.ModelAdmin):
-		list_display = ('title', 'created_at')
-		search_fields = ('title', 'content')
+		list_display = ('title', 'created_at', 'meta_description')
+		search_fields = ('title', 'content', 'meta_description')
 		prepopulated_fields = {'slug': ('title',)}
 		list_filter = ('created_at',)
 

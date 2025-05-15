@@ -26,6 +26,7 @@
 	--bg-oxford-blue: hsla(222, 44%, 13%, 1);
 	--bg-oxford-blue-2: hsla(222, 47%, 11%, 1);
 	--bg-carolina-blue-3: rgb(2, 34, 179);
+	--bg-carolina-blue-4: rgb(0, 106, 255);
 
 	/** text color */
 	--text-white: hsla(0, 0%, 100%, 1);
@@ -162,6 +163,31 @@ img,
 input,
 button {
 	display: block;
+}
+
+.magicNoWrap a {
+	position: relative;
+	display: inline;
+	color: #ffffff; /*задаём цвет ссылки*/
+	cursor: pointer;
+	line-height: 1; /*задаём высоту строки*/
+	text-decoration: none; /*убираем подчёркивание*/
+}
+
+.magicNoWrap a:after {
+	display: block;
+	position: absolute;
+	left: 0; /*изменить на right:0;, чтобы изменить направление подчёркивания */
+	width: 0;/*задаём длинну линии до наведения курсора*/
+	height: 2px; /*задаём ширину линии*/
+	background-color: #00a650; /*задаём цвет линии*/
+	content: "";
+	transition: width 0.3s ease-out; /*задаём время анимации*/
+}
+
+.magicNoWrap a:focus:after,
+.magicNoWrap a:hover:after{
+	width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
 }
 
 a {
@@ -391,7 +417,7 @@ body.nav-active {
 .card-wrapper {
 	display: flex;
 	justify-content: space-between;
-	gap: 20px;
+	gap: 10px;
 	align-items: center;
 	font-size: var(--fontSize-6);
 	margin-block: 20px;
@@ -405,44 +431,56 @@ body.nav-active {
 
 
 /*-----------------------------------*\
-  #MENU TEST
+  #TABLE
 \*-----------------------------------*/
 
-/* .header___center {
-	position: absolute;
-	left: 0;
-	right: 0;
+.notion-app table {
+	flex: 1;
+	max-width: 100%;
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	pointer-events: none;
-} */
-
-
-
-/* .header___center nav {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 180px;
-	max-width: 720px;
-	white-space: nowrap;
 }
 
-.menu__test > ul {
-	display: flex;
-	align-items: center;
+.notion-simple-table {
+	border: none;
+	border-collapse: collapse;
+	border-spacing: 0;
+	font-size: 14px;
+	hyphens: none;
 }
 
-.header___center > a {
-	line-height: inherit;
-	white-space: nowrap;
-	pointer-events: auto;
+.notion, .notion :focus {
+	outline: 0;
 }
 
-.header___center .menu__test > ul > li > a {
-	text-transform: uppercase;
-	padding: 0 15px;
-} */
+.notion {
+	margin-block-start: 0;
+	margin-block-end: 0;
+}
+
+.notion {
+	box-sizing: border-box;
+}
+
+.notion-simple-table tr:first-child td {
+	background: var(--bg-oxford-blue);
+}
+
+.notion-simple-table td {
+	border: none;
+	padding: 8px;
+	white-space: pre-wrap;
+}
+
+table {
+	text-indent: 0;
+	border-color: inherit;
+	border-collapse: collapse;
+}
+
+.notion-app table tbody {
+	overflow-x: auto;
+}
+
 
 
 /*-----------------------------------*\
@@ -468,6 +506,7 @@ body.nav-active {
 	box-shadow: var(--shadow-1);
 	border-block-end: 1px solid var(--bg-prussian-blue);
 	animation: slideIn 0.5s ease forwards;
+	z-index: 99;
 }
 
 @keyframes slideIn {
@@ -678,7 +717,78 @@ form.d__flex_search button {
 	gap: 50px;
 }
 
+.coin__price {
+	display: flex;
+	flex-direction: column;
+}
+
+
+
+
+
+/* ЦЕНА МОНЕТ */
+
+.price__coin_binance {
+	display: flex;
+	justify-content: flex-start;
+	/* align-items: center; */
+	margin: 0 5px 7px 0
+}
+
+.bn-lazy-img {
+	margin-right: 7px;
+	width: 24px;
+	height: 24px;
+}
+	
+.price-change {
+	margin-left: 8px;
+	font-size: 0.9em;
+	display: flex;
+	align-items: flex-end;
+}
+.positive {
+	color: #0ecb81; /* Зеленый для роста */
+	font-weight: var(--fw-700);
+}
+.negative {
+	color: #f6465d; /* Красный для падения */
+	font-weight: var(--fw-700);
+}
+
+.crypto-symbol {
+	color: #f7931a; /* Оранжевый цвет для BTC */
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.crypto-ton {
+	color: var(--bg-carolina-blue-4); /* Синий цвет для BTC */
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.crypto-etereum-text {
+	color: var(--text-slate-gray);
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.crypto-name {
+	color: #6b7280; /* Серый цвет для названия */
+	font-size: 0.9em;
+	margin: 0 5px;
+}
+
+.crypto-price {
+	color: #ffffff;
+	font-weight: bold;
+}
+
+/* КОНЕЦ ЦЕНА МОНЕТ */
+
 .hero-subtitle {
+	margin-top: 20px;
 	font-size: var(--fontSize-6);
 	font-weight: var(--weight-bold);
 }
@@ -789,6 +899,8 @@ form.d__flex_search button {
 .slider {
 	--slider-items: 1;
 	overflow: hidden;
+
+	position: relative;
 }
 
 .slider-list {
@@ -796,16 +908,36 @@ form.d__flex_search button {
 	display: flex;
 	align-items: center;
 	gap: 20px;
-	transition: transform var(--transition-2);
+	/* transition: transform var(--transition-2); */
+
+	pointer-events: none; /* Отключаем события для всей карточки */
+	touch-action: pan-y;
+	/* user-select: none; */
+	will-change: transform;
+}
+
+.slider-list.grabbing {
+	cursor: grabbing;
+}
+
+.slider-list.grabbing .slider-card {
+	cursor: grabbing;
 }
 
 .slider-item {
 	min-width: 100%;
+	scroll-snap-align: start;
+}
+
+.slider-item a {
+	pointer-events: auto;
 }
 
 .slider-card {
 	position: relative;
 }
+
+
 
 .slider-card::before {
 	content: "";
@@ -828,6 +960,7 @@ form.d__flex_search button {
 	left: 15px;
 }
 
+
 .slider-title {
 	color: var(--text-columbia-blue);
 	font-weight: var(--weight-bold);
@@ -842,6 +975,35 @@ form.d__flex_search button {
 .slider-subtitle {
 	font-size: var(--fontSize-7);
 }
+
+
+/* dots */
+
+/* .slider-dots {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 20px;
+}
+
+.slider-dot {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background-color: #ccc;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	transition: background-color 0.3s ease;
+}
+
+.slider-dot.active {
+	background-color: #fff;
+}
+
+.slider-dot:hover {
+	background-color: #aaa;
+} */
 
 
 
@@ -1023,6 +1185,7 @@ form.d__flex_search button {
 .recent-post-card .card-tag {
 	gap: 15px;
 	color: var(--text-slate-gray);
+	display: inline-flex;
 }
 
 .recent-post-card .card-wrapper ion-icon {
@@ -1690,6 +1853,11 @@ form.d__flex_search button {
 	flex-direction: initial;
 }
 
+.tags__detail a:hover {
+	color: var(--bg-carolina-blue);
+	font-weight: var(--fw-600);
+}
+
 .img__color__ton {
 	opacity: .5;
 }
@@ -1733,22 +1901,45 @@ form.d__flex_search button {
 	margin-bottom: 30px;
 	border-radius: var(--radius-16);
 }
+
 .EntityProfile__nowrape {
-	display: ruby-text;
-	white-space: nowrap;
+	/* display: ruby-text;
+	white-space: nowrap; */
+	padding: 0 0 10px 0;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .EntityProfile__verified {
 	color: #03A9F4;
-	margin-bottom: -4px;
+	margin-top: 2px;
+	position: absolute;
+}
+
+.EntityProfile__verified__two {
+	color: #03A9F4;
+	margin-top: 2px;
+	position: absolute;
+	margin-left: 3px;
+}
+
+.EntityProfile__verified_badge {
+	color: #03A9F4;
+	margin-top: -3px;
+	margin-left: -15px;
+	position: absolute;
 }
 
 .positionss {
-	display: flex;
+	margin-bottom: 30px;
+	justify-content: space-between;
+	align-items: center;
+
+	/* display: flex;
 	margin-top: 30px;
 	margin-bottom: 30px;
 	justify-content: center;
-	align-items: center;
+	align-items: center; */
 }
 
 .positionss__1 {
@@ -1847,9 +2038,16 @@ form.d__flex_search button {
 
 .post__block__flex {
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	justify-content: flex-start;
+	align-items: flex-start;
 	flex-direction: column;
+	overflow-wrap: break-word;
+	hyphens: auto;
+}
+
+.post__table {
+	overflow-wrap: break-word;
+	hyphens: none;
 }
 
 .comment__img {
@@ -2117,6 +2315,7 @@ input[type="file"] {
 
 
 
+
 /*-----------------------------------*\
   #MEDIA QUERIES
 \*-----------------------------------*/
@@ -2124,9 +2323,9 @@ input[type="file"] {
 
 @media (min-width: 360px) {
 
-	a i {
+	/* a i {
 		visibility: hidden;
-	}
+	} */
 
 	.text__socials {
 		font-size: small;
@@ -2139,9 +2338,39 @@ input[type="file"] {
 		flex-direction: column;
 	}
 
-	nav.navbar .subs__menu {
+	.subs__menu {
 		display: none;
 	}
+
+	.navbar .profile-card .card-title {
+		margin-bottom: 10px;
+	}
+
+	.coin__price__menu {
+		display: flex;
+		flex-direction: column;
+		line-height: 1.1rem;
+	}
+
+	.card-subtitile-menu {
+		font-size: var(--fontSize-8);
+		letter-spacing: 0.1rem;
+	}
+
+	/* Для мобильных устройств slider*/
+	.slider-list {
+		-webkit-overflow-scrolling: touch;
+	}
+	
+	.slider-item {
+		scroll-snap-align: start;
+	}
+
+	.slider-banner {
+		display: block;
+	}
+
+	/*  */
 
 	.pagination {
 		justify-content: center;
@@ -2162,6 +2391,10 @@ input[type="file"] {
 
 	.post-main-top {
 		margin-top: 50px;
+	}
+
+	.h4_collect_blog {
+		font-size: var(--fs-5);
 	}
 
 	.post-main .img-101 {
@@ -2365,7 +2598,7 @@ input[type="file"] {
 	}
 
 	.post-main-top {
-		margin-top: 0;
+		margin-top: 10px;
 	}
 
 }
@@ -2549,12 +2782,33 @@ input[type="file"] {
 		}
 
 		.post-main {
-			top: 0;
+			margin-top: 0;
+		}
+
+		.post-main-top {
+			margin-top: 0;
+		}
+
+		/* .ck-content {
+
+		} */
+
+		.h4_collect_blog {
+			font-size: var(--fs-1);
 		}
 
 		.post-main .img-101 {
-			width: 100%;
+			/* width: 100%;
 			height: 300px;
+			object-fit: cover;
+			margin: 0 0;
+			cursor: pointer;
+			margin-bottom: 30px;
+			border-radius: var(--radius-16); */
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
 			object-fit: cover;
 			margin: 0 0;
 			cursor: pointer;
@@ -2563,7 +2817,8 @@ input[type="file"] {
 		}
 
 		.post-main .img-100 {
-			width: 70%;
+			width: 100%;
+			height: 200px;
 			object-fit: cover;
 			margin: 30px 0;
 			cursor: pointer;
@@ -2586,6 +2841,7 @@ input[type="file"] {
 		.recent-post .container {
 			grid-template-columns: 1fr 0.6fr;
 			align-items: flex-start;
+			margin-top: 20px;
 		}
 
 		.headline-2 {

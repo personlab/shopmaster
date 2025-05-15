@@ -14,7 +14,8 @@
 	<meta name="title" content="{{ title }}">
 	<meta name="description" content="{{ title }}">
 	<!-- Favicons for different platforms -->
-	<link rel="apple-touch-icon" sizes="180x180" href="{% static "deps/favicon/apple-touch-icon.png" %}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'deps/favicon/logo-120x120.svg' %}">
+	<link rel="icon" type="image/svg+xml" sizes="120x120" href="{% static 'deps/favicon/logo-120x120.svg' %}">
 	<link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
 	<link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
 	<link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
@@ -83,7 +84,9 @@
 					</a>
 
 					<button class="nav-close-btn" aria-label="close menu" data-nav-toggler>
-						<ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+						{% comment %} <ion-icon name="close-outline" aria-hidden="true"></ion-icon> {% endcomment %}
+						{% comment %} <img src="{% static "deps/images/close-large-line.png" %}"> {% endcomment %}
+						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 15" style="fill: hsla(216, 33%, 20%, 1);transform: ;msFilter:;"><path d="M21.063 15H13v2h9v-2zM4 7h11v2H4zm0 4h11v2H4zm0 4h7v2H4z"></path></svg>
 					</button>
 				</div>
 					<ul class="navbar-list">
@@ -126,7 +129,8 @@
 							<form class="d__flex_search" role="search" action="{% url "blog:search" %}" method="get">
 								<input class="form-control me-2" type="search" name="q" placeholder="Поиск" value="{{ query }}" aria-label="Search">
 								<button class="btn btn-primary" type="submit">
-									<ion-icon name="search-outline"></ion-icon>
+									<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 15" style="fill: hsla(216, 33%, 20%, 1);transform: ;msFilter:;"><path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"></path></svg>
+									{% comment %} <ion-icon name="search-outline"></ion-icon> {% endcomment %}
 								</button>
 							</form>
 						</li>
@@ -146,9 +150,27 @@
 						<div>
 							<p class="card-title">Привет, {{ user.first_name }} {{ user.last_name }}</p>
 
-							<p class="card-subtitile">
-								{% comment %} You have 3 new message {% endcomment %}
-							</p>
+									<div class="coin__price__menu">
+											<div class="price__coin_binance">
+													<p class="card-subtitile-menu" id="ton-price">
+															Загружается цена TON...
+														{% comment %} You have 3 new message {% endcomment %}
+													</p>
+													<span class="price-change" id="ton-menu-change"></span>
+											</div>
+											<div class="price__coin_binance">
+													<p class="card-subtitile-menu" id="bitcoin-price">
+														Загружается цена BITCOIN...
+													</p>
+													<span class="price-change" id="bitcoin-menu-change"></span>
+											</div>
+											<div class="price__coin_binance">
+													<p class="card-subtitile-menu" id="ethereum-price">
+														Загружается цена ETHEREUM...
+													</p>
+													<span class="price-change" id="ethereum-menu-change"></span>
+											</div>
+									</div>
 						</div>
 					</div>
 
@@ -174,7 +196,9 @@
 			<a href="https://t.me/+N0QgXuwRb-RhYjYy" target="_blank" class="btn btn-primary">Subscribe</a>
 
 			<button class="nav-open-btn" area-label="open menu" data-nav-toggler>
-				<ion-icon name="menu-outline" aria-hidden="true"></ion-icon>
+				{% comment %} <ion-icon name="menu-outline" aria-hidden="true"></ion-icon> {% endcomment %}
+				{% comment %} <img src="{% static "deps/images/menu-add-fill.png" %}"> {% endcomment %}
+				<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 15" style="fill: hsla(216, 33%, 20%, 1);transform: ;msFilter:;"><path d="M19 15v-3h-2v3h-3v2h3v3h2v-3h3v-2h-.937zM4 7h11v2H4zm0 4h11v2H4zm0 4h8v2H4z"></path></svg>
 			</button>
 		</div>
 	</header>
@@ -217,7 +241,7 @@
 	-->
 	
 	<a href="#top" class="back-top-btn" aria-label="back to top" data-back-top-btn>
-		<ion-icon name="arrow-up-outline" aria-hidden="true"></ion-icon>
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #7c7e8a;transform: ;msFilter:;"><path d="M6 4h12v2H6zm5 10v6h2v-6h5l-6-6-6 6z"></path></svg>
 	</a>
 
 
@@ -231,6 +255,9 @@
 	<script src="{% static "deps/js/script/script-commerce.js" %}"></script>
 	<script src="{% static "deps/js/script/password-block.js" %}"></script>
 	<script src="{% static "deps/js/script/file-name.js" %}"></script>
+	<script src="{% static "deps/js/script/tonprice.js" %}"></script>
+	<script src="{% static "deps/js/script/bitcoinprice.js" %}"></script>
+	<script src="{% static "deps/js/script/ethereumprice.js" %}"></script>
 
 	  
 	<!--
