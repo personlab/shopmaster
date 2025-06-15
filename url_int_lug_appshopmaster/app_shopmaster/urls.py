@@ -40,6 +40,7 @@ urlpatterns = [
 		path('catalog/', include('goods.urls', namespace='catalog')),
 		path('blog/', include('blog.urls', namespace='blog')),
 		path('user/', include('users.urls', namespace='user')),
+		path('games/', include('games.urls', namespace='games')),
 ]
 
 		# path('test-500/', views.test_500, name='test_500'),

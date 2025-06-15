@@ -1,60 +1,63 @@
 {% load static %}
 {% load tz %}
 
+
 <!DOCTYPE html>
 <html lang="ru">
-
-
-
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<!-- Primary meta tags -->
+	<!--
+		- primary meta tags
+	-->
 	<title>{{ title }}</title>
 	<meta name="title" content="{{ title }}">
-	<meta name="description" content="{{ post.content|striptags|truncatechars:200 }}">
-	<meta name="keywords" content="{{ post.title }}, {% for tag in post.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+	<meta name="description" content="{{ description }}">
+	<meta name="keywords" content="{{ keywords }}">
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://gameton.app/blog/">
+	<meta property="og:url" content="https://gameton.app/">
 	<meta property="og:title" content="{{ title }}">
-	<meta property="og:description" content="">
-	<meta property="og:image" content="https://gameton.app/{{ post.image.url }}">
+	<meta property="og:description" content="{{ title }}">
+	<meta property="og:image" content="https://gameton.app/{% static 'deps/images/gameton_MicrosoftTeams.png' %}">
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://gameton.app/blog/">
+	<meta property="twitter:url" content="https://gameton.app/">
 	<meta property="twitter:title" content="{{ title }}">
-	<meta property="twitter:description" content="">
-	<meta property="twitter:image" content="https://gameton.app/{{ post.image.url }}">
-
-	<link rel="canonical" href="https://gameton.app/blog/{{ post.slug }}" />
+	<meta property="twitter:description" content="{{ title }}">
+	<meta property="twitter:image" content="https://gameton.app/{% static 'deps/images/gameton_MicrosoftTeams.png' %}">
 
 	<!-- Favicons for different platforms -->
 	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'deps/favicon/logo-120x120.svg' %}">
 	<link rel="icon" type="image/svg+xml" sizes="120x120" href="{% static 'deps/favicon/logo-120x120.svg' %}">
-	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'deps/favicon/favicon-32x32.png' %}">
-	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'deps/favicon/favicon-16x16.png' %}">
-	<link rel="manifest" href="{% static 'deps/favicon/site.webmanifest' %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static "deps/favicon/favicon-32x32.png" %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static "deps/favicon/favicon-16x16.png" %}">
+	<link rel="manifest" href="{% static "deps/favicon/site.webmanifest" %}">
 
-	<!-- Google Fonts -->
+	<!--
+		- google font link
+	-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-	<!-- remixicon -->
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap"
+	rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
 
-	<!-- Custom CSS -->
+	<!--
+		- custom css link
+	-->
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-	<link rel="stylesheet" href="{% static 'deps/css/style.css' %}">
+	<link rel="stylesheet" href="{% static "deps/css/style.css" %}">
 
-	<!-- Preload images -->
-	<link rel="preload" as="image" href="{% static 'deps/images/hero-banner.png' %}">
-	<link rel="preload" as="image" href="{% static 'deps/images/pattern-2.svg' %}">
-	<link rel="preload" as="image" href="{% static 'deps/images/pattern-3.svg' %}">
+	<!--
+			- preload images
+	-->
+	<link rel="preload" as="image" href="{% static "deps/images/hero-banner.png" %}">
+	<link rel="preload" as="image" href="{% static "deps/images/pattern-2.svg" %}">
+	<link rel="preload" as="image" href="{% static "deps/images/pattern-3.svg" %}">
 
 	<!-- Yandex.Metrika counter -->
 	<script type="text/javascript" >
@@ -77,12 +80,47 @@
 	<script>window.yaContextCb=window.yaContextCb||[]</script>
 	<script src="https://yandex.ru/ads/system/context.js" async></script>
 
+
 </head>
-
-
-
 <body id="top">
 
+			{% comment %} <!-- Форма фильтров -->
+			<div class="dropdown mb-2">
+				<button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						Фильтры
+				</button>
+
+				<form action="" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="checkbox" name="on_sale" id="flexCheckDefault" value="on">
+								<input type="hidden" name="q" value="request.GET.q">
+								<label class="form-check-label" for="flexCheckDefault">
+										Товары по акции
+								</label>
+						</div>
+						<p class="text-white mx-3 mt-3">Сортировать:</p>
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault1" value="default" checked>
+								<label class="form-check-label" for="flexRadioDefault1">
+										По умолчанию
+								</label>
+						</div>
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault2" value="price">
+								<label class="form-check-label" for="flexRadioDefault2">
+										От дешевых к дорогим
+								</label>
+						</div>
+						<div class="form-check text-white mx-3">
+								<input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault3" value="-price">
+								<label class="form-check-label" for="flexRadioDefault3">
+										От дорогих к дешевым
+								</label>
+						</div>
+						<button type="submit" class="btn btn-primary mx-3 mt-3">Применить</button>
+				</form>
+		</div> {% endcomment %}
 
 	<!--
 		- #HEADER
@@ -132,18 +170,14 @@
 							<a href="{% url "blog:post_list" %}" class="navbar-link hover-1" data-nav-toggler>Блог</a>
 						</li>
 
-						<li>
-							<a href="{% url 'blog:post_list' %}#featured" class="navbar-link hover-1" data-nav-toggler>Избранное</a>
-						</li>
+						{% comment %}<li>
+							 <a href="#featured" class="navbar-link hover-1" data-nav-toggler>Featured Post</a> 
+						</li>{% endcomment %}
 
 						<li>
 							<a href="{% url "main:contact" %}" class="navbar-link hover-1" data-nav-toggler>Контакты</a>
 						</li>
 
-
-						<li>
-							<a href="{% url "games:games" %}" class="navbar-link hover-1" data-nav-toggler>Игры TON</a>
-						</li>
 
 						{% comment %} <li>
 							<a href="{% url "catalog:index" category_slug='all' %}" class="navbar-link hover-1" data-nav-toggler>Магазин</a>
@@ -163,57 +197,99 @@
 					</ul>
 
 
-					<div class="navbar-bottom">
-						{% if user.is_authenticated %}
-						<div class="profile-card">
-							{% if user.image %}
-									<img src="{{ user.image.url }}" alt="{{ user.username }}" class="profile-banner">
-							{% else %}
-									<img src="{% static "deps\images\Not found image.png" %}" width="48" height="48" alt="" class="profile-banner image_banner">
-							{% endif %}
-	
-							<div>
-								<p class="card-title">Привет, {{ user.first_name }} {{ user.last_name }}</p>
-	
-										<div class="coin__price__menu">
-												<div class="price__coin_binance">
-														<p class="card-subtitile-menu" id="ton-price">
-																Загружается цена TON...
-															{% comment %} You have 3 new message {% endcomment %}
-														</p>
-														<span class="price-change" id="ton-menu-change"></span>
-												</div>
-												<div class="price__coin_binance">
-														<p class="card-subtitile-menu" id="bitcoin-price">
-															Загружается цена BITCOIN...
-														</p>
-														<span class="price-change" id="bitcoin-menu-change"></span>
-												</div>
-												<div class="price__coin_binance">
-														<p class="card-subtitile-menu" id="ethereum-price">
-															Загружается цена ETHEREUM...
-														</p>
-														<span class="price-change" id="ethereum-menu-change"></span>
-												</div>
-										</div>
-							</div>
+				{% comment %} <div class="navbar-bottom">
+
+					<div class="profile-card">
+						<img src="{% static "deps/images/author-1.png" %}" width="48" height="48" alt="Steven" class="profile-banner">
+
+						<div>
+							<p class="card-title">Hello Steven!</p>
+
+							<p class="card-subtitile">
+								You have 3 new message
+							</p>
 						</div>
-	
-						<ul class="link-list">
-							<li>
-								<a href="{% url "user:profile" %}" class="navbar-bottom-link hover-1">Настройки аккаунта</a>
-							</li>
-	
-							<li>
-								<a href="{% url "user:logout" %}" class="navbar-bottom-link hover-1" style="color: hsla(199, 89%, 49%, 1);">Выйти</a>
-							</li>
-						</ul>
-						{% else %}
-						<li>
-							<a href="{% url "user:login" %}" class="navbar-link hover-1" data-nav-toggler>Войти</a>
-						</li>
-					{% endif %}
 					</div>
+
+					<ul class="link-list">
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">Profile</a>
+						</li>
+
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">Articles Saved</a>
+						</li>
+
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">Add New Post</a>
+						</li>
+
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">My Likes</a>
+						</li>
+
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">Account Setting</a>
+						</li>
+
+						<li>
+							<a href="#" class="navbar-bottom-link hover-1">Sign Out</a>
+						</li>
+					</ul>
+
+				</div> {% endcomment %}
+
+				<div class="navbar-bottom">
+					{% if user.is_authenticated %}
+					<div class="profile-card">
+						{% if user.image %}
+								<img src="{{ user.image.url }}" alt="{{ user.username }}" class="profile-banner">
+						{% else %}
+								<img src="{% static "deps\images\Not found image.png" %}" width="48" height="48" alt="" class="profile-banner image_banner">
+						{% endif %}
+
+						<div>
+							<p class="card-title">Привет, {{ user.first_name }} {{ user.last_name }}</p>
+
+									<div class="coin__price__menu">
+											<div class="price__coin_binance">
+													<p class="card-subtitile-menu" id="ton-price">
+															Загружается цена TON...
+														{% comment %} You have 3 new message {% endcomment %}
+													</p>
+													<span class="price-change" id="ton-menu-change"></span>
+											</div>
+											<div class="price__coin_binance">
+													<p class="card-subtitile-menu" id="bitcoin-price">
+														Загружается цена BITCOIN...
+													</p>
+													<span class="price-change" id="bitcoin-menu-change"></span>
+											</div>
+											<div class="price__coin_binance">
+													<p class="card-subtitile-menu" id="ethereum-price">
+														Загружается цена ETHEREUM...
+													</p>
+													<span class="price-change" id="ethereum-menu-change"></span>
+											</div>
+									</div>
+						</div>
+					</div>
+
+					<ul class="link-list">
+						<li>
+							<a href="{% url "user:profile" %}" class="navbar-bottom-link hover-1">Настройки аккаунта</a>
+						</li>
+
+						<li>
+							<a href="{% url "user:logout" %}" class="navbar-bottom-link hover-1" style="color: hsla(199, 89%, 49%, 1);">Выйти</a>
+						</li>
+					</ul>
+					{% else %}
+					<li>
+						<a href="{% url "user:login" %}" class="navbar-link hover-1" data-nav-toggler>Войти</a>
+					</li>
+				{% endif %}
+				</div>
 
 				<p class="copyright-text">Copyright &copy; GameTonApp</br><span class="time"></span></p>
 			</nav>
@@ -232,7 +308,7 @@
 	<main>
 			<article>
 
-					<section class="section recent-post" id="recent" aria-labelledby="recent-label" >
+					<section class="section recent-post position__section" id="recent" aria-labelledby="recent-label" >
 						<div class="container">
 
 								<div class="post-main">
@@ -245,7 +321,7 @@
 
 								<!-- POPULAR POSTS -->
 
-								<div class="post-aside grid-list">
+								{% comment %} <div class="post-aside grid-list">
 
 									<div class="card aside-card">
 
@@ -282,16 +358,16 @@
 
 										</ul>
 
-									</div>
+									</div> {% endcomment %}
 
 									<!-- LAST COMMENT -->
 
-									<div class="card aside-card">
+									{% comment %} <div class="card aside-card">
 										<h3 class="headline headline-2 aside-title">
 												<span class="span">Последний комментарий</span>
-										</h3>
+										</h3> {% endcomment %}
 								
-										<ul class="comment-list">
+										{% comment %} <ul class="comment-list">
 											{% if latest_comments %}
 													{% for comment in latest_comments %}
 															<li>
@@ -308,9 +384,9 @@
 																					</figure>
 							
 																					<div>
-																							<p class="card-title">{{ comment.author }}</p>
+																							<p class="card-title">{{ comment.author }}</p> {% endcomment %}
 																							{% comment %} <time datetime="{{ comment.created_at|date:'Y-m-d' }}" class="card-date">{{ comment.created_at|date:"d F Y" }}</time> {% endcomment %}
-																					</div>
+																					{% comment %} </div>
 																			</div>
 																	</div>
 															</li>
@@ -319,62 +395,62 @@
 													<li>Нет комментариев для отображения.</li>
 											{% endif %}
 									</ul>
-								</div>
+								</div> {% endcomment %}
 
 										<div class="card aside-card insta-card">
 
 												<a href="#" class="logo">
-													<img src="{% static "deps/favicon/apple-touch-icon.png" %}" width="40" height="40" alt="Игры в Telegram, Tap-to-Earn, блокчейн TON, майнинг в Telegram, криптоигры, Telegram игры">
+														<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
 												</a>
 
-												<p class="card-text">
-														{% comment %} Follow us on instagramss {% endcomment %}
-												</p>
+												{% comment %} <p class="card-text">
+														Follow us on instagramss
+												</p> {% endcomment %}
 
 												<div class="hero-banner">
 													{% if hero and hero.image %}
 														<img src="{{ hero.image.url }}" width="327" height="490" alt="" class="w-100">
 													{% else %}
-														<img src="{% static "deps/images/gametonapp.png" %}" width="327" height="490" alt="" class="w-100">
+														<img src="{% static "deps/images/hero-banner.png" %}" width="327" height="490" alt="" class="w-100">
 													{% endif %}
 												</div>
 
 										</div>
 
-								</div>
+								{% comment %} </div> {% endcomment %}
 
 						</div>
 					</section>
+
 
 					<!--
 						- #POPULAR TAGS ads
 					-->
-					<!-- Yandex.RTB Баннер -->
 					<section class="tag" aria-labelledby="tag-label">
 						<div class="container">
-									<!-- Yandex.RTB R-A-14304836-3 Floor Ad закрепленный в нижней части сайта мобильная версия -->
-									<script>
-										window.yaContextCb.push(() => {
-												Ya.Context.AdvManager.render({
-														"blockId": "R-A-14304836-3",
-														"type": "floorAd",
-														"platform": "touch"
-												})
-										})
-									</script>
+								<!-- Yandex.RTB R-A-14304836-3 Floor Ad закрепленный в нижней части сайта-->
+								<script>
+									window.yaContextCb.push(() => {
+											Ya.Context.AdvManager.render({
+													"blockId": "R-A-14304836-3",
+													"type": "floorAd",
+													"platform": "touch"
+											})
+									})
+								</script>
 
-									<!-- Yandex.RTB R-A-14304836-5 Floor Ad закрепленный в нижней части сайта десктопная версия -->
-									<script>
-										window.yaContextCb.push(() => {
-												Ya.Context.AdvManager.render({
-														"blockId": "R-A-14304836-5",
-														"type": "floorAd",
-														"platform": "desktop"
-												})
-										})
-									</script>
+								<!-- Yandex.RTB R-A-14304836-5 Floor Ad закрепленный в нижней части сайта десктопная версия -->
+								<script>
+									window.yaContextCb.push(() => {
+											Ya.Context.AdvManager.render({
+													"blockId": "R-A-14304836-5",
+													"type": "floorAd",
+													"platform": "desktop"
+											})
+									})
+								</script>
 						</div>
-					</section>
+				</section>
 
 
 			</article>
@@ -415,7 +491,6 @@
 		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #7c7e8a;transform: ;msFilter:;"><path d="M6 4h12v2H6zm5 10v6h2v-6h5l-6-6-6 6z"></path></svg>
 	</a>
 
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 	<!--
 		- custom js link
@@ -425,7 +500,6 @@
 	<script src="{% static "deps/js/script/script-blog.js" %}"></script>
 	<script src="{% static "deps/js/script/script-mains.js" %}"></script>
 	<script src="{% static "deps/js/script/script-commerce.js" %}"></script>
-	<script src="{% static "deps/js/script/user-comments.js" %}"></script>
 	<script src="{% static "deps/js/script/modal.js" %}"></script>
 	<script src="{% static "deps/js/script/tonprice.js" %}"></script>
 	<script src="{% static "deps/js/script/bitcoinprice.js" %}"></script>
@@ -442,8 +516,9 @@
 	<!-- 
 	- email js
 	-->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="{% static "deps/js/script/script-email.js" %}"></script>
 
-
+		
 </body>
 </html>

@@ -1,161 +1,91 @@
-{% extends "blog/base_one.html" %}
+{% extends "games/base_games.html" %}
 
 {% load static %}
 
 
 {% block content %}
 
-
-<div class="post-main-top">
-		{% if post.image %}
-			<img src="{{ post.image.url }}" alt="{{ post.title }}" class="zoomable-img img-101">
-		{% endif %}
-		<div class="EntityProfile__nowrape">
-				<h1 class="h4_collect_blog positionss">{{ post.title }}</h1>
-		</div>
-			<p class="post-subtitle">{{ post.subtitle|default:'' }}</p> <!-- subtitle только для RecentPost -->
-			<p class="post-author">Автор: {{ post.author_name }}
-				<span class="EntityProfile__verified__two"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.96 3.287c.68-.618 1.02-.927 1.401-1.058a1.959 1.959 0 0 1 1.276 0c.38.131.72.44 1.402 1.058.32.29.48.436.662.541.198.114.414.193.64.233.206.036.422.028.855.011.918-.035 1.378-.053 1.753.09.409.158.752.446.978.821.207.345.269.8.393 1.711.06.43.088.644.16.84.078.215.193.415.34.59.135.16.306.293.648.558.727.563 1.09.845 1.285 1.197.212.382.29.825.222 1.256-.063.398-.308.787-.798 1.564-.231.367-.347.55-.418.747a1.959 1.959 0 0 0-.118.67c0 .21.045.42.137.844.195.899.292 1.348.215 1.743-.083.429-.308.818-.638 1.105-.303.264-.741.404-1.617.685-.412.132-.618.198-.8.303a1.96 1.96 0 0 0-.52.437c-.135.16-.236.352-.438.735-.429.814-.643 1.22-.955 1.474-.34.275-.762.428-1.2.436-.401.007-.827-.167-1.678-.515-.401-.163-.601-.245-.808-.282a1.958 1.958 0 0 0-.68 0c-.207.037-.407.119-.808.282-.85.348-1.276.522-1.679.515a1.959 1.959 0 0 1-1.199-.436c-.312-.254-.526-.66-.955-1.474-.202-.383-.303-.574-.437-.735a1.96 1.96 0 0 0-.522-.437c-.181-.105-.387-.171-.8-.303-.875-.281-1.313-.421-1.616-.685a1.959 1.959 0 0 1-.638-1.105c-.077-.395.02-.844.215-1.743.092-.423.137-.635.137-.844 0-.229-.04-.455-.118-.67-.071-.197-.187-.38-.418-.747-.49-.777-.735-1.166-.798-1.564-.068-.431.01-.874.222-1.256.195-.352.558-.634 1.285-1.197.342-.265.513-.398.648-.558.147-.175.262-.375.34-.59.072-.196.1-.41.16-.84.124-.91.186-1.366.393-1.711.226-.375.57-.663.978-.82.375-.144.835-.126 1.753-.09.433.016.65.024.856-.012.225-.04.441-.119.639-.233.181-.105.342-.25.662-.54z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M16.013 9.583a.9.9 0 0 1 0 1.273l-4.73 4.73a.9.9 0 0 1-1.272 0L7.646 13.22a.9.9 0 0 1 1.273-1.272l1.728 1.728 4.093-4.093a.9.9 0 0 1 1.273 0z" fill="#fff"></path></svg></span>
-			</p>
-			<p class="post-time">Время чтения: {{ post.reading_time }} мин.</p>
-			<div class="magicNoWrap post__block__flex">
-					{{ post.content|safe }}
-			</div>
-				
-				<!-- Для модели Post выводим дополнительные блоки -->
-		{% if post.content_1 or post.image_1 %}
-			<div class="post-block magicNoWrap post__block__flex">
-		{% if post.image_1 %}
-			<img src="{{ post.image_1.url }}" alt="Изображение 1" class="zoomable-img img-100">
-		{% endif %}
-			<p class="word-wrap">{{ post.content_1|safe }}</p>
-			</div>
-		{% endif %}
-
-		{% if post.content_2 or post.image_2 %}
-		<div class="post-block magicNoWrap post__block__flex">
-				{% if post.image_2 %}
-						<img src="{{ post.image_2.url }}" alt="Изображение 2" class="zoomable-img img-100">
-				{% endif %}
-					<p class="word-wrap">{{ post.content_2|safe }}</p>
-		</div>
-		{% endif %}
-
-		{% if post.content_3 or post.image_3 %}
-			<div class="post-block magicNoWrap post__block__flex">
-		{% if post.image_3 %}
-					<img src="{{ post.image_3.url }}" alt="Изображение 3" class="zoomable-img img-100">
-		{% endif %}
-			<p class="word-wrap">{{ post.content_3|safe }}</p>
-			</div>
-		{% endif %}
-
-		<!-- Кнопка link для RecentPost -->
-		 <div class="btn__link__recent">
-				{% comment %} {% if post.link %} {% endcomment %}
-						<a href="{{ post.link }}" target="_blank" class="btn btn-primary">Узнать больше</a>
-				{% comment %} {% endif %} {% endcomment %}
-		 </div>
-
-		</br>
-		
-		<ul class="tags__detail">
-		{% for tag in tags %}
-			<li><a href="{% url 'blog:tag_posts' tag.id %}"> #{{ tag.name }}&nbsp;</a></li>
-		{% endfor %}
-		</ul>
-
-	</br>
-	</br>
-	</br>
-
-
-	<!-- Отображение формы для комментариев -->
-	{% if form %}
-	{% if user.is_authenticated %}
-			<!-- Отображение имени пользователя -->
-			<div class="comments_user">
-					<p>Вы как:</p>
-					<img class="comments_user_banner" 
-							 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'deps/images/baseavatar.jpg' %}{% endif %}" 
-							 loading="lazy" 
-							 alt="{{ user.username }}">
-					<strong class="h2_posts_detail">{{ user.username }}</strong>
-			</div>
-
-			<!-- Проверка на аватарку по умолчанию -->
-			{% if not user.image %}
-					<div class="alert alert-warning" role="alert">
-							Пожалуйста, <a href="{% url 'user:profile' %}"><u>установите аватарку</u></a> для отправики сообщения.
-					</div>
-			{% endif %}
-
-			<!-- Форма для комментария -->
-			<form id="users__commentss" 
-						method="POST" 
-						action="{% url 'blog:post_detail' slug=post.slug %}" 
-						data-user-image="{% if user.is_authenticated %}{% if user.image %}{{ user.image.url }}{% else %}{% static 'deps/images/baseavatar.jpg' %}{% endif %}{% endif %}">
-					{% csrf_token %}
-					<textarea class="form__user__comment" name="text" cols="40" rows="10" placeholder="Ваше сообщение" required="" rezine="none" id="id_text"></textarea>
-					<button class="btn__user__comment" type="submit">Отправить</button>
-			</form>
-	{% else %}
-			<!-- Сообщение для неавторизованных пользователей -->
-			<p class="comment__p">Зарегистрируйтесь, чтобы оставить комментарий.</p>
-			
-			<div class="btn__box__log log__reg__top__buttom">
-					<button class="bth__log__reg"><a href="{% url 'user:login' %}">Войти</a></button>
-					<button class="bth__log__reg btn__two__log"><a href="{% url 'user:registration' %}">Регистрация</a></button>
-			</div>
-	{% endif %}
-
-<!-- Отображение комментариев -->
-<h2 class="comment__titl2">Комментарии:</h2>
-{% endif %}
-	<div class="comment-list">
-			{% for comment in comments %}
-			<li>
-					<div class="comment-card">
-							<blockquote class="card-text">
-									“{{ comment.text }}”
-							</blockquote>
-							<div class="profile-card comment__img">
-									<figure>
-											<img src={{ comment.author_image }} width="32" height="32" loading="lazy" alt="{{ comment.author }}">
-									</figure>
-									<div>
-											<p class="card-title">{{ comment.author }}</p>
-											<time datetime="{{ comment.created_at|date:'Y-m-d' }}" class="card-date">{{ comment.created_at|date:"d.m.Y H:i" }}</time>
-									</div>
-							</div>
-					</div>
-			</li>
-			{% endfor %}
-	</div>
-
-
-
-	<br>
-
-
-
-		<h2 class="h2_posts_detail"><a href="{% url 'blog:post_list' %}#recent">Game Ton</a></h2>
-
-
-		<div class="a_posts_return">
-				<a href="{% url 'blog:post_list' %}">Назад к списку постов</a>
-		</div>
-
-		<!-- Модальное окно для увеличенных изображений -->
-		<div id="imageModal" class="modal" style="display:none">
-			<span class="close">&times;</span>
-			<img class="modal-content" id="modalImg">
-		</div>
-
+<div class="telegrams__games">
+	<h2 class="headline headline-2 section-title">
+			<span class="span">Игры на блокчейне TON</span>
+	</h2>
+	{% comment %} <p>Лучшие игры в телеграм</p> {% endcomment %}
 </div>
 
-{% endblock content %}
 
+<div class="box__list__games">
+		<h3>Лучшие игры в Telegram</h3>
+		
+		{% for game in games %}
+		<div class="list__games__img">
+				<div class="list__games__Bx">
+						<a href="{{ game.link }}" target="_blank"><img src="{{ game.image.url }}" alt="{{ game.title }}"></a>
+				</div>
+				<div class="list__content__Bx">
+						<h2 class="rank__list"><small>#</small>{{ game.rank }}</h2>
+						<h4>{{ game.title }}</h4>
+						<p>{{ game.description }}</p>
+				</div>
+		</div>
+		{% endfor %}
+</div>
+
+
+{% comment %} <div class="box__list__games">
+	<h3>Лучшие игры в телеграм</h3>
+	<div class="list__games__img">
+			<div class="list__games__Bx">
+				<img src="{% static "deps/images/author-5.png" %}" alt="">
+			</div>
+			<div class="list__content__Bx">
+				<h2 class="rank__list"><small>#</small>1</h2>
+				<h4>Ricardo Flanagan</h4>
+				<p>Digital Artist</p>
+			</div>
+	</div>
+		<div class="list__games__img">
+			<div class="list__games__Bx">
+				<img src="{% static "deps/images/author-3.png" %}" alt="">
+			</div>
+			<div class="list__content__Bx">
+				<h2 class="rank__list"><small>#</small>2</h2>
+				<h4>Ricardo Flanagan</h4>
+				<p>Digital Artist</p>
+			</div>
+	</div>
+		<div class="list__games__img">
+			<div class="list__games__Bx">
+				<img src="{% static "deps/images/author-4.png" %}" alt="">
+			</div>
+			<div class="list__content__Bx">
+				<h2 class="rank__list"><small>#</small>3</h2>
+				<h4>Ricardo Flanagan</h4>
+				<p>Digital Artist</p>
+			</div>
+	</div>
+		<div class="list__games__img">
+			<div class="list__games__Bx">
+				<img src="{% static "deps/images/author-4.png" %}" alt="">
+			</div>
+			<div class="list__content__Bx">
+				<h2 class="rank__list"><small>#</small>4</h2>
+				<h4>Ricardo Flanagan</h4>
+				<p>Digital Artist</p>
+			</div>
+	</div>
+		<div class="list__games__img">
+			<div class="list__games__Bx">
+				<img src="{% static "deps/images/author-4.png" %}" alt="">
+			</div>
+			<div class="list__content__Bx">
+				<h2 class="rank__list"><small>#</small>5</h2>
+				<h4>Ricardo Flanagan</h4>
+				<p>Digital Artist</p>
+			</div>
+	</div>
+</div> {% endcomment %}
+
+{% endblock content %}
 
 {% block footer %}
 	<!--

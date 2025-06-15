@@ -7,4 +7,4 @@ def latest_comments(request):
 
 
 def version(request):
-		return {'APP_VERSION': '3.21.5'}
+		return {'APP_VERSION': '3.22.6'}

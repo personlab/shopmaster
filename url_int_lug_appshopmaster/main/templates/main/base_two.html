@@ -138,8 +138,6 @@
 					</a>
 
 					<button class="nav-close-btn" aria-label="close menu" data-nav-toggler>
-						{% comment %} <ion-icon name="close-outline" aria-hidden="true"></ion-icon> {% endcomment %}
-						{% comment %} <img src="{% static "deps/images/close-large-line.png" %}"> {% endcomment %}
 						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 15" style="fill: hsla(216, 33%, 20%, 1);transform: ;msFilter:;"><path d="M21.063 15H13v2h9v-2zM4 7h11v2H4zm0 4h11v2H4zm0 4h7v2H4z"></path></svg>
 					</button>
 				</div>
@@ -172,7 +170,7 @@
 						</li>
 
 						<li>
-							{% comment %} <a href="#featured" class="navbar-link hover-1" data-nav-toggler>Featured Post</a> {% endcomment %}
+							<a href="{% url "games:games" %}" class="navbar-link hover-1" data-nav-toggler>Игры TON</a>
 						</li>
 
 						{% comment %} <li>

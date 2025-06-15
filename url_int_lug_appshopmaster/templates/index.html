@@ -75,8 +75,8 @@
 						<a href="{% url "user:profile" %}" class="navbar-link hover-1">Мой профиль</a>
 				{% endif %}
 				<a href="{% url "blog:post_list" %}">Блог</a>
-				{% comment %} <a href="#">О нас</a>
-				<a href="#">Галерея</a> {% endcomment %}
+				 <a href="{% url "games:games" %}">Игры</a>
+				{% comment %} <a href="#">Галерея</a> {% endcomment %}
 				<a href="{% url "main:contact" %}">Контакты</a>
 			</div>
 	</div>

@@ -69,7 +69,7 @@ class PostsView(View):
 				else:
 						formatted_phone = '+' + cleaned_phone
 
-				message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+				message = f"GameTonApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
 
 				try:
 						telegram_sender = SendMessageTelegramView()
@@ -211,7 +211,7 @@ class TagPostsView(View):
 				else:
 						formatted_phone = '+' + cleaned_phone
 
-				message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+				message = f"GameTonApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
 
 				try:
 						telegram_sender = SendMessageTelegramView()
@@ -374,7 +374,7 @@ class PostDetailView(View):
 						else:
 								formatted_phone = '+' + cleaned_phone
 
-						message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+						message = f"GameTonApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
 
 						try:
 								telegram_sender = SendMessageTelegramView()
@@ -637,7 +637,7 @@ class PostSearchView(View):
 				else:
 						formatted_phone = '+' + cleaned_phone
 
-				message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+				message = f"GameTonApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
 
 				try:
 						telegram_sender = SendMessageTelegramView()
