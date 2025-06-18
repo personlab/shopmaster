@@ -35,5 +35,3 @@ registerBtn.addEventListener('click', () => {
 
 
 // Register button function
-
-

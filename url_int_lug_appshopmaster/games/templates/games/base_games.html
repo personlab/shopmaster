@@ -20,14 +20,14 @@
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://gameton.app/">
 	<meta property="og:title" content="{{ title }}">
-	<meta property="og:description" content="{{ title }}">
+	<meta property="og:description" content="{{ description }}">
 	<meta property="og:image" content="https://gameton.app/{% static 'deps/images/gameton_MicrosoftTeams.png' %}">
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
 	<meta property="twitter:url" content="https://gameton.app/">
 	<meta property="twitter:title" content="{{ title }}">
-	<meta property="twitter:description" content="{{ title }}">
+	<meta property="twitter:description" content="{{ description }}">
 	<meta property="twitter:image" content="https://gameton.app/{% static 'deps/images/gameton_MicrosoftTeams.png' %}">
 
 	<!-- Favicons for different platforms -->
@@ -50,7 +50,7 @@
 		- custom css link
 	-->
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-	<link rel="stylesheet" href="{% static "deps/css/style.css" %}">
+	<link rel="stylesheet" href="{% static 'deps/css/style.css' %}?v={{ css_version }}">
 
 	<!--
 			- preload images
@@ -189,7 +189,6 @@
 								<input class="form-control me-2" type="search" name="q" placeholder="Поиск" value="{{ query }}" aria-label="Search">
 								<button class="btn btn-primary" type="submit">
 									<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 15" style="fill: hsla(216, 33%, 20%, 1);transform: ;msFilter:;"><path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"></path></svg>
-									{% comment %} <ion-icon name="search-outline"></ion-icon> {% endcomment %}
 								</button>
 							</form>
 						</li>
@@ -297,8 +296,6 @@
 			<a href="https://t.me/+N0QgXuwRb-RhYjYy" target="_blank" class="btn btn-primary">Subscribe</a>
 
 			<button class="nav-open-btn" area-label="open menu" data-nav-toggler>
-				{% comment %} <ion-icon name="menu-outline" aria-hidden="true"></ion-icon> {% endcomment %}
-				{% comment %} <img src="{% static "deps/images/menu-add-fill.png" %}"> {% endcomment %}
 				<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 15" style="fill: hsla(216, 33%, 20%, 1);transform: ;msFilter:;"><path d="M19 15v-3h-2v3h-3v2h3v3h2v-3h3v-2h-.937zM4 7h11v2H4zm0 4h11v2H4zm0 4h8v2H4z"></path></svg>
 			</button>
 		</div>

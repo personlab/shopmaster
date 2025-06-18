@@ -1,4 +1,6 @@
+from django.shortcuts import render
 from .models import Comment
+from django.conf import settings
 
 def latest_comments(request):
 		return {
@@ -8,3 +10,7 @@ def latest_comments(request):
 
 def version(request):
 		return {'APP_VERSION': '3.22.6'}
+
+
+def css_version(request):
+		return {'css_version': settings.CSS_VERSION}

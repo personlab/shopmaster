@@ -1,3 +1,5 @@
+// увеличение картинки
+
 // Получаем необходимые элементы
 const modal = document.getElementById('imageModal');
 const modalImg = document.getElementById('modalImg');

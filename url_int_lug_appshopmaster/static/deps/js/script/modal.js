@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			acceptButton.addEventListener('click', function () {
 					// Устанавливаем cookie на 30 дней
 					const date = new Date();
-					date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
+					date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
 					document.cookie = 'cookies_accepted=true; expires=' + date.toUTCString() + '; path=/';
 
 					// Скрываем модальное окно

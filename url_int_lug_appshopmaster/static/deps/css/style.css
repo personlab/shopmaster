@@ -25,6 +25,9 @@
 	--bg-prussian-blue: hsla(216, 33%, 20%, 1);
 	--bg-oxford-blue: hsla(222, 44%, 13%, 1);
 	--bg-oxford-blue-2: hsla(222, 47%, 11%, 1);
+	--bg-oxford-blue-3: rgba(15, 23, 41, 0.255);
+	--bg-carolina-blue-3: rgb(2, 34, 179);
+	--bg-carolina-blue-4: rgb(0, 106, 255);
 
 	/** text color */
 	--text-white: hsla(0, 0%, 100%, 1);
@@ -161,6 +164,31 @@ img,
 input,
 button {
 	display: block;
+}
+
+.magicNoWrap a {
+	position: relative;
+	display: inline;
+	color: #ffffff; /*задаём цвет ссылки*/
+	cursor: pointer;
+	line-height: 1; /*задаём высоту строки*/
+	text-decoration: none; /*убираем подчёркивание*/
+}
+
+.magicNoWrap a:after {
+	display: block;
+	position: absolute;
+	left: 0; /*изменить на right:0;, чтобы изменить направление подчёркивания */
+	width: 0;/*задаём длинну линии до наведения курсора*/
+	height: 2px; /*задаём ширину линии*/
+	background-color: #00a650; /*задаём цвет линии*/
+	content: "";
+	transition: width 0.3s ease-out; /*задаём время анимации*/
+}
+
+.magicNoWrap a:focus:after,
+.magicNoWrap a:hover:after{
+	width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
 }
 
 a {
@@ -311,6 +339,10 @@ body.nav-active {
 	margin-block-end: 10px;
 }
 
+.section__title__cont {
+	margin-top: 100px;
+}
+
 .headline .span {
 	background-image: var(--gradient-1);
 	display: inline-block;
@@ -351,8 +383,13 @@ body.nav-active {
 }
 
 .card {
+	position: relative;
+	
 	background-color: var(--bg-oxford-blue);
 	border: 1px solid var(--border-prussian-blue);
+
+	z-index: 1;
+	backdrop-filter: blur(25px);
 }
 
 .img-holder {
@@ -386,7 +423,7 @@ body.nav-active {
 .card-wrapper {
 	display: flex;
 	justify-content: space-between;
-	gap: 20px;
+	gap: 10px;
 	align-items: center;
 	font-size: var(--fontSize-6);
 	margin-block: 20px;
@@ -400,44 +437,56 @@ body.nav-active {
 
 
 /*-----------------------------------*\
-  #MENU TEST
+  #TABLE
 \*-----------------------------------*/
 
-/* .header___center {
-	position: absolute;
-	left: 0;
-	right: 0;
+.notion-app table {
+	flex: 1;
+	max-width: 100%;
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	pointer-events: none;
-} */
-
-
-
-/* .header___center nav {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 180px;
-	max-width: 720px;
-	white-space: nowrap;
 }
 
-.menu__test > ul {
-	display: flex;
-	align-items: center;
+.notion-simple-table {
+	border: none;
+	border-collapse: collapse;
+	border-spacing: 0;
+	font-size: 14px;
+	hyphens: none;
 }
 
-.header___center > a {
-	line-height: inherit;
-	white-space: nowrap;
-	pointer-events: auto;
+.notion, .notion :focus {
+	outline: 0;
 }
 
-.header___center .menu__test > ul > li > a {
-	text-transform: uppercase;
-	padding: 0 15px;
-} */
+.notion {
+	margin-block-start: 0;
+	margin-block-end: 0;
+}
+
+.notion {
+	box-sizing: border-box;
+}
+
+.notion-simple-table tr:first-child td {
+	background: var(--bg-oxford-blue);
+}
+
+.notion-simple-table td {
+	border: none;
+	padding: 8px;
+	white-space: pre-wrap;
+}
+
+table {
+	text-indent: 0;
+	border-color: inherit;
+	border-collapse: collapse;
+}
+
+.notion-app table tbody {
+	overflow-x: auto;
+}
+
 
 
 /*-----------------------------------*\
@@ -463,6 +512,7 @@ body.nav-active {
 	box-shadow: var(--shadow-1);
 	border-block-end: 1px solid var(--bg-prussian-blue);
 	animation: slideIn 0.5s ease forwards;
+	z-index: 99;
 }
 
 @keyframes slideIn {
@@ -673,7 +723,78 @@ form.d__flex_search button {
 	gap: 50px;
 }
 
+.coin__price {
+	display: flex;
+	flex-direction: column;
+}
+
+
+
+
+
+/* ЦЕНА МОНЕТ */
+
+.price__coin_binance {
+	display: flex;
+	justify-content: flex-start;
+	/* align-items: center; */
+	margin: 0 5px 7px 0
+}
+
+.bn-lazy-img {
+	margin-right: 7px;
+	width: 24px;
+	height: 24px;
+}
+	
+.price-change {
+	margin-left: 8px;
+	font-size: 0.9em;
+	display: flex;
+	align-items: flex-end;
+}
+.positive {
+	color: #0ecb81; /* Зеленый для роста */
+	font-weight: var(--fw-700);
+}
+.negative {
+	color: #f6465d; /* Красный для падения */
+	font-weight: var(--fw-700);
+}
+
+.crypto-symbol {
+	color: #f7931a; /* Оранжевый цвет для BTC */
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.crypto-ton {
+	color: var(--bg-carolina-blue-4); /* Синий цвет для BTC */
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.crypto-etereum-text {
+	color: var(--text-slate-gray);
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.crypto-name {
+	color: #6b7280; /* Серый цвет для названия */
+	font-size: 0.9em;
+	margin: 0 5px;
+}
+
+.crypto-price {
+	color: #ffffff;
+	font-weight: bold;
+}
+
+/* КОНЕЦ ЦЕНА МОНЕТ */
+
 .hero-subtitle {
+	margin-top: 20px;
 	font-size: var(--fontSize-6);
 	font-weight: var(--weight-bold);
 }
@@ -784,6 +905,8 @@ form.d__flex_search button {
 .slider {
 	--slider-items: 1;
 	overflow: hidden;
+
+	position: relative;
 }
 
 .slider-list {
@@ -791,16 +914,36 @@ form.d__flex_search button {
 	display: flex;
 	align-items: center;
 	gap: 20px;
-	transition: transform var(--transition-2);
+	/* transition: transform var(--transition-2); */
+
+	pointer-events: none; /* Отключаем события для всей карточки */
+	touch-action: pan-y;
+	/* user-select: none; */
+	will-change: transform;
+}
+
+.slider-list.grabbing {
+	cursor: grabbing;
+}
+
+.slider-list.grabbing .slider-card {
+	cursor: grabbing;
 }
 
 .slider-item {
 	min-width: 100%;
+	scroll-snap-align: start;
+}
+
+.slider-item a {
+	pointer-events: auto;
 }
 
 .slider-card {
 	position: relative;
 }
+
+
 
 .slider-card::before {
 	content: "";
@@ -823,6 +966,7 @@ form.d__flex_search button {
 	left: 15px;
 }
 
+
 .slider-title {
 	color: var(--text-columbia-blue);
 	font-weight: var(--weight-bold);
@@ -837,6 +981,35 @@ form.d__flex_search button {
 .slider-subtitle {
 	font-size: var(--fontSize-7);
 }
+
+
+/* dots */
+
+/* .slider-dots {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 20px;
+}
+
+.slider-dot {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background-color: #ccc;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	transition: background-color 0.3s ease;
+}
+
+.slider-dot.active {
+	background-color: #fff;
+}
+
+.slider-dot:hover {
+	background-color: #aaa;
+} */
 
 
 
@@ -889,6 +1062,10 @@ form.d__flex_search button {
 
 .feature .profile-card .card-subtitile,
 .feature .card-wrapper .card-btn {
+	font-size: var(--fontSize-6);
+}
+
+.card-subtitle {
 	font-size: var(--fontSize-6);
 }
 
@@ -964,6 +1141,7 @@ form.d__flex_search button {
   #RECENT POST
 \*-----------------------------------*/
 
+
 .recent-post .container {
 	display: grid;
 	gap: 50px;
@@ -1000,6 +1178,36 @@ form.d__flex_search button {
 	transition: var(--transition-1);
 }
 
+/* recent slider */
+
+.grid-list-recent {
+	touch-action: pan-y;
+	user-select: none;
+	position: relative;
+	transition: transform 0.3s ease;
+}
+
+/* Визуальная обратная связь при свайпе */
+.grid-list-recent.grabbing {
+	cursor: grabbing !important;
+}
+
+.recent-post-card {
+	pointer-events: none; /* Чтобы не перехватывали события */
+}
+
+.recent-post-card a {
+		pointer-events: auto; /* Разрешаем события для ссылок */
+		cursor: pointer;
+}
+
+.pagination-btn {
+	top: 50%;
+}
+
+/* end slider */
+
+
 .recent-post-card .card-badge:is(:hover, :focus-visible),
 .pagination-btn:is(:hover, :focus-visible) {
 	transform: translateY(-2px);
@@ -1013,6 +1221,7 @@ form.d__flex_search button {
 .recent-post-card .card-tag {
 	gap: 15px;
 	color: var(--text-slate-gray);
+	display: inline-flex;
 }
 
 .recent-post-card .card-wrapper ion-icon {
@@ -1049,6 +1258,7 @@ form.d__flex_search button {
 .aside-title {
 	margin-block-end: 40px;
 }
+
 
 .aside-title .span {
 	position: relative;
@@ -1679,6 +1889,11 @@ form.d__flex_search button {
 	flex-direction: initial;
 }
 
+.tags__detail a:hover {
+	color: var(--bg-carolina-blue);
+	font-weight: var(--fw-600);
+}
+
 .img__color__ton {
 	opacity: .5;
 }
@@ -1723,12 +1938,44 @@ form.d__flex_search button {
 	border-radius: var(--radius-16);
 }
 
+.EntityProfile__nowrape {
+	/* display: ruby-text;
+	white-space: nowrap; */
+	padding: 0 0 10px 0;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.EntityProfile__verified {
+	color: #03A9F4;
+	margin-top: 2px;
+	position: absolute;
+}
+
+.EntityProfile__verified__two {
+	color: #03A9F4;
+	margin-top: 2px;
+	position: absolute;
+	margin-left: 3px;
+}
+
+.EntityProfile__verified_badge {
+	color: #03A9F4;
+	margin-top: -3px;
+	margin-left: -15px;
+	position: absolute;
+}
+
 .positionss {
-	display: flex;
+	margin-bottom: 30px;
+	justify-content: space-between;
+	align-items: center;
+
+	/* display: flex;
 	margin-top: 30px;
 	margin-bottom: 30px;
 	justify-content: center;
-	align-items: center;
+	align-items: center; */
 }
 
 .positionss__1 {
@@ -1827,9 +2074,35 @@ form.d__flex_search button {
 
 .post__block__flex {
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	justify-content: flex-start;
+	align-items: flex-start;
 	flex-direction: column;
+	/* overflow-wrap: break-word;
+	hyphens: auto; */
+	overflow-wrap: break-word;
+	word-wrap: break-word; /* Для старых браузеров */
+	-webkit-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens: auto;
+}
+
+.tonkeeper__logo {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 24px;
+}
+
+.t1dc2tme {
+	font-size: 96px;
+	font-weight: 700;
+	line-height: 116px;
+}
+
+.post__table {
+	overflow-wrap: break-word;
+	hyphens: none;
 }
 
 .comment__img {
@@ -1855,6 +2128,130 @@ form.d__flex_search button {
 	margin-top: 30px;
 	justify-content: flex-end;
 }
+
+/*-----------------------------------*\
+  #Glassmorphism List Hover Effects
+\*-----------------------------------*/
+
+.position__section::before {
+	content: '';
+	position: absolute;
+	width: 300px;
+	height: 300px;
+	background: linear-gradient(#ffc107, #e91e63);
+	border-radius: 50%;
+	transform: translate(20px, 10px);
+}
+
+.position__section::after {
+	content: '';
+	position: absolute;
+	width: 200px;
+	height: 200px;
+	background: linear-gradient(#2196f3, #31ff38);
+	border-radius: 50%;
+	transform: translate(100px, -420px);
+}
+
+.box__list__games {
+	position: relative;
+	margin: 30px 0 30px 0;
+	/* min-width: 350px; */
+	min-height: 400px;
+	background: rgba(255, 255, 255, 0.1);
+	box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+	border: 1px solid var(--border-prussian-blue);
+	border-right: 1px solid rgba(255, 255, 255, 0.2);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: 20px;
+	z-index: 1;
+	padding: 20px;
+	backdrop-filter: blur(25px);
+}
+
+.box__list__games h3 {
+	color: var(--text-white);
+	margin-bottom: 20px;
+}
+
+.box__list__games .list__games__img {
+	position: relative;
+	display: flex;
+	padding: 10px;
+	background: rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	margin: 10px 0;
+	cursor: pointer;
+	transition: 0.5s;
+	overflow: hidden;
+}
+
+.box__list__games .list__games__img:hover {
+	background-color: var(--bg-oxford-blue-3);
+	box-shadow: -15px 30px 50px rgba(0, 0, 0, 0.5);
+	transform: scale(1) translateX(15px) translateY(-10px);
+	z-index: 9999;
+}
+
+.box__list__games .list__games__img .list__games__Bx {
+	position: relative;
+	width: 60px;
+	height: 60px;
+	border-radius: 10px;
+	overflow: hidden;
+	margin-right: 10px;
+}
+
+.box__list__games .list__games__img .list__games__Bx img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.box__list__games .list__games__img .list__content__Bx {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	color: var(--text-white);
+}
+
+.box__list__games .list__games__img .list__content__Bx .rank__list {
+	position: absolute;
+	right: -50px;
+	color: var(--text-carolina-blue);
+	transition: 0.5s;
+	font-size: 2em;
+}
+
+.box__list__games .list__games__img .list__content__Bx .rank__list small {
+	font-weight: 500;
+	opacity: 0.25;
+}
+
+.box__list__games .list__games__img:hover .list__content__Bx .rank__list {
+	right: 20px;
+}
+
+.box__list__games .list__games__img .list__content__Bx h4 {
+	line-height: 1.2em;
+	font-weight: 600;
+	transition: 0.5s;
+}
+
+.box__list__games .list__games__img .list__content__Bx p {
+	font-size: 0.75em;
+	transition: 0.5s;
+}
+
+.box__list__games .list__games__img:hover .list__content__Bx h4,
+.box__list__games .list__games__img:hover .list__content__Bx p {
+	color: #75878ef7;
+}
+
+
 
 
 
@@ -2045,6 +2442,18 @@ input[type="file"] {
 }
 
 
+/*-----------------------------------*\
+  #ERRORS PAGE
+\*-----------------------------------*/
+
+.server__errors {
+	position: relative;
+}
+
+.server__errors p {
+	display: flex;
+}
+
 
 
 
@@ -2070,7 +2479,7 @@ input[type="file"] {
 	transition: var(--transition-1);
 	visibility: hidden;
 	opacity: 0;
-	z-index: 4;
+	z-index: 999;
 }
 
 .back-top-btn:is(:hover, :focus-visible) {
@@ -2085,6 +2494,7 @@ input[type="file"] {
 
 
 
+
 /*-----------------------------------*\
   #MEDIA QUERIES
 \*-----------------------------------*/
@@ -2092,9 +2502,9 @@ input[type="file"] {
 
 @media (min-width: 360px) {
 
-	a i {
+	/* a i {
 		visibility: hidden;
-	}
+	} */
 
 	.text__socials {
 		font-size: small;
@@ -2107,12 +2517,48 @@ input[type="file"] {
 		flex-direction: column;
 	}
 
-	nav.navbar .subs__menu {
+	.subs__menu {
 		display: none;
 	}
 
+	.navbar .profile-card .card-title {
+		margin-bottom: 10px;
+	}
+
+	.coin__price__menu {
+		display: flex;
+		flex-direction: column;
+		line-height: 1.1rem;
+	}
+
+	.card-subtitile-menu {
+		font-size: var(--fontSize-8);
+		letter-spacing: 0.1rem;
+	}
+
+	/* Для мобильных устройств slider*/
+	.slider-list {
+		-webkit-overflow-scrolling: touch;
+	}
+	
+	.slider-item {
+		scroll-snap-align: start;
+	}
+
+	.slider-banner {
+		display: block;
+	}
+
+	/*  */
+
+	.recent-post .container {
+		gap: 10px;
+	}
+	
 	.pagination {
+		position: relative;
 		justify-content: center;
+		top: -30px;
 	}
 
 	.li__search {
@@ -2124,12 +2570,43 @@ input[type="file"] {
 		margin-top: 10px;
 	}
 
+	.tonkeeper__logo {
+		gap: 10px;
+	}
+	
+	.t1dc2tme {
+		font-size: 38px;
+		line-height: 56px;
+	}
+
 	.main_post_tag {
 		padding-top: 50px;
 	}
 
 	.post-main-top {
 		margin-top: 50px;
+	}
+
+	.telegrams__games {
+		position: relative;
+		margin: 35px 0 30px 0;
+		background: rgb(255 255 255 / 76%);
+		box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+		border: 1px solid var(--border-prussian-blue);
+		border-right: 1px solid rgba(255, 255, 255, 0.2);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 20px;
+		z-index: 1;
+		padding: 10px;
+		backdrop-filter: blur(25px);
+	}
+
+	.position__section::after {
+		transform: translate(100px, -940px);
+	}
+
+	.h4_collect_blog {
+		font-size: var(--fs-5);
 	}
 
 	.post-main .img-101 {
@@ -2152,6 +2629,61 @@ input[type="file"] {
 		border-radius: var(--radius-16);
 	}
 
+	/* wallet antarctica */
+
+	.foto__secure {
+		position: relative;
+		width: 330px;
+		height: 300px;
+		margin-bottom: 50px;
+	}
+
+	.foto__secure__one, .foto__secure__two, .foto__secure__three {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* pingvin */
+
+	.foto__secure .foto__secure__one {
+		z-index: 1;
+		width: 100%;
+	}
+
+	/* fon */
+	/* .foto__secure .foto__secure__two {
+		z-index: ;
+	} */
+
+/* dialog */
+
+	.foto__secure .foto__secure__three {
+		z-index: 2;
+		top: 50px;
+		width: 150px;
+		object-fit: contain;
+	}
+
+
+	.foto__secure__one, .foto__secure__two, .foto__secure__three {
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+
+	/* end antarctica */
+
+
+	.recent-post-card {
+		gap: 20px;
+	}
+
+	.headline-2 {
+		font-size: var(--fontSize-1);
+	}
+
 	.ton__img__list {
 		height: 37px;
 		margin-bottom: 20px;
@@ -2165,6 +2697,7 @@ input[type="file"] {
 	.whale_ton a img {
 		mix-blend-mode: color-dodge;
 	}
+
 
 }
 
@@ -2286,6 +2819,11 @@ input[type="file"] {
 		min-width: calc(33.33% - 13.33px);
 	}
 
+	.t1dc2tme {
+		font-size: 44px;
+		line-height: 56px;
+	}
+
 	/**
 	* FEATURE
 	*/
@@ -2306,6 +2844,10 @@ input[type="file"] {
 	* RECENT POST
 	*/
 
+	.recent-post .container {
+		gap: 50px;
+	}
+
 	.recent-post-card {
 		grid-template-columns: 0.5fr 1fr;
 		gap: 20px;
@@ -2314,6 +2856,10 @@ input[type="file"] {
 	.pagination-btn {
 		width: 42px;
 		height: 42px;
+	}
+
+	.pagination {
+		top: 0;
 	}
 
 	/**
@@ -2329,7 +2875,7 @@ input[type="file"] {
 	}
 
 	.post-main-top {
-		margin-top: 0;
+		margin-top: 10px;
 	}
 
 }
@@ -2513,12 +3059,47 @@ input[type="file"] {
 		}
 
 		.post-main {
-			top: 0;
+			margin-top: 0;
+		}
+
+		.post-main-top {
+			margin-top: 0;
+		}
+
+		.t1dc2tme {
+			font-size: 96px;
+			font-weight: 700;
+			line-height: 116px;
+		}
+
+		.h4_collect_blog {
+			font-size: var(--fs-1);
+		}
+
+		.telegrams__games {
+			margin-top: 0;
+		}
+
+		.position__section::before {
+			transform: translate(20px, 10px);
+		}
+
+		.position__section::after {
+			transform: translate(100px, -420px);
 		}
 
 		.post-main .img-101 {
-			width: 100%;
+			/* width: 100%;
 			height: 300px;
+			object-fit: cover;
+			margin: 0 0;
+			cursor: pointer;
+			margin-bottom: 30px;
+			border-radius: var(--radius-16); */
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
 			object-fit: cover;
 			margin: 0 0;
 			cursor: pointer;
@@ -2527,13 +3108,44 @@ input[type="file"] {
 		}
 
 		.post-main .img-100 {
-			width: 70%;
+			width: 100%;
 			object-fit: cover;
 			margin: 30px 0;
 			cursor: pointer;
 			margin-bottom: 30px;
 			border-radius: var(--radius-16);
 		}
+
+			/* wallet antarctica */
+
+	.foto__secure {
+		margin-bottom: 10px;
+	}
+
+	/* pingvin */
+
+	.foto__secure .foto__secure__one {
+		width: 300px;
+		height: 250px;
+		top: 0;
+	}
+
+	/* fon */
+	.foto__secure .foto__secure__two {
+		width: 550px;
+		height: 250px;
+	}
+
+/* dialog */
+
+	.foto__secure .foto__secure__three {
+		top: 50px;
+		width: 150px;
+		object-fit: contain;
+	}
+
+
+	/* end antarctica */
 
 		/**
 		* TAGS
@@ -2550,6 +3162,11 @@ input[type="file"] {
 		.recent-post .container {
 			grid-template-columns: 1fr 0.6fr;
 			align-items: flex-start;
+			margin-top: 20px;
+		}
+
+		.headline-2 {
+			font-size: var(--fontSize-2);
 		}
 
 		/**
@@ -2672,6 +3289,15 @@ input[type="file"] {
 			padding-left: 10px;
 			margin-top: 0;
 	}
+
+				/* wallet antarctica */
+
+	/* fon */
+	.foto__secure .foto__secure__two {
+		width: 650px;
+	}
+
+	/* end antarctica */
 
 		/**
 		* TAGS
