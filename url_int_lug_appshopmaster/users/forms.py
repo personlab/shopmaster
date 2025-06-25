@@ -16,74 +16,8 @@ class UserLoginForm(AuthenticationForm):
 				model = User
 				fields = ['username', 'password']
 
-				
-		# username = forms.CharField(
-		# 		widget=forms.TextInput(attrs={"autofocus": True,
-		# 															'class': 'input__fields',
-		# 															'placeholder': 'Ваше имя'})
-		# )
-		# password = forms.CharField(
-		# 		widget=forms.PasswordInput(attrs={"autocomplete": "current-password",
-		# 																 'class': 'input__fields',
-		# 																 'id': 'password',
-		# 																 'placeholder': 'Пароль'})
-		# )
-
-		
-
 
 class UserRegistrationForm(UserCreationForm):
-		
-		# first_name = forms.CharField(
-		# 			widget=forms.TextInput(
-		# 				attrs={
-		# 					"class": "input__fields",
-		# 					"placeholder": "Ваше имя",
-		# 				}
-		# 		)
-		# )
-
-		# last_name = forms.CharField(
-		# 		widget=forms.TextInput(
-		# 				attrs={
-		# 						"class": "input__fields",
-		# 						"placeholder": "Ваша фамилия",
-		# 				}
-		# 		)
-		# )
-		# username = forms.CharField(
-		# 		widget=forms.TextInput(
-		# 				attrs={
-		# 						"class": "input__fields",
-		# 						"placeholder": "Ваш никнейм",
-		# 				}
-		# 		)
-		# )
-		# email = forms.CharField(
-		# 		widget=forms.EmailInput(
-		# 				attrs={
-		# 						"class": "input__fields",
-		# 						"placeholder": "Ваш email",
-		# 				}
-		# 		)
-		# )
-		# password1 = forms.CharField(
-		# 		widget=forms.PasswordInput(
-		# 				attrs={
-		# 						"class": "input__fields",
-		# 						"placeholder": "Введите пароль",
-		# 				}
-		# 		)
-		# )
-		# password2 = forms.CharField(
-		# 		widget=forms.PasswordInput(
-		# 				attrs={
-		# 						"class": "input__fields",
-		# 						"placeholder": "Повторите пароль",
-		# 				}
-		# 		)
-		# )
-
 		first_name = forms.CharField()
 		last_name = forms.CharField()
 		username = forms.CharField()
@@ -121,6 +55,16 @@ class ProfileForm(UserChangeForm):
 						"username",
 						"email",
 				)
+
+
+
+
+
+
+
+
+
+
 
 		# image = forms.ImageField(
 		# 		widget=forms.FileInput(

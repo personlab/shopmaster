@@ -50,10 +50,15 @@
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 	<link rel="stylesheet" href="{% static 'deps/css/style.css' %}?v={{ css_version }}">
 
+	<!-- TON CONNECT -->
+	<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+	{% comment %} <script src="https://unpkg.com/@tonconnect/ui@1.1.0/dist/tonconnect-ui.min.js"></script> {% endcomment %}
+
 	<!-- Preload images -->
 	{% comment %} <link rel="preload" as="image" href="{% static 'deps/images/TON2025.png' %}">
 	<link rel="preload" as="image" href="{% static 'deps/images/pattern-2.svg' %}">
 	<link rel="preload" as="image" href="{% static 'deps/images/pattern-3.svg' %}"> {% endcomment %}
+	
 
 	<!-- Yandex.Metrika counter -->
 	<script type="text/javascript" >
@@ -282,9 +287,12 @@
 
 			<a href="https://t.me/+N0QgXuwRb-RhYjYy" target="_blank" class="btn btn-primary">Subscribe</a>
 
+			{% comment %} <!-- Десктопная версия -->
+			<div id="ton-connect-desktop" class="ton-connect-container"></div> {% endcomment %}
+
+
 			<button class="nav-open-btn" area-label="open menu" data-nav-toggler>
-				{% comment %} <ion-icon name="menu-outline" aria-hidden="true"></ion-icon> {% endcomment %}
-				{% comment %} <img src="{% static "deps/images/menu-add-fill.png" %}"> {% endcomment %}
+				
 				<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 15" style="fill: hsla(216, 33%, 20%, 1);transform: ;msFilter:;"><path d="M19 15v-3h-2v3h-3v2h3v3h2v-3h3v-2h-.937zM4 7h11v2H4zm0 4h11v2H4zm0 4h8v2H4z"></path></svg>
 			</button>
 		</div>
@@ -349,8 +357,13 @@
 
 															<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
 													</button>
-
+													
 											</div> {% endcomment %}
+
+											<!-- Мобильная версия -->
+											<div id="ton-connect" class="ton-connect-container"></div>
+											<div id="user-telegram-info" style="display: none;"></div>
+
 											
 									</div>
 
@@ -1043,6 +1056,9 @@
 			<script src="{% static "deps/js/script/ethereumprice.js" %}"></script>
 			<script src="{% static "deps/js/script/ethereumprice-home.js" %}"></script>
 			<script src="{% static "deps/js/script/validate_phone.js" %}"></script>
+
+			<script src="https://telegram.org/js/telegram-web-app.js"></script>
+			<script src="{% static "deps/js/script/ton-connect.js" %}"></script>
 	<!-- email js -->
 
 	<!--

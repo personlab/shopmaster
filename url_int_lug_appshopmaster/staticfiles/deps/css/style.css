@@ -1400,7 +1400,7 @@ form.d__flex_search button {
 .form__container__log {
 	display: flex;
 	width: 1000px;
-	height: 800px;
+	height: 860px;
 	border-radius: 30px;
 	backdrop-filter: blur(20px);
 	overflow: hidden;
@@ -2502,10 +2502,6 @@ input[type="file"] {
 
 @media (min-width: 360px) {
 
-	/* a i {
-		visibility: hidden;
-	} */
-
 	.text__socials {
 		font-size: small;
 	}
@@ -2534,6 +2530,56 @@ input[type="file"] {
 	.card-subtitile-menu {
 		font-size: var(--fontSize-8);
 		letter-spacing: 0.1rem;
+	}
+
+	.ton-connect-container {
+		display: flex;
+		margin-top: 30px;
+		justify-content: flex-end;
+	}
+
+			/* Стили для Telegram пользователя */
+	.telegram-user {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin-top: 15px;
+		padding: 10px;
+		background: rgba(0, 136, 204, 0.1);
+		border-radius: 8px;
+	}
+
+	.telegram-user-photo {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		object-fit: cover;
+	}
+
+	.telegram-user-info {
+		font-size: 14px;
+	}
+
+
+	/* end */
+
+	.go526437840 {
+		display: flex;
+		flex-direction: column;
+}
+
+	.ton-connect-register {
+		margin-top: 40px;
+	}
+
+	.ton-connect-btn {
+		color: #ffffff;
+		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.16);
+		padding: 6px 10px 6px 7px;
+		font-weight: 600;
+		border-radius: var(--radius-6);
+		/* text-transform: uppercase;
+		letter-spacing: normal; */
 	}
 
 	/* Для мобильных устройств slider*/
@@ -2761,6 +2807,14 @@ input[type="file"] {
 		padding-block: 20px;
 	}
 
+	.ton-connect-container {
+		margin-top: 0;
+	}
+
+	.ton-connect-register {
+		margin-top: 40px;
+	}
+
 
 	/**
 	* HERO
@@ -2906,6 +2960,14 @@ input[type="file"] {
 		--fontSize-2: 4.5rem;
 		}
 
+		.desktop-only {
+				display: none;
+		}
+		
+		.mobile-only {
+				display: block;
+		}
+
 		/**
 		* REUSED STYLE
 		*/
@@ -3026,6 +3088,14 @@ input[type="file"] {
 		.hero .container {
 			grid-template-columns: 1fr 1fr;
 			align-items: center;
+		}
+
+		.desktop-only {
+				display: block;
+		}
+
+		.mobile-only {
+				display: none;
 		}
 
 

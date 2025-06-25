@@ -24,6 +24,8 @@ from django.conf.urls.static import static
 from main import views
 from django_ckeditor_5 import urls as ckeditor_5_urls
 
+from blog.views import ton_auth, wallet_info
+
 
 from blog import urls
 
@@ -38,6 +40,10 @@ urlpatterns = [
 		path('admin/', admin.site.urls),
 		path('', include('main.urls', namespace='main')),
 		path('catalog/', include('goods.urls', namespace='catalog')),
+		# path('check_user/', check_user, name='check_user'),
+		path('ton_auth/', ton_auth),
+		path('api/wallet_info/', wallet_info, name='wallet_info'),
+		# path('api/user_info/', user_info),
 		path('blog/', include('blog.urls', namespace='blog')),
 		path('user/', include('users.urls', namespace='user')),
 		path('games/', include('games.urls', namespace='games')),

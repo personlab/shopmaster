@@ -17,6 +17,7 @@ Including another URLconf
 
 from django.urls import path
 from django.views.decorators.cache import cache_page
+from . import views
 
 from main.views import IndexView, AboutView, ContactView, DroppView, YandexView, GoogleView, RobotsView, SitemapView
 
@@ -24,6 +25,7 @@ app_name = 'main'
 
 
 urlpatterns = [
+		path('tonconnect-manifest.json', views.ton_manifest, name='ton-manifest'),
 		path('', cache_page(60) (IndexView.as_view()), name='index'),
 		path('about/', AboutView.as_view(), name='about'),
 		path('contact/', ContactView.as_view(), name='contact'),

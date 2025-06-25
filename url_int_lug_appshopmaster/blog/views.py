@@ -1,3 +1,5 @@
+# from datetime import timezone
+from time import timezone
 from email.mime import image
 
 import re
@@ -30,6 +32,14 @@ from blog.forms import CommentForm, CommentRecentForm
 from .models import Post, Hero, Featured, RecentPost, Tag, Comment
 
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchHeadline
+
+
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import login
+from users.models import User, Wallet
+
+
 
 class SendMessageTelegramView:
 		def send_message(self, message):
@@ -727,6 +737,155 @@ class PostSearchView(View):
 				}
 
 				return render(request, 'blog/search.html', context=context)
+		
 
+
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.core.exceptions import ValidationError
+import json
+import logging
+from users.models import Wallet
+
+logger = logging.getLogger('ton-connect')
+
+@csrf_exempt
+@require_POST
+def ton_auth(request):
+		try:
+				data = json.loads(request.body)
+				wallet_address = data.get('wallet_address')
+				tg_user = data.get('telegram_data', {})
+				
+				if not wallet_address:
+						return JsonResponse({"success": False, "error": "Wallet address required"}, status=400)
+				
+				wallet, created = Wallet.objects.update_or_create(
+						address=wallet_address,
+						defaults={
+								'telegram_id': tg_user.get('id'),
+								'telegram_username': tg_user.get('username'),
+								'telegram_first_name': tg_user.get('first_name'),
+								'telegram_last_name': tg_user.get('last_name'),
+								'telegram_photo_url': tg_user.get('photo_url'),
+						}
+				)
+				
+				return JsonResponse({
+						"success": True,
+						"created": created,
+						"wallet": {
+								"address": wallet.address,
+								"username": wallet.telegram_username,
+								"first_name": wallet.telegram_first_name,
+								"last_name": wallet.telegram_last_name,
+								"photo_url": wallet.telegram_photo_url,
+						}
+				})
+				
+		except Exception as e:
+				logger.error(f"TON auth error: {str(e)}", exc_info=True)
+				return JsonResponse({"success": False, "error": str(e)}, status=400)
+
+
+
+logger = logging.getLogger('wallet')
+
+@csrf_exempt
+@require_POST
+def wallet_info(request):
+		"""
+		Обработчик для сохранения информации о кошельке
+		"""
+		try:
+				# Логирование сырых данных
+				raw_data = request.body.decode('utf-8')
+				logger.debug(f"Raw request data: {raw_data}")
+				
+				# Парсинг JSON
+				try:
+						data = json.loads(raw_data)
+				except json.JSONDecodeError as e:
+						logger.error(f"JSON decode error: {str(e)}")
+						return JsonResponse({
+								"success": False,
+								"error": "Invalid JSON format"
+						}, status=400)
+				
+				# Валидация обязательных полей
+				if not data.get('address'):
+						logger.error("Wallet address is missing")
+						return JsonResponse({
+								"success": False,
+								"error": "Wallet address is required"
+						}, status=400)
+				
+				# Подготовка данных для сохранения
+				telegram_data = data.get('telegram_data') or {}
+				wallet_data = {
+						'telegram_id': telegram_data.get('id'),
+						'telegram_username': telegram_data.get('username'),
+						'telegram_first_name': telegram_data.get('first_name'),
+						'telegram_last_name': telegram_data.get('last_name'),
+						'telegram_photo_url': telegram_data.get('photo_url'),
+				}
+				
+				# Очистка от None значений
+				wallet_data = {k: v for k, v in wallet_data.items() if v is not None}
+				
+				logger.debug(f"Prepared wallet data: {wallet_data}")
+				
+				# Создаем или обновляем запись кошелька
+				wallet, created = Wallet.objects.update_or_create(
+						address=data['address'],
+						defaults=wallet_data
+				)
+				
+				logger.info(f"Wallet {'created' if created else 'updated'}: {wallet.address}")
+				
+				# Формируем ответ
+				response_data = {
+						"success": True,
+						"created": created,
+						"wallet": {
+								"address": wallet.address,
+								"telegram_username": wallet.telegram_username,
+								"telegram_first_name": wallet.telegram_first_name,
+								"telegram_last_name": wallet.telegram_last_name,
+								"telegram_photo_url": wallet.telegram_photo_url,
+						}
+				}
+				
+				return JsonResponse(response_data)
+				
+		except Exception as e:
+				logger.exception("Unexpected error in wallet_info")
+				return JsonResponse({
+						"success": False,
+						"error": "Internal server error"
+				}, status=500)
+
+
+# from django.views.decorators.http import require_GET
+
+# @require_GET
+# def check_user(request):
+# 		wallet = request.GET.get('wallet')
+# 		if not wallet:
+# 				return JsonResponse({"error": "Wallet required"}, status=400)
+		
+# 		user = User.objects.filter(wallet_address=wallet).first()
+# 		if not user:
+# 				return JsonResponse({"exists": False})
+		
+# 		return JsonResponse({
+# 				"exists": True,
+# 				"username": user.username,
+# 				"wallet": user.wallet_address
+# 		})
+		
 
 

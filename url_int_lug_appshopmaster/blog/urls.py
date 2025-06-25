@@ -1,6 +1,7 @@
 from django.urls import path
 from blog.views import PostsView, PostDetailView, TagPostsView, PostSearchView
 
+
 app_name = 'blog'
 
 urlpatterns = [

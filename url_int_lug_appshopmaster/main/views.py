@@ -18,6 +18,8 @@ from django.conf import settings
 from django.http import JsonResponse
 from blog.models import Hero, Post, RecentPost
 
+from django.views.decorators.csrf import csrf_exempt
+
 # С применением классов
 from django.views import View
 
@@ -145,6 +147,16 @@ class DroppView(View):
 			'pay': "Оплата",
 		}
 		return render(request, 'main/drop-shipping.html', context=context)
+
+
+@csrf_exempt
+def ton_manifest(request):
+		manifest = {
+				"url": "https://gameton.app/blog/",
+				"name": "GameTonApp",
+				"iconUrl": "https://gameton.app/static/deps/favicon/apple-touch-icon.png",
+		}
+		return JsonResponse(manifest)
 	
 
 class YandexView(View):

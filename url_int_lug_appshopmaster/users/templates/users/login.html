@@ -54,6 +54,19 @@
 													</button>
 											</div>
 										</form>
+										<br>
+										<!-- Десктопная версия -->
+										<div id="ton-connect" class="ton-connect-register"></div>
+
+										{% comment %}<!-- Мобильная версия -->
+										<div id="ton-connect-mobile" class="ton-connect-container"></div> {% endcomment %}
+
+										{% comment %} <script>
+												const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+														manifestUrl: 'https://gameton.app/tonconnect-manifest.json',
+														buttonRootId: 'ton-connect'
+												});
+										</script> {% endcomment %}
 
 										{% comment %} <p class="text__socials">Или авторизуйтесь через:</p>
 										<div class="log_reg__social">
