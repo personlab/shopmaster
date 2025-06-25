@@ -1,9 +1,16 @@
 from django.contrib import admin
-from users.models import User, Wallet
 from django.contrib.auth.admin import UserAdmin
+from .models import User, Wallet
 
+class UserAdmin(UserAdmin):
+		list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'image')
+		fieldsets = (
+				(None, {'fields': ('username', 'password')}),
+				('Personal info', {'fields': ('first_name', 'last_name', 'email', 'image')}),
+				('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+		)
 
-admin.site.register(User)
+admin.site.register(User, UserAdmin)
 
 
 
@@ -19,3 +26,12 @@ class WalletAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Wallet, WalletAdmin)
+
+
+# from django.contrib import admin
+# from users.models import User, Wallet
+# from django.contrib.auth.admin import UserAdmin
+
+
+
+# admin.site.register(User, UserAdmin)

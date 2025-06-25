@@ -3,15 +3,21 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-		image = models.ImageField(upload_to='users_images', blank=True, null=True, verbose_name='Аватар')
-
+		image = models.ImageField(
+				upload_to='users_images', 
+				blank=True, 
+				null=True, 
+				verbose_name='Аватар',
+				default='users_images/baseavatar.jpg' # дефолтное изображение
+		)
+		
 		class Meta:
 				db_table = 'user'
 				verbose_name = 'Пользователя'
 				verbose_name_plural = 'Пользователи'
 
 		def __str__(self):
-				return self.username
+				return f"{self.username} ({self.get_full_name()})"
 
 
 class Wallet(models.Model):

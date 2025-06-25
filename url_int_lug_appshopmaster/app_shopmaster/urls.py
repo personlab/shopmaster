@@ -41,7 +41,7 @@ urlpatterns = [
 		path('', include('main.urls', namespace='main')),
 		path('catalog/', include('goods.urls', namespace='catalog')),
 		# path('check_user/', check_user, name='check_user'),
-		path('ton_auth/', ton_auth),
+		path('ton_auth/', ton_auth, name='ton_auth'),
 		path('api/wallet_info/', wallet_info, name='wallet_info'),
 		# path('api/user_info/', user_info),
 		path('blog/', include('blog.urls', namespace='blog')),

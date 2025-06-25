@@ -35,7 +35,16 @@ class UserRegistrationForm(UserCreationForm):
 					"email",
 					"password1",
 					"password2",
+					"image"
 				)
+
+		def __init__(self, *args, **kwargs):
+			super().__init__(*args, **kwargs)
+			for field in self.fields:
+					self.fields[field].widget.attrs.update({
+							'class': 'form-control',
+							'autocomplete': 'off'
+					})
 
 
 class ProfileForm(UserChangeForm):
@@ -55,6 +64,15 @@ class ProfileForm(UserChangeForm):
 						"username",
 						"email",
 				)
+
+		def __init__(self, *args, **kwargs):
+				super().__init__(*args, **kwargs)
+				self.fields['password'].widget = forms.HiddenInput()  # Скрываем поле пароля
+				for field in self.fields:
+						self.fields[field].widget.attrs.update({
+								'class': 'form-control',
+								'autocomplete': 'off'
+						})
 
 
 

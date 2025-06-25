@@ -2543,7 +2543,7 @@ input[type="file"] {
 		display: flex;
 		align-items: center;
 		gap: 10px;
-		margin-top: 15px;
+		margin: 15px 0 30px 0;
 		padding: 10px;
 		background: rgba(0, 136, 204, 0.1);
 		border-radius: 8px;
@@ -2558,6 +2558,13 @@ input[type="file"] {
 
 	.telegram-user-info {
 		font-size: 14px;
+	}
+
+	.telegram-app-link {
+		color: var(--text-carolina-blue);
+		text-transform: uppercase;
+		margin-top: 10px;
+		font-weight: 600;
 	}
 
 

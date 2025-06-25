@@ -128,11 +128,23 @@ function updateUI(wallet, tgUser = null) {
 						<div class="telegram-user-info">
 								<h3>${tgUser ? `${tgUser.first_name || ''} ${tgUser.last_name || ''}` : 'Анонимный пользователь'}</h3>
 								${tgUser?.username ? `<p>@${tgUser.username}</p>` : ''}
+								
+								${!tgUser ? `
+								<div class="mobile-telegram-redirect">
+										<p>Для полного доступа к функциям откройте приложение в мобильной версии Telegram</p>
+										<a href="https://t.me/GameTonApp_bot?startapp=webapp" 
+											target="_blank" 
+											class="telegram-app-link">
+												Открыть в Telegram
+										</a>
+								</div>` : ''}
 						</div>
 				</div>
 		`;
 		container.style.display = 'block';
 }
+
+// ${wallet?.address ? `<p class="wallet-address">${shortAddress}</p>` : ''}
 
 // Показать уведомление
 function showNotification(message, type = 'success') {
