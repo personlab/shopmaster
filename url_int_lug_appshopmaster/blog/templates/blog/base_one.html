@@ -238,29 +238,8 @@
 	
 							<div>
 								<p class="card-title">Привет, {{ user.first_name }} {{ user.last_name }}</p>
-	
-										<div class="coin__price__menu">
-											<div class="price__coin_binance">
-													<p class="card-subtitile-menu" id="ton-price">
-															Загружается цена TON...
-														{% comment %} You have 3 new message {% endcomment %}
-													</p>
-													<span class="price-change" id="ton-menu-change"></span>
-											</div>
-											<div class="price__coin_binance">
-													<p class="card-subtitile-menu" id="bitcoin-price">
-														Загружается цена BITCOIN...
-													</p>
-													<span class="price-change" id="bitcoin-menu-change"></span>
-											</div>
-											<div class="price__coin_binance">
-													<p class="card-subtitile-menu" id="ethereum-price">
-														Загружается цена ETHEREUM...
-													</p>
-													<span class="price-change" id="ethereum-menu-change"></span>
-											</div>
-									</div>
 							</div>
+
 						</div>
 	
 						<ul class="link-list">
@@ -277,6 +256,30 @@
 							<a href="{% url "user:login" %}" class="navbar-link hover-1" data-nav-toggler>Войти</a>
 						</li>
 					{% endif %}
+					</div>
+
+					<div class="navbar-bottom">
+							<div class="coin__price__menu">
+									<div class="price__coin_binance">
+											<p class="card-subtitile-menu" id="ton-price">
+													Загружается цена TON...
+												{% comment %} You have 3 new message {% endcomment %}
+											</p>
+											<span class="price-change" id="ton-menu-change"></span>
+									</div>
+									<div class="price__coin_binance">
+											<p class="card-subtitile-menu" id="bitcoin-price">
+												Загружается цена BITCOIN...
+											</p>
+											<span class="price-change" id="bitcoin-menu-change"></span>
+									</div>
+									<div class="price__coin_binance">
+											<p class="card-subtitile-menu" id="ethereum-price">
+												Загружается цена ETHEREUM...
+											</p>
+											<span class="price-change" id="ethereum-menu-change"></span>
+									</div>
+							</div>
 					</div>
 
 				<p class="copyright-text">Copyright &copy; GameTonApp</br><span class="time"></span></p>

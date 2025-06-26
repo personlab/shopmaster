@@ -249,29 +249,8 @@
 
 						<div>
 							<p class="card-title">Привет, {{ user.first_name }} {{ user.last_name }}</p>
-
-									<div class="coin__price__menu">
-											<div class="price__coin_binance">
-													<p class="card-subtitile-menu" id="ton-price">
-															Загружается цена TON...
-														{% comment %} You have 3 new message {% endcomment %}
-													</p>
-													<span class="price-change" id="ton-menu-change"></span>
-											</div>
-											<div class="price__coin_binance">
-													<p class="card-subtitile-menu" id="bitcoin-price">
-														Загружается цена BITCOIN...
-													</p>
-													<span class="price-change" id="bitcoin-menu-change"></span>
-											</div>
-											<div class="price__coin_binance">
-													<p class="card-subtitile-menu" id="ethereum-price">
-														Загружается цена ETHEREUM...
-													</p>
-													<span class="price-change" id="ethereum-menu-change"></span>
-											</div>
-									</div>
 						</div>
+
 					</div>
 
 					<ul class="link-list">
@@ -287,7 +266,31 @@
 					<li>
 						<a href="{% url "user:login" %}" class="navbar-link hover-1" data-nav-toggler>Войти</a>
 					</li>
-				{% endif %}
+					{% endif %}
+				</div>
+				
+				<div class="navbar-bottom">
+						<div class="coin__price__menu">
+								<div class="price__coin_binance">
+										<p class="card-subtitile-menu" id="ton-price">
+												Загружается цена TON...
+											{% comment %} You have 3 new message {% endcomment %}
+										</p>
+										<span class="price-change" id="ton-menu-change"></span>
+								</div>
+								<div class="price__coin_binance">
+										<p class="card-subtitile-menu" id="bitcoin-price">
+											Загружается цена BITCOIN...
+										</p>
+										<span class="price-change" id="bitcoin-menu-change"></span>
+								</div>
+								<div class="price__coin_binance">
+										<p class="card-subtitile-menu" id="ethereum-price">
+											Загружается цена ETHEREUM...
+										</p>
+										<span class="price-change" id="ethereum-menu-change"></span>
+								</div>
+						</div>
 				</div>
 
 				<p class="copyright-text">Copyright &copy; GameTonApp</br><span class="time"></span></p>
@@ -397,12 +400,10 @@
 										<div class="card aside-card insta-card">
 
 												<a href="#" class="logo">
-														<img src="{% static "deps/images/logo.svg" %}" width="119" height="37" loading="lazy" alt="Wren logo">
+													<img src="{% static "deps/favicon/apple-touch-icon.png" %}" width="40" height="40" alt="Игры в Telegram, Tap-to-Earn, блокчейн TON, майнинг в Telegram, криптоигры, Telegram игры">
 												</a>
 
-												{% comment %} <p class="card-text">
-														Follow us on instagramss
-												</p> {% endcomment %}
+												{% comment %} <p class="card-text">	Follow us on instagramss</p> {% endcomment %}
 
 												<div class="hero-banner">
 													{% if hero and hero.image %}

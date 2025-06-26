@@ -629,12 +629,18 @@ table {
 
 .navbar-bottom {
 	padding-block: 30px 20px;
-	margin-block: 20px 25px;
+	/* margin-block: 20px 25px; */
+	border-block: 1px solid var(--border-prussian-blue);
+}
+
+.navbar__post__line {
+	padding-block: 30px 20px;
 	border-block: 1px solid var(--border-prussian-blue);
 }
 
 .navbar .profile-card {
 	margin-block-end: 15px;
+	/* border-block: 1px solid var(--border-prussian-blue); */
 }
 
 .navbar .profile-card .card-title {
@@ -661,6 +667,7 @@ table {
 .copyright-text {
 	color: var(--text-alice-blue);
 	font-size: var(--fontSize-8);
+	margin: 25px 0 45px 0;
 }
 
 .li__search {
@@ -2077,8 +2084,7 @@ form.d__flex_search button {
 	justify-content: flex-start;
 	align-items: flex-start;
 	flex-direction: column;
-	/* overflow-wrap: break-word;
-	hyphens: auto; */
+	text-align: justify;
 	overflow-wrap: break-word;
 	word-wrap: break-word; /* Для старых браузеров */
 	-webkit-hyphens: auto;
