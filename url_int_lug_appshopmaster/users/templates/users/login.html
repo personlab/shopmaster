@@ -45,7 +45,7 @@
 												</div>
 
 											<div class="forgot-pass">
-													{% comment %} <a href="#" class="">Забыли пароль?</a> {% endcomment %}
+													<a href="{% url "user:password_reset_form" %}" class="">Забыли пароль?</a>
 											</div>
 											<div class="inputs__box">
 													<button type="submit" class="btn__submit">
