@@ -8,7 +8,27 @@ class User(AbstractUser):
 				blank=True, 
 				null=True, 
 				verbose_name='Аватар',
-				default='users_images/baseavatar.jpg' # дефолтное изображение
+				default='users_images/baseavatar.jpg'
+		)
+		
+		groups = models.ManyToManyField(
+				'auth.Group',
+				verbose_name='groups',
+				blank=True,
+				help_text='The groups this user belongs to.',
+				related_name="custom_user_set",
+				related_query_name="user",
+				db_table='user_groups'
+		)
+		
+		user_permissions = models.ManyToManyField(
+				'auth.Permission',
+				verbose_name='user permissions',
+				blank=True,
+				help_text='Specific permissions for this user.',
+				related_name="custom_user_set",
+				related_query_name="user",
+				db_table='user_user_permissions'
 		)
 		
 		class Meta:
