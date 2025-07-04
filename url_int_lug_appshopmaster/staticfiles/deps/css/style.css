@@ -1973,6 +1973,13 @@ form.d__flex_search button {
 	position: absolute;
 }
 
+.EntityProfile__verified__games {
+	color: #03A9F4;
+	top: 18px;
+	margin-top: 2px;
+	position: absolute;
+	}
+
 .positionss {
 	margin-bottom: 30px;
 	justify-content: space-between;
@@ -2226,7 +2233,7 @@ form.d__flex_search button {
 
 .box__list__games .list__games__img .list__content__Bx .rank__list {
 	position: absolute;
-	right: -50px;
+	right: -60px;
 	color: var(--text-carolina-blue);
 	transition: 0.5s;
 	font-size: 2em;
@@ -2649,7 +2656,7 @@ input[type="file"] {
 	.telegrams__games {
 		position: relative;
 		margin: 35px 0 30px 0;
-		background: rgb(255 255 255 / 76%);
+		background: rgb(66 43 129 / 76%);
 		box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
 		border: 1px solid var(--border-prussian-blue);
 		border-right: 1px solid rgba(255, 255, 255, 0.2);
@@ -3397,7 +3404,7 @@ input[type="file"] {
 
 		.inputs__box__reset .icon__log__reset {
 			position: absolute;
-			top: 84%;
+			top: 82%;
 			right: 15px;
 			transform: translateY(-50%);
 			color: var(--white);
