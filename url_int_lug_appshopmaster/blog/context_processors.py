@@ -9,7 +9,7 @@ def latest_comments(request):
 
 
 def version(request):
-		return {'APP_VERSION': '3.24.1'}
+		return {'APP_VERSION': '3.3.5'}
 
 
 def css_version(request):

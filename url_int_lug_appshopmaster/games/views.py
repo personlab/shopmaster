@@ -82,7 +82,7 @@ class GamesView(View):
 		hero = Hero.objects.first()
 		games = Game.objects.filter(is_active=True).order_by('rank')
 		context = {
-			'title': "GameTonApp - Лучший каталог Web3-игр на блокчейне TON",
+			'title': "GameTonApp - Web3-игры на блокчейне TON в телеграм",
 			'description': 'Открой мир увлекательных игр в Telegram на блокчейне TON! GameTonApp — это каталог Web3-игр с децентрализованными возможностями, где каждый найдёт игру по душе.',
 			'keywords': "Web3-игры, TON-игры, Telegram-игры, блокчейн TON, децентрализованные игры, криптоигры, GameTonApp",
 			'games': games,

@@ -1975,7 +1975,7 @@ form.d__flex_search button {
 
 .EntityProfile__verified__games {
 	color: #03A9F4;
-	top: 18px;
+	top: 19px;
 	margin-top: 2px;
 	position: absolute;
 	}
@@ -2025,7 +2025,7 @@ form.d__flex_search button {
 }
 
 .a_posts_return {
-	margin-top: 30px;
+	margin: 30px 0;
 	font-weight: 900;
 	font-size: smaller;
 }
@@ -2932,7 +2932,7 @@ input[type="file"] {
 	}
 
 	.ton-connect-container {
-		margin-top: 0;
+		margin-top: 30px;
 	}
 
 	.ton-connect-register {
