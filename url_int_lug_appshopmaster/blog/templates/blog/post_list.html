@@ -10,8 +10,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<!-- Primary meta tags -->
-	<title>{{ title }}</title>
-	<meta name="title" content="Игры в телеграм на основе блокчейна TON">
+	<title>{{ title|safe }}</title>
+	<meta name="title" content="Игры в телеграм на блокчейне TON">
 	<meta name="description" content="{{ description }}">
 	<meta name="keywords" content="Блог про игры в телеграм, узнай что такое TON и blockchain, майнинг в телеграм, криптоигры">
 
@@ -435,7 +435,7 @@
 																			</figure>
 
 																			<div class="slider-content">
-																					<span class="slider-title">{{ post.title }}</span>
+																					<span class="slider-title">{{ post.title|safe }}</span>
 																					<p class="slider-subtitle">
 																					</p>
 																			</div>
@@ -702,7 +702,7 @@
 																	<div class="card-content">
 
 																			<h4 class="headline headline-4 card-title">
-																					<a href="{% url "blog:post_detail" post.slug %}" class="link hover-2">{{ post.title }}</a>
+																					<a href="{% url "blog:post_detail" post.slug %}" class="link hover-2">{{ post.title|safe }}</a>
 																			</h4>
 
 																			<div class="wrapper">

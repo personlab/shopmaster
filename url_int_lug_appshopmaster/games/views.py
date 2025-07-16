@@ -39,53 +39,119 @@ class SendMessageTelegramView:
 
 
 class GamesView(View):
-	def post(self, request):
-			user_name = request.POST.get('user_name')
-			user_email = request.POST.get('user_email')
-			user_phone = request.POST.get('user_phone') # Обратите внимание на имя поля!
-			user_message = request.POST.get('user_message')
+		def post(self, request):
+				# Защита от ботов: проверка honeypot-поля
+				if request.POST.get('honeypot'):
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Bot detected!"
+						}, status=400)
+				
+				# Получаем данные и обрезаем пробелы
+				user_name = request.POST.get('user_name', '').strip()
+				user_email = request.POST.get('user_email', '').strip()
+				user_phone = request.POST.get('user_phone', '').strip()
+				user_message = request.POST.get('user_message', '').strip()
 
-			# Валидация формата телефона
-			phone_regex = r'^(\+7|8)\d{10}$'
-			cleaned_phone = re.sub(r'[^\d]', '', user_phone)  # Удаляем все не-цифры
+				# Проверка на пустые поля
+				if not all([user_name, user_email, user_phone, user_message]):
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Все поля обязательны для заполнения!"
+						}, status=400)
+
+				# Валидация email
+				if '@' not in user_email or '.' not in user_email.split('@')[-1]:
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Введите корректный email"
+						}, status=400)
+
+				# Валидация телефона
+				phone_regex = r'^(\+7|8)[\d\- ]{10,15}$'
+				cleaned_phone = re.sub(r'[^\d]', '', user_phone)
+				
+				if not re.fullmatch(phone_regex, user_phone) or len(cleaned_phone) != 11:
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Введите номер в формате +7XXX... или 8XXX... (11 цифр)"
+						}, status=400)
+
+				# Нормализация номера
+				formatted_phone = '+7' + cleaned_phone[1:] if cleaned_phone.startswith('8') else '+' + cleaned_phone
+
+				# Формируем сообщение для Telegram
+				message = (
+						f"GameTonApp. Новое сообщение со страницы Games:\n"
+						f"Имя: {user_name}\n"
+						f"Email: {user_email}\n"
+						f"Телефон: {formatted_phone}\n"
+						f"Сообщение: {user_message}"
+				)
+
+				# Отправка в Telegram
+				try:
+						telegram_sender = SendMessageTelegramView()
+						telegram_sender.send_message(message)
+						return JsonResponse({
+								"status": "success", 
+								"message": "✅ Сообщение отправлено"
+						})
+				except Exception as e:
+						return JsonResponse({
+								"status": "error",
+								"message": f"❌ Ошибка отправки: {str(e)}"
+						}, status=500)
+
+
+# class GamesView(View):
+# 	def post(self, request):
+# 			user_name = request.POST.get('user_name')
+# 			user_email = request.POST.get('user_email')
+# 			user_phone = request.POST.get('user_phone') # Обратите внимание на имя поля!
+# 			user_message = request.POST.get('user_message')
+
+# 			# Валидация формата телефона
+# 			phone_regex = r'^(\+7|8)\d{10}$'
+# 			cleaned_phone = re.sub(r'[^\d]', '', user_phone)  # Удаляем все не-цифры
 			
-			if not re.fullmatch(phone_regex, user_phone) or len(cleaned_phone) != 11:
-					return JsonResponse({
-							"status": "error",
-							"message": "❌ Введите номер в формате +7XXX... или 8XXX... (11 цифр)"
-					}, status=400)
+# 			if not re.fullmatch(phone_regex, user_phone) or len(cleaned_phone) != 11:
+# 					return JsonResponse({
+# 							"status": "error",
+# 							"message": "❌ Введите номер в формате +7XXX... или 8XXX... (11 цифр)"
+# 					}, status=400)
 
-			# Нормализация номера
-			if cleaned_phone.startswith('8'):
-					formatted_phone = '+7' + cleaned_phone[1:]
-			else:
-					formatted_phone = '+' + cleaned_phone
+# 			# Нормализация номера
+# 			if cleaned_phone.startswith('8'):
+# 					formatted_phone = '+7' + cleaned_phone[1:]
+# 			else:
+# 					formatted_phone = '+' + cleaned_phone
 
-			message = f"GameTonApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+# 			message = f"GameTonApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
 
-			try:
-					telegram_sender = SendMessageTelegramView()
-					telegram_sender.send_message(message)
-					return JsonResponse({
-							"status": "success", 
-							"message": "✅ Сообщение отправлено"
-					})
-			except Exception as e:
-					return JsonResponse({
-							"status": "error",
-							"message": f"❌ Ошибка отправки: {str(e)}"
-					}, status=500)
+# 			try:
+# 					telegram_sender = SendMessageTelegramView()
+# 					telegram_sender.send_message(message)
+# 					return JsonResponse({
+# 							"status": "success", 
+# 							"message": "✅ Сообщение отправлено"
+# 					})
+# 			except Exception as e:
+# 					return JsonResponse({
+# 							"status": "error",
+# 							"message": f"❌ Ошибка отправки: {str(e)}"
+# 					}, status=500)
 	
 			
-	def get(self, request):
+		def get(self, request):
 
-		hero = Hero.objects.first()
-		games = Game.objects.filter(is_active=True).order_by('rank')
-		context = {
-			'title': "GameTonApp - Web3-игры на блокчейне TON в телеграм",
-			'description': 'Открой мир увлекательных игр в Telegram на блокчейне TON! GameTonApp — это каталог Web3-игр с децентрализованными возможностями, где каждый найдёт игру по душе.',
-			'keywords': "Web3-игры, TON-игры, Telegram-игры, блокчейн TON, децентрализованные игры, криптоигры, GameTonApp",
-			'games': games,
-			'hero': hero,
-		}
-		return render(request, 'games/games.html', context=context)
+			hero = Hero.objects.first()
+			games = Game.objects.filter(is_active=True).order_by('rank')
+			context = {
+				'title': "GameTonApp - Web3-игры на блокчейне TON в телеграм",
+				'description': 'Открой мир увлекательных игр в Telegram на блокчейне TON! GameTonApp — это каталог Web3-игр с децентрализованными возможностями, где каждый найдёт игру по душе.',
+				'keywords': "Web3-игры, TON-игры, Telegram-игры, блокчейн TON, децентрализованные игры, криптоигры, GameTonApp",
+				'games': games,
+				'hero': hero,
+			}
+			return render(request, 'games/games.html', context=context)

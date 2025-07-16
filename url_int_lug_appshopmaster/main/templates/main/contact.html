@@ -24,7 +24,9 @@
 	{{ content }}
 </p> {% endcomment %}
 
-<p class="hero-text"><a href="mailto:{{ e_mail }}">{{ e_mail }}</a> </br> <a href="tel:{{ phone }}">{{ phone }}</a></p>
+<p class="hero-text"><a href="mailto:{{ e_mail }}">{{ e_mail }}</a> </br> <a href="https://t.me/YuriyBaragin" target="_blank">{{ phone }}</a></p>
+
+{% comment %} <a href="tel:{{ phone }}">{{ phone }}</a> {% endcomment %}
 
 </br>
 </br>
@@ -142,6 +144,9 @@
 										<p class="footer-text">
 												У вас есть вопросы? Напишите нам.
 										</p>
+
+										<!-- Скрытое поле для защиты от ботов (honeypot) -->
+										<input type="text" name="honeypot" style="display:none !important;" tabindex="-1" autocomplete="off">
 
 										<div class="input-wrapper">
 												<input type="text" name="user_name" placeholder="Your name" required id="" class="input-field" autocomplete="off">

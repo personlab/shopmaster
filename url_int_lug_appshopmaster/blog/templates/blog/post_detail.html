@@ -11,7 +11,7 @@
 			<img src="{{ post.image.url }}" alt="{{ post.title }}" class="zoomable-img img-101">
 		{% endif %}
 		<div class="EntityProfile__nowrape">
-				<h1 class="h4_collect_blog positionss">{{ post.title }}</h1>
+				<h1 class="h4_collect_blog positionss">{{ post.title|safe }}</h1>
 		</div>
 			<p class="post-subtitle">{{ post.subtitle|default:'' }}</p> <!-- subtitle только для RecentPost -->
 			<p class="post-author">Автор: {{ post.author_name }}
@@ -266,6 +266,9 @@
 										<p class="footer-text">
 												У вас есть вопросы? Напишите нам.
 										</p>
+
+										<!-- Скрытое поле для защиты от ботов (honeypot) -->
+										<input type="text" name="honeypot" style="display:none !important;" tabindex="-1" autocomplete="off">
 
 										<div class="input-wrapper">
 												<input type="text" name="user_name" placeholder="Your name" required id="" class="input-field" autocomplete="off">

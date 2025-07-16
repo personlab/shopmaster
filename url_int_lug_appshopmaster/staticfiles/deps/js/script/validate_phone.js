@@ -14,6 +14,31 @@ document.getElementById('contact-form').addEventListener('input', function(e) {
 });
 
 
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+		const btn = document.getElementById('submit-btn');
+		btn.disabled = true;
+		btn.querySelector('.span').textContent = 'Отправляется...';
+
+		// Дополнительная проверка полей перед отправкой
+		const inputs = this.querySelectorAll('input[required], textarea[required]');
+		let isValid = true;
+
+		inputs.forEach(input => {
+				if (!input.value.trim()) {
+						input.style.borderColor = 'red';
+						isValid = false;
+				}
+		});
+
+		if (!isValid) {
+				e.preventDefault();
+				btn.disabled = false;
+				btn.querySelector('.span').textContent = 'Отправить';
+				alert('Заполните все обязательные поля!');
+		}
+});
+
+
 
 
 // document.getElementById('contact-form').addEventListener('submit', function(e) {

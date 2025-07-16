@@ -11,7 +11,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<!-- Primary meta tags -->
-	<title>{{ title }}</title>
+	<title>{{ title|safe }}</title>
 	<meta name="title" content="{{ title }}">
 	<meta name="description" content="{{ post.meta_description|default:post.title }}">
 	<meta name="keywords" content="{{ post.title }}, {% for tag in post.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">

@@ -56,16 +56,37 @@ class SendMessageTelegramView:
 
 
 class PostsView(View):
-		
 		def post(self, request):
-				user_name = request.POST.get('user_name')
-				user_email = request.POST.get('user_email')
-				user_phone = request.POST.get('user_phone') # Обратите внимание на имя поля!
-				user_message = request.POST.get('user_message')
+				# Защита от ботов: проверка honeypot-поля
+				if request.POST.get('honeypot'):
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Bot detected!"
+						}, status=400)
+				
+				# Получаем данные и обрезаем пробелы
+				user_name = request.POST.get('user_name', '').strip()
+				user_email = request.POST.get('user_email', '').strip()
+				user_phone = request.POST.get('user_phone', '').strip()
+				user_message = request.POST.get('user_message', '').strip()
 
-				# Валидация формата телефона
-				phone_regex = r'^(\+7|8)\d{10}$'
-				cleaned_phone = re.sub(r'[^\d]', '', user_phone)  # Удаляем все не-цифры
+				# Проверка на пустые поля
+				if not all([user_name, user_email, user_phone, user_message]):
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Все поля обязательны для заполнения!"
+						}, status=400)
+
+				# Валидация email
+				if '@' not in user_email or '.' not in user_email.split('@')[-1]:
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Введите корректный email"
+						}, status=400)
+
+				# Валидация телефона
+				phone_regex = r'^(\+7|8)[\d\- ]{10,15}$'
+				cleaned_phone = re.sub(r'[^\d]', '', user_phone)
 				
 				if not re.fullmatch(phone_regex, user_phone) or len(cleaned_phone) != 11:
 						return JsonResponse({
@@ -74,13 +95,18 @@ class PostsView(View):
 						}, status=400)
 
 				# Нормализация номера
-				if cleaned_phone.startswith('8'):
-						formatted_phone = '+7' + cleaned_phone[1:]
-				else:
-						formatted_phone = '+' + cleaned_phone
+				formatted_phone = '+7' + cleaned_phone[1:] if cleaned_phone.startswith('8') else '+' + cleaned_phone
 
-				message = f"GameTonApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+				# Формируем сообщение для Telegram
+				message = (
+						f"GameTonApp. Новое сообщение со страницы Blog:\n"
+						f"Имя: {user_name}\n"
+						f"Email: {user_email}\n"
+						f"Телефон: {formatted_phone}\n"
+						f"Сообщение: {user_message}"
+				)
 
+				# Отправка в Telegram
 				try:
 						telegram_sender = SendMessageTelegramView()
 						telegram_sender.send_message(message)
@@ -200,14 +226,36 @@ class PostsView(View):
 
 class TagPostsView(View):
 		def post(self, request, tag_id=None):
-				user_name = request.POST.get('user_name')
-				user_email = request.POST.get('user_email')
-				user_phone = request.POST.get('user_phone') # Обратите внимание на имя поля!
-				user_message = request.POST.get('user_message')
+				# # Защита от ботов: проверка honeypot-поля
+				# if request.POST.get('honeypot'):
+				# 		return JsonResponse({
+				# 				"status": "error",
+				# 				"message": "❌ Bot detected!"
+				# 		}, status=400)
+				
+				# Получаем данные и обрезаем пробелы
+				user_name = request.POST.get('user_name', '').strip()
+				user_email = request.POST.get('user_email', '').strip()
+				user_phone = request.POST.get('user_phone', '').strip()
+				user_message = request.POST.get('user_message', '').strip()
 
-				# Валидация формата телефона
-				phone_regex = r'^(\+7|8)\d{10}$'
-				cleaned_phone = re.sub(r'[^\d]', '', user_phone)  # Удаляем все не-цифры
+				# Проверка на пустые поля
+				if not all([user_name, user_email, user_phone, user_message]):
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Все поля обязательны для заполнения!"
+						}, status=400)
+
+				# Валидация email
+				if '@' not in user_email or '.' not in user_email.split('@')[-1]:
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Введите корректный email"
+						}, status=400)
+
+				# Валидация телефона
+				phone_regex = r'^(\+7|8)[\d\- ]{10,15}$'
+				cleaned_phone = re.sub(r'[^\d]', '', user_phone)
 				
 				if not re.fullmatch(phone_regex, user_phone) or len(cleaned_phone) != 11:
 						return JsonResponse({
@@ -216,13 +264,18 @@ class TagPostsView(View):
 						}, status=400)
 
 				# Нормализация номера
-				if cleaned_phone.startswith('8'):
-						formatted_phone = '+7' + cleaned_phone[1:]
-				else:
-						formatted_phone = '+' + cleaned_phone
+				formatted_phone = '+7' + cleaned_phone[1:] if cleaned_phone.startswith('8') else '+' + cleaned_phone
 
-				message = f"GameTonApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+				# Формируем сообщение для Telegram
+				message = (
+						f"GameTonApp. Новое сообщение со страницы Tags:\n"
+						f"Имя: {user_name}\n"
+						f"Email: {user_email}\n"
+						f"Телефон: {formatted_phone}\n"
+						f"Сообщение: {user_message}"
+				)
 
+				# Отправка в Telegram
 				try:
 						telegram_sender = SendMessageTelegramView()
 						telegram_sender.send_message(message)
@@ -361,16 +414,37 @@ class PostDetailView(View):
 
 		
 		def post(self, request, slug=None):
-				# Обработка формы отправки сообщения в Telegram
+				# Защита от ботов: проверка honeypot-поля
+				if request.POST.get('honeypot'):
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Bot detected!"
+						}, status=400)
+				
+				# Получаем данные и обрезаем пробелы
 				if 'user_name' in request.POST:
-						user_name = request.POST.get('user_name')
-						user_email = request.POST.get('user_email')
-						user_phone = request.POST.get('user_phone') # Обратите внимание на имя поля!
-						user_message = request.POST.get('user_message')
+						user_name = request.POST.get('user_name', '').strip()
+						user_email = request.POST.get('user_email', '').strip()
+						user_phone = request.POST.get('user_phone', '').strip()
+						user_message = request.POST.get('user_message', '').strip()
 
-						# Валидация формата телефона
-						phone_regex = r'^(\+7|8)\d{10}$'
-						cleaned_phone = re.sub(r'[^\d]', '', user_phone)  # Удаляем все не-цифры
+						# Проверка на пустые поля
+						if not all([user_name, user_email, user_phone, user_message]):
+								return JsonResponse({
+										"status": "error",
+										"message": "❌ Все поля обязательны для заполнения!"
+								}, status=400)
+
+						# Валидация email
+						if '@' not in user_email or '.' not in user_email.split('@')[-1]:
+								return JsonResponse({
+										"status": "error",
+										"message": "❌ Введите корректный email"
+								}, status=400)
+
+						# Валидация телефона
+						phone_regex = r'^(\+7|8)[\d\- ]{10,15}$'
+						cleaned_phone = re.sub(r'[^\d]', '', user_phone)
 						
 						if not re.fullmatch(phone_regex, user_phone) or len(cleaned_phone) != 11:
 								return JsonResponse({
@@ -379,13 +453,18 @@ class PostDetailView(View):
 								}, status=400)
 
 						# Нормализация номера
-						if cleaned_phone.startswith('8'):
-								formatted_phone = '+7' + cleaned_phone[1:]
-						else:
-								formatted_phone = '+' + cleaned_phone
+						formatted_phone = '+7' + cleaned_phone[1:] if cleaned_phone.startswith('8') else '+' + cleaned_phone
 
-						message = f"GameTonApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+						# Формируем сообщение для Telegram
+						message = (
+								f"GameTonApp. Новое сообщение со страницы Post:\n"
+								f"Имя: {user_name}\n"
+								f"Email: {user_email}\n"
+								f"Телефон: {formatted_phone}\n"
+								f"Сообщение: {user_message}"
+						)
 
+						# Отправка в Telegram
 						try:
 								telegram_sender = SendMessageTelegramView()
 								telegram_sender.send_message(message)
@@ -398,19 +477,7 @@ class PostDetailView(View):
 										"status": "error",
 										"message": f"❌ Ошибка отправки: {str(e)}"
 								}, status=500)
-				# if 'user_name' in request.POST:
-				# 		user_name = request.POST.get('user_name')
-				# 		user_email = request.POST.get('user_email')
-				# 		user_phone = request.POST.get('user_phone')
-				# 		user_message = request.POST.get('user_message')
-
-				# 		message = f"TonGameApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
-
-				# 		# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
-				# 		telegram_sender = SendMessageTelegramView()
-				# 		telegram_sender.send_message(message)
-
-				# 		return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
+						
 				
 				hero = Hero.objects.first()
 
@@ -519,121 +586,38 @@ class PostDetailView(View):
 
 
 
-
-# class PostSearchView(View):
-		
-# 		def post(self, request, slug=None):
-# 				user_name = request.POST.get('user_name')
-# 				user_email = request.POST.get('user_email')
-# 				user_phone = request.POST.get('email_phone')
-# 				user_message = request.POST.get('user_message')
-
-# 				message = f"Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {user_phone}\nСообщение: {user_message}"
-
-# 				# Создаем экземпляр класса SendMessageTelegramView и отправляем сообщение
-# 				telegram_sender = SendMessageTelegramView()
-# 				telegram_sender.send_message(message)
-
-# 				return JsonResponse({"status": "success", "message": "✅ Сообщение отправлено"})
-
-# 		def get(self, request):
-# 				hero = Hero.objects.first()
-# 				query = request.GET.get('q', '')  # Получаем запрос из параметра GET
-# 				query = re.sub(r'[@#$%^&*()]', '', query)  # Очищаем запрос
-# 				# posts = Post.objects.all()
-
-
-# 				# Получить посты из таблицы Post
-# 				post_posts = Post.objects.annotate(
-# 						model_type=Value('Post', output_field=CharField())
-# 				).values(
-# 						'id', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
-# 				)
-
-# 				# Получить посты из таблицы RecentPost
-# 				recent_posts_one = RecentPost.objects.annotate(
-# 						model_type=Value('RecentPost', output_field=CharField())
-# 				).values(
-# 						'id', 'subtitle', 'title', 'slug', 'content', 'image', 'created_at', 'reading_time', 'author_name', 'popularity_count', 'model_type'
-# 				)
-
-# 				# Объединение QuerySets
-# 				all_posts = sorted(
-# 						chain(post_posts, recent_posts_one),
-# 						key=lambda post: post['popularity_count'], 
-# 						reverse=True
-# 				)
-
-# 				# Взять топ 5 популярных постов
-# 				top_5_posts = all_posts[:5]
-
-# 				if query:  # Проверяем, что запрос не пуст
-# 						search_query = SearchQuery(query)
-
-# 						# Поиск в обеих моделях
-# 						posts_search = Post.objects.annotate(
-# 								search=SearchVector('title', 'content')  # Создаем вектор поиска для Post
-# 						).filter(search=search_query)
-
-# 						recent_posts_search = RecentPost.objects.annotate(
-# 								search=SearchVector('title', 'content')  # Создаем вектор поиска для RecentPost
-# 						).filter(search=search_query)
-
-# 						highlighted_posts = []
-
-# 						def highlight_text(text, query):
-# 								highlight_style = "<span>{}</span>"
-# 								pattern = re.compile(re.escape(query), re.IGNORECASE)  # Создаем регулярное выражение для поиска
-# 								return pattern.sub(lambda m: highlight_style.format(m.group(0)), text)  # Заменяем найденные слова на выделенные
-
-# 						for post in posts_search:
-# 								highlighted_title = highlight_text(post.title, query)  # Выделяем заголовок
-# 								highlighted_content = highlight_text(post.content, query)  # Выделяем контент
-# 								highlighted_posts.append({
-# 										'title': highlighted_title,
-# 										'content': highlighted_content,
-# 										'slug': post.slug,
-# 								})
-
-# 						for recent_post in recent_posts_search:
-# 								highlighted_title = highlight_text(recent_post.title, query)  # Выделяем заголовок
-# 								highlighted_content = highlight_text(recent_post.content, query)  # Выделяем контент
-# 								highlighted_posts.append({
-# 										'title': highlighted_title,
-# 										'content': highlighted_content,
-# 										'slug': recent_post.slug,
-# 								})
-
-# 				else:
-# 						highlighted_posts = []  # Пустой список, если запрос пуст
-
-# 				context = {
-# 						'hero': hero,
-# 						'title': 'GameTonApp - Результаты поиска',
-# 						'posts': highlighted_posts,
-# 						'query': query,
-# 						'top_5_posts': top_5_posts
-# 				}
-
-# 				return render(request, 'blog/search.html', context=context)
-		
-
-
-
-
-
-
-
 class PostSearchView(View):
 		def post(self, request, slug=None):
-				user_name = request.POST.get('user_name')
-				user_email = request.POST.get('user_email')
-				user_phone = request.POST.get('user_phone') # Обратите внимание на имя поля!
-				user_message = request.POST.get('user_message')
+				# Защита от ботов: проверка honeypot-поля
+				if request.POST.get('honeypot'):
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Bot detected!"
+						}, status=400)
+				
+				# Получаем данные и обрезаем пробелы
+				user_name = request.POST.get('user_name', '').strip()
+				user_email = request.POST.get('user_email', '').strip()
+				user_phone = request.POST.get('user_phone', '').strip()
+				user_message = request.POST.get('user_message', '').strip()
 
-				# Валидация формата телефона
-				phone_regex = r'^(\+7|8)\d{10}$'
-				cleaned_phone = re.sub(r'[^\d]', '', user_phone)  # Удаляем все не-цифры
+				# Проверка на пустые поля
+				if not all([user_name, user_email, user_phone, user_message]):
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Все поля обязательны для заполнения!"
+						}, status=400)
+
+				# Валидация email
+				if '@' not in user_email or '.' not in user_email.split('@')[-1]:
+						return JsonResponse({
+								"status": "error",
+								"message": "❌ Введите корректный email"
+						}, status=400)
+
+				# Валидация телефона
+				phone_regex = r'^(\+7|8)[\d\- ]{10,15}$'
+				cleaned_phone = re.sub(r'[^\d]', '', user_phone)
 				
 				if not re.fullmatch(phone_regex, user_phone) or len(cleaned_phone) != 11:
 						return JsonResponse({
@@ -642,13 +626,18 @@ class PostSearchView(View):
 						}, status=400)
 
 				# Нормализация номера
-				if cleaned_phone.startswith('8'):
-						formatted_phone = '+7' + cleaned_phone[1:]
-				else:
-						formatted_phone = '+' + cleaned_phone
+				formatted_phone = '+7' + cleaned_phone[1:] if cleaned_phone.startswith('8') else '+' + cleaned_phone
 
-				message = f"GameTonApp. Новое сообщение от {user_name}:\nEmail: {user_email}\nТелефон: {formatted_phone}\nСообщение: {user_message}"
+				# Формируем сообщение для Telegram
+				message = (
+						f"GameTonApp. Новое сообщение со страницы Search:\n"
+						f"Имя: {user_name}\n"
+						f"Email: {user_email}\n"
+						f"Телефон: {formatted_phone}\n"
+						f"Сообщение: {user_message}"
+				)
 
+				# Отправка в Telegram
 				try:
 						telegram_sender = SendMessageTelegramView()
 						telegram_sender.send_message(message)
@@ -867,25 +856,6 @@ def wallet_info(request):
 						"success": False,
 						"error": "Internal server error"
 				}, status=500)
-
-
-# from django.views.decorators.http import require_GET
-
-# @require_GET
-# def check_user(request):
-# 		wallet = request.GET.get('wallet')
-# 		if not wallet:
-# 				return JsonResponse({"error": "Wallet required"}, status=400)
-		
-# 		user = User.objects.filter(wallet_address=wallet).first()
-# 		if not user:
-# 				return JsonResponse({"exists": False})
-		
-# 		return JsonResponse({
-# 				"exists": True,
-# 				"username": user.username,
-# 				"wallet": user.wallet_address
-# 		})
 		
 
 
