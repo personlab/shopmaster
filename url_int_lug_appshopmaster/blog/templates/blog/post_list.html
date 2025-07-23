@@ -478,7 +478,14 @@
 												<li>
 														<div class="card feature-card">
 																<figure class="card-banner img-holder" style="--width: 1602; --height: 903;">
+																	{% if item.is_video and item.video %}
+																			<video width="1602" height="903" muted loop autoplay>
+																					<source src="{{ item.video.url }}" type="video/mp4">
+																					Ваш браузер не поддерживает видео тег.
+																			</video>
+																	{% else %}
 																		<img src="{{ item.image.url }}" width="1602" height="903" loading="lazy" alt="{{ item.title }}" class="img-cover">
+																	{% endif %}
 																</figure>
 																<div class="card-content">
 																		<div class="card-wrapper">
@@ -923,6 +930,9 @@
 												<p class="footer-text">
 														У вас есть вопросы? Напишите нам.
 												</p>
+
+												<!-- Скрытое поле для защиты от ботов (honeypot) -->
+												<input type="text" name="honeypot" style="display:none !important;" tabindex="-1" autocomplete="off">
 
 												<div class="input-wrapper">
 														<input type="text" name="user_name" placeholder="Your name" required id="" class="input-field" autocomplete="off">

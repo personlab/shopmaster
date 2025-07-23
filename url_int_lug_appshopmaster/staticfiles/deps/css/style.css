@@ -200,6 +200,12 @@ img {
 	height: auto;
 }
 
+video {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+}
+
 input,
 button {
 	background: none;

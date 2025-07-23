@@ -404,6 +404,12 @@ body.nav-active {
 	object-fit: cover;
 }
 
+.video-cover {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+}
+
 .section {
 	padding-block: var(--section-padding);
 }

@@ -687,7 +687,7 @@ class PostSearchView(View):
 
 						# Поиск в обеих моделях
 						posts_search = Post.objects.annotate(
-								search=SearchVector('title', 'content')  # Создаем вектор поиска для Post
+								search=SearchVector('title', 'content', 'content_1', 'content_2', 'content_3')  # Создаем вектор поиска для Post
 						).filter(search=search_query)
 
 						recent_posts_search = RecentPost.objects.annotate(

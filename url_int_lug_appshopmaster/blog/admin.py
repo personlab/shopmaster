@@ -82,9 +82,9 @@ admin.site.register(Hero, HeroAdmin)
 
 
 class FeaturedAdmin(admin.ModelAdmin):
-	list_display = ('title', 'author_name', 'created_at')
+	list_display = ('title', 'is_video', 'author_name', 'created_at')
 	search_fields = ('title', 'author_name')
-	list_filter = ('created_at',)
+	list_filter = ('is_video', 'created_at',)
 
 admin.site.register(Featured, FeaturedAdmin)
 

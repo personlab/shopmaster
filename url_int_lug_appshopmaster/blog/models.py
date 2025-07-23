@@ -104,6 +104,8 @@ class RecentPost(models.Model):
 class Featured(models.Model):
 	title = models.CharField(max_length=200, verbose_name='Заголовок')
 	image = models.ImageField(upload_to='images/', blank=True, null=True, verbose_name='Картинка')
+	video = models.FileField(upload_to='videos/', blank=True, null=True, verbose_name='Видео файл')
+	is_video = models.BooleanField(default=False, verbose_name='Это видео?')
 	link = models.URLField(max_length=200, blank=True, null=True, verbose_name='Ссылка')
 	reading_time = models.CharField(max_length=20, default='3 mins read', verbose_name='Время чтения')
 	author_name = models.CharField(max_length=100, default='admin', verbose_name='Имя автора')
