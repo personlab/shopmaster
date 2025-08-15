@@ -566,14 +566,14 @@
 													{% else %}
 														<img src="{% static "deps/images/hero-banner.png" %}" width="32" height="32" alt="">
 													{% endif %}
-													<a href="{% url 'blog:tag_posts' tag.id %}"><p class="btn-text">{{ tag.name }}</p></a>
+													<a href="{% url 'blog:tag_posts' tag.name %}"><p class="btn-text">{{ tag.name }}</p></a>
 												</button>
 										</li>
 										{% endfor %}
 								</ul>
 				
 						</div>
-				</section>
+					</section>
 
 					<!--
 						- #RECENT POST Game Ton

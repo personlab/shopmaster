@@ -17,4 +17,5 @@ static/deps/videos/
 database_tongameapp/
 .env
 staticfiles/deps/videos/
+staticfiles/deps/images/
 app_shopmaster/settings.py

@@ -136,7 +136,7 @@ class PostsView(View):
 
 				popular_tags = cache.get('popular_tags')
 				if not popular_tags:
-						popular_tags = Tag.objects.all().order_by('-popularity_count')[:12] 
+						popular_tags = Tag.objects.all().order_by('-popularity_count').only('id', 'name', 'image')[:12]
 						cache.set('popular_tags', popular_tags, 60*15) # Кеш на 15 минут
 						# Извлечение тегов/сортировка по популярности
 
@@ -292,9 +292,9 @@ class TagPostsView(View):
 
 
 
-		def get(self, request, tag_id):
+		def get(self, request, tag_name):
 				hero = Hero.objects.first()
-				tags = get_object_or_404(Tag, id=tag_id)
+				tags = get_object_or_404(Tag, name=tag_name)
 				tags.popularity_count += 1
 				tags.save()
 				posts = tags.post.all() # Получаем все теги из основной модели Post
