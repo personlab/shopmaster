@@ -493,7 +493,7 @@
 																					
 
 																							{% for tag in tags %}
-																									<a href="{% url 'blog:tag_posts' tag.id %}" class="span hover-2">#{{ tag.name }}</a>
+																									<a href="{% url 'blog:tag_posts' tag.name %}" class="span hover-2">#{{ tag.name }}</a>
 																							{% endfor %}
 
 																					
@@ -620,7 +620,7 @@
 																	<!-- Теги RecentPost -->
 																		<div class="card-tag">
 																			{% for tag in recent_post.tags.all %}
-																			<a href="{% url 'blog:tag_posts' tag.id %}" class="span hover-2 tags__detail">#{{ tag.name }}</a>
+																			<a href="{% url 'blog:tag_posts' tag.name %}" class="span hover-2 tags__detail">#{{ tag.name }}</a>
 																			{% endfor %}
 																		</div>
 

@@ -61,7 +61,7 @@
 		
 		<ul class="tags__detail">
 		{% for tag in tags %}
-			<li><a href="{% url 'blog:tag_posts' tag.id %}"> #{{ tag.name }}&nbsp;</a></li>
+			<li><a href="{% url 'blog:tag_posts' tag.name %}"> #{{ tag.name }}&nbsp;</a></li>
 		{% endfor %}
 		</ul>
 
