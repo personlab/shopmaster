@@ -1,11 +1,12 @@
 from django.urls import path
-from blog.views import PostsView, PostDetailView, TagPostsView, PostSearchView
+from blog.views import PostsView, PostDetailView, TagPostsView, PostSearchView, TonBirthdayView
 
 
 app_name = 'blog'
 
 urlpatterns = [
 		path('search/', PostSearchView.as_view(), name='search'),
+		path('ton-birthday/', TonBirthdayView.as_view(), name='ton-birthday'),
 		path('', PostsView.as_view(), name='post_list'),
 		path('<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
 		path('tags/<str:tag_name>/', TagPostsView.as_view(), name='tag_posts'),

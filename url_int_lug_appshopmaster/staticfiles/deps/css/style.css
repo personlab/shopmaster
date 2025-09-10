@@ -494,6 +494,269 @@ table {
 }
 
 
+/*-----------------------------------*\
+  #STYLE BIRTHDAY 
+\*-----------------------------------*/
+
+.topics_birthday {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	min-height: 100vh;
+}
+
+.card_birthday {
+	position: relative;
+	width: 300px;
+	height: 350px;
+	margin: 20px;
+	/* background: #333; */
+	border-radius: 20px;
+	transition: 0.6s;
+	transition-delay: 0.6s;
+	/* display: flex;
+	justify-content: flex-start;
+	align-items: center; */
+}
+
+.card_birthday:hover {
+	width: 600px;
+	transition-delay: 0s;
+}
+
+.card_birthday .circle_birthday {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	/* background: rgb(0, 51, 255); */
+	border-radius: 20px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.card_birthday .circle_birthday::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--clr);
+	clip-path: circle(120px at center);
+	transition: 0.6s;
+}
+
+.card_birthday:hover .circle_birthday::before {
+	clip-path: circle(400px at center);
+}
+
+.pulse_birthday {
+	/* position: relative; */
+	/* width: 300px; */
+	height: 300px;
+	margin: 25px 0 0 0;
+	box-shadow: inset 0 0 40px #12b9ff,
+	0 0 50px #12b9ff;
+	border-radius: 50%;
+	border: 1px solid #12b9ff;
+	transition-delay: 0s;
+}
+
+.pulse_birthday:hover {
+	box-shadow: inset 0 0 0 0;
+	border: 0;
+	width: 600px;
+	border-radius: 20px;
+	transition-delay: 0s;
+}
+
+.pulse_birthday span {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: transparent;
+	border: 1px solid #12b9ff;
+	animation: animate_birthday 6s linear infinite;
+	animation-delay: calc(var(--i) * -1s);
+	border-radius: 50%;
+}
+
+.pulse_birthday:hover span {
+	visibility: none;
+}
+
+.card_birthday .circle_birthday .logo_birthday {
+	position: relative;
+	width: 250px;
+	transition: 0.6s;
+	transition-delay: 0.6s;
+}
+
+.card_birthday:hover .circle_birthday .logo_birthday {
+	transform: scale(0);
+	transition-delay: 0s;
+}
+
+.content_birthday {
+	position: relative;
+	top: -90%;
+	width: 80%;
+	left: 20%;
+	padding: 20px 20px 20px 40px;
+	opacity: 0;
+	transition: 0.6s;
+	visibility: hidden;
+}
+
+.card_birthday:hover .content_birthday {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 1;
+	visibility: visible;
+	transition-delay: 0.6s;
+}
+
+.content_birthday h2 {
+	position: relative;
+	color: var(--text-wild-blue-yonder);
+	text-transform: uppercase;
+	font-size: 2.5em;
+	line-height: 1em;
+	margin-bottom: 10px;
+	z-index: 2;
+}
+
+.content_birthday h3 {
+	position: relative;
+	color: var(--text-wild-blue-yonder);
+	text-transform: uppercase;
+	font-size: 2em;
+	line-height: 1em;
+	margin-bottom: 20px;
+	z-index: 2;
+}
+
+.content_birthday p {
+	position: relative;
+	color: var(--text-shadow-blue);
+	font-weight: var(--fw-600);
+	margin-bottom: 20px;
+	z-index: 2;
+}
+
+.content_birthday .btn {
+	position: relative;
+	margin-top: 30px;
+	padding: 10px 30px 10px 30px;
+}
+
+.card_birthday .khlopushka {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0);
+	height: 500px;
+	transition: 0.6s;
+	transition-delay: 0s;
+}
+
+.card_birthday:hover .khlopushka {
+	top: 40%;
+	left: 76%;
+	transform: translate(-50%, -50%) scale(1);
+	transition-delay: 0.6s;
+}
+
+
+/*-----------------------------------*\
+  #STYLE BIRTHDAY END
+\*-----------------------------------*/
+
+/* --------------------------------- *\
+	#TELEGRAM GAME
+\*-----------------------------------*/
+
+.container_telegram_game {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 30px;
+	background: var(--bg-prussian-blue);
+	border-radius: 20px;
+	border: 1px solid var(--border-prussian-blue);
+	padding: 40px 20px;
+}
+
+/* .telegram__game {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 30px;
+	background: var(--bg-prussian-blue);
+	border-radius: 20px;
+	border: 1px solid var(--border-prussian-blue);
+	padding: 40px 60px;
+} */
+
+.container_telegram_game h2 {
+	font-size: 3em;
+	color: var(--text-wild-blue-yonder);
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+
+.container_telegram_game .telegram_game_table {
+	width: 430px;
+	height: 430px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	transform-style: preserve-3d;
+	perspective: 500px;
+}
+
+.container_telegram_game .telegram_game_table .item {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 3em;
+	background: var(--bg-oxford-blue-2);
+	transform: rotateY(180deg);
+	transition: 0.25s;
+}
+
+.container_telegram_game .telegram_game_table .item.boxOpen {
+	transform: rotateY(0deg);
+}
+
+.container_telegram_game .telegram_game_table .item::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: var(--bg-oxford-blue-2);
+	transition: 0.25s;
+	transform: rotateY(0deg);
+	backface-visibility: hidden;
+}
+
+.container_telegram_game .telegram_game_table .boxOpen:after,
+.container_telegram_game .telegram_game_table .boxMatch:after {
+	transform: rotateY(180deg);
+}
 
 /*-----------------------------------*\
   #HEADER
@@ -2582,7 +2845,7 @@ input[type="file"] {
 	.go526437840 {
 		display: flex;
 		flex-direction: column;
-}
+	}
 
 	.ton-connect-register {
 		margin-top: 40px;
@@ -2853,6 +3116,86 @@ input[type="file"] {
 		cursor: pointer;
 	}
 
+	.card_birthday {
+		width: 250px;
+		height: 300px;
+	}
+
+	.card_birthday:hover {
+			width: 300px;
+			height: 600px;
+			transition-delay: 0s;
+	}
+
+	.content_birthday {
+		top: -50%;
+		left: 0;
+		width: 100%;
+		padding: 20px 5px 5px 10px;
+	}
+
+	.content_birthday .btn {
+		position: relative;
+		margin-top: 30px;
+		padding: 10px 30px 10px 30px;
+	}
+
+	.card_birthday .khlopushka {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%) scale(0);
+		height: 300px;
+		transition: 0.6s;
+		transition-delay: 0s;
+	}
+
+	.card_birthday:hover .khlopushka {
+		top: 80%;
+		left: 56%;
+		transform: translate(-50%, -50%) scale(1);
+		transition-delay: 0.6s;
+	}
+
+	.pulse_birthday {
+		height: 250px;
+	}
+
+	.pulse_birthday:hover {
+		visibility: none;
+		width: 300px;
+	}
+
+	@keyframes animate_birthday {
+		0% {
+				width: 150px;    /* Уменьшил начальный размер */
+				height: 150px;   /* Уменьшил начальный размер */
+				opacity: 1;
+		}
+		50% {
+				opacity: 1;
+		}
+		100% {
+				width: 360px;    /* Уменьшил конечный размер */
+				height: 360px;   /* Уменьшил конечный размер */
+				opacity: 1;
+		}
+	}
+
+	.container_telegram_game h2 {
+		font-size: 2em;
+	}
+
+	.container_telegram_game .telegram_game_table {
+		width: 300px;
+		height: 300px;
+	}
+
+	.container_telegram_game .telegram_game_table .item {
+		position: relative;
+		width: 67px;
+		height: 67px;
+	}
 
 }
 
@@ -3115,6 +3458,26 @@ input[type="file"] {
 			cursor: pointer;
 		}
 
+		@keyframes animate_birthday 
+		{
+			0% 
+			{
+				width: 300px;
+				height: 300px;
+				opacity: 1;
+			}
+			50%
+			{
+				opacity: 1;
+			}
+			100%
+			{
+				width: 600px;
+				height: 600px;
+				opacity: 1;
+			}
+		}
+
 }
 
 
@@ -3204,7 +3567,6 @@ input[type="file"] {
 			gap: 5px;
 			margin-top: 20px;
 		}
-
 
 		/**
 		* HERO
@@ -3416,6 +3778,66 @@ input[type="file"] {
 
 		body.nav-active {
 			overflow-y: overlay;
+		}
+
+		.card_birthday {
+			width: 300px;
+			height: 350px;
+		}
+
+		.card_birthday:hover {
+			width: 600px;
+			height: 300px;
+			transition-delay: 0s;
+		}
+
+		.card_birthday .khlopushka {
+			height: 500px;
+		}
+
+		.content_birthday {
+			top: -90%;
+			width: 80%;
+			padding: 20px 20px 20px 40px;
+		}
+
+		.content_birthday .btn {
+			position: relative;
+			margin-top: 30px;
+			padding: 10px 30px 10px 30px;
+		}
+
+		.card_birthday:hover .khlopushka {
+			top: 40%;
+			left: 88%;
+		}
+
+		.pulse_birthday {
+			height: 300px;
+		}
+
+		.pulse_birthday:hover {
+			box-shadow: inset 0 0 0 0;
+			border: 0;
+			height: 300px;
+			width: 600px;
+			border-radius: 20px;
+			transition-delay: 0s;
+		}
+
+		.container_telegram_game h2 {
+			font-size: 3em;
+		}
+
+		.container_telegram_game .telegram_game_table {
+			width: 430px;
+			height: 430px;
+		}
+
+		.container_telegram_game .telegram_game_table .item {
+			position: relative;
+			width: 100px;
+			height: 100px;
 		}
 		
 		/**
